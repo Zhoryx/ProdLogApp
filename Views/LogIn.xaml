@@ -1,0 +1,105 @@
+<Window x:Class="ProdLogApp.Views.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login"
+        Height="400"
+        Width="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#0864ac"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <!-- Sombra -->
+        <DropShadowEffect x:Key="DropShadow"
+                          Color="Black"
+                          Direction="320"
+                          ShadowDepth="5"
+                          Opacity="0.2"
+                          BlurRadius="10"/>
+
+        <!-- TextBox Redondeado -->
+        <Style x:Key="RoundedTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#F0F0F0"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Boton Redondeado -->
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Card contenedora -->
+        <Border Background="White"
+                CornerRadius="15"
+                Padding="30"
+                Width="300"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Effect="{StaticResource DropShadow}"> 
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" >
+               
+
+                <!-- Etiqueta -->
+                <Image Source="C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\Resources\Images\img.png"
+
+                    Width="100"
+                       Height="95"
+                       />
+
+                <!-- Etiqueta -->
+                <TextBlock Text="Ingresa tu DNI"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="#333"
+                           HorizontalAlignment="Center"/>
+
+                <!-- DNI -->
+                <TextBox x:Name="DniTextBox"
+                         Style="{StaticResource RoundedTextBox}"
+                         Width="200"
+                         Height="35"
+                         MaxLength="20"/>
+
+                <!-- Boton -->
+                <Button x:Name="IngresarButton"
+                        Content="Ingresar"
+                        Style="{StaticResource RoundedButton}"
+                        Click="IngresarButton_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

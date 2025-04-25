@@ -1,32 +1,27 @@
-﻿using LoginApp.Model;
-using LoginApp.View;
+using ProdLogApp.Views;
 
-namespace LoginApp.Presenter
+namespace ProdLogApp
 {
     public class LoginPresenter
     {
-        private readonly ILoginView view;
-        private readonly UserModel userModel;
+        private readonly Login _view;
+        private readonly LoginModel _model;
 
-        public LoginPresenter(ILoginView view)
+        public LoginPresenter(Login view)
         {
-            this.view = view;
-            this.userModel = new UserModel();
+            _view = view;
+            _model = new LoginModel();
         }
 
-        public void ValidateLogin()
+        public LoginPresenter(Login view, LoginModel model)
         {
-            string username = view.Username;
-            string password = view.Password;
+            _view = view;
+            _model = model;
+        }
 
-            if (userModel.Login(username, password))
-            {
-                view.ShowMessage("Inicio de sesión exitoso.");
-            }
-            else
-            {
-                view.ShowMessage("Usuario o contraseña incorrectos.");
-            }
+        public void ValidarIngreso()
+        {
+           
         }
     }
 }
