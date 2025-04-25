@@ -9,103 +9,12 @@
         Background="#0864ac">
 
     <Window.Resources>
-        <!-- Botón moderno para confirmar con tono verde -->
-        <Style x:Key="ModernConfirmButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#28B463"/>
-            <!-- Verde suave -->
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <!-- Texto blanco -->
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="BorderBrush" Value="#1E8449"/>
-            <!-- Borde verde más oscuro -->
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1E8449"/>
-                    <!-- Verde más oscuro al pasar el ratón -->
-                    <Setter Property="BorderBrush" Value="#145A32"/>
-                    <!-- Borde aún más oscuro -->
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="15" Color="Black" Opacity="0.3"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <!-- Botón moderno para cancelar con tono rojo -->
-        <Style x:Key="ModernCancelButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#E74C3C"/>
-            <!-- Rojo suave -->
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <!-- Texto blanco -->
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="BorderBrush" Value="#922B21"/>
-            <!-- Borde rojo más oscuro -->
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#922B21"/>
-                    <!-- Rojo más oscuro al pasar el ratón -->
-                    <Setter Property="BorderBrush" Value="#641E16"/>
-                    <!-- Borde aún más oscuro -->
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="15" Color="Black" Opacity="0.3"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <!-- TextBox moderno -->
-        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <!-- Blanco limpio -->
-            <Setter Property="Padding" Value="8"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="BorderBrush" Value="#0864ac"/>
-            <!-- Azul del fondo -->
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#333333"/>
-            <!-- Texto gris oscuro -->
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="8" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <!-- Referencia al diccionario de estilos global -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid Margin="20">
@@ -132,7 +41,7 @@
                FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" 
                VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
                Margin="0,10,10,10"/>
-        <Button Style="{StaticResource ModernConfirmButtonStyle}" Content="Seleccionar" 
+        <Button Style="{StaticResource ConfirmButtonStyle}" Content="Seleccionar" 
                 Grid.Row="0" Grid.Column="1" Margin="0,10,0,10" 
                 Click="Seleccionar_Click"/>
 
@@ -163,9 +72,9 @@
         <!-- Botones Confirmar y Cancelar -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
                     Grid.Row="4" Grid.ColumnSpan="2" Margin="132,40,0,-20">
-            <Button Style="{StaticResource ModernConfirmButtonStyle}" Content="Confirmar" 
+            <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar" 
                     Margin="10" Click="Confirmar_Click"/>
-            <Button Style="{StaticResource ModernCancelButtonStyle}" Content="Cancelar" 
+            <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar" 
                     Margin="10" Click="Cancelar_Click"/>
         </StackPanel>
     </Grid>

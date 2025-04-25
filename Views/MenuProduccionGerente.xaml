@@ -9,33 +9,66 @@
         Height="720"
         Width="1145"
         WindowStartupLocation="CenterScreen"
-        Background="#0864ac"
+        Background="#0864AC"
         ResizeMode="NoResize">
 
     <Window.Resources>
         <!-- Botón moderno con hover y estilo minimalista -->
         <Style x:Key="ModernButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#0864ac"/>
+            <Setter Property="Background" Value="#F5F5DC"/>
+            <Setter Property="Foreground" Value="#0864AC"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Height" Value="45"/>
             <Setter Property="Width" Value="200"/>
-            <Setter Property="BorderBrush" Value="#0864ac"/>
+            <Setter Property="BorderBrush" Value="#0864AC"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#0864ac"/>
+                    <Setter Property="Background" Value="#0864AC"/>
+                    <Setter Property="Foreground" Value="#F5F5DC"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="15" Color="Black" Opacity="0.3"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Estilo para el botón "Cancelar" -->
+        <Style x:Key="CancelButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#F5F5DC"/>
+            <Setter Property="Foreground" Value="#D9534F"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="BorderBrush" Value="#D9534F"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#D9534F"/>
                     <Setter Property="Foreground" Value="#FFFFFF"/>
                     <Setter Property="Effect">
                         <Setter.Value>
@@ -75,32 +108,32 @@
         </Grid.ColumnDefinitions>
 
         <!-- Filtros -->
-        <Border Grid.Row="0" Background="#FFFFFF" Style="{StaticResource ShadowBorderStyle}" Margin="10,10,10,10" Padding="10" Grid.ColumnSpan="2">
+        <Border Grid.Row="0" Background="#F5F5DC" Style="{StaticResource ShadowBorderStyle}" Margin="10,10,10,10" Padding="10" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="1074">
                 <StackPanel Margin="10">
-                    <Label Content="Buscar Operario" FontSize="14" Foreground="#0864ac"/>
-                    <TextBox x:Name="BuscarOperarioTextBox" Width="200" Height="30" Margin="0,0,0,10" Background="#F0F0F0" Foreground="#333333" TextChanged="BuscarOperarioTextBox_TextChanged"/>
+                    <Label Content="Buscar Operario" FontSize="14" Foreground="#0864AC"/>
+                    <TextBox x:Name="BuscarOperarioTextBox" Width="200" Height="30" Margin="0,0,0,10" Background="#F0F0F0" Foreground="#333333" />
                     <ComboBox x:Name="OperarioComboBox" Width="200" Height="30" Background="#F0F0F0" Foreground="#333333"/>
                 </StackPanel>
                 <StackPanel Margin="10">
-                    <Label Content="Fecha Desde" FontSize="14" Foreground="#0864ac"/>
+                    <Label Content="Fecha Desde" FontSize="14" Foreground="#0864AC"/>
                     <DatePicker x:Name="FechaDesdePicker" Width="200" Height="30"/>
                 </StackPanel>
                 <StackPanel Margin="10">
-                    <Label Content="Fecha Hasta" FontSize="14" Foreground="#0864ac"/>
+                    <Label Content="Fecha Hasta" FontSize="14" Foreground="#0864AC"/>
                     <DatePicker x:Name="FechaHastaPicker" Width="200" Height="30"/>
                 </StackPanel>
                 <StackPanel Margin="10">
-                    <Label Content="Buscar Producto" FontSize="14" Foreground="#0864ac"/>
-                    <TextBox x:Name="BuscarProductoTextBox" Width="200" Height="30" Margin="0,0,0,10" Background="#F0F0F0" Foreground="#333333" TextChanged="BuscarProductoTextBox_TextChanged"/>
+                    <Label Content="Buscar Producto" FontSize="14" Foreground="#0864AC"/>
+                    <TextBox x:Name="BuscarProductoTextBox" Width="200" Height="30" Margin="0,0,0,10" Background="#F0F0F0" Foreground="#333333" />
                     <ComboBox x:Name="ProductoComboBox" Width="200" Height="30" Background="#F0F0F0" Foreground="#333333"/>
                 </StackPanel>
-                <Button Style="{StaticResource ModernButtonStyle}" Content="Aplicar Filtros" Width="180" Click="AplicarFiltros_Click"/>
+                <Button Style="{StaticResource ModernButtonStyle}" Content="Aplicar Filtros" Width="180" />
             </StackPanel>
         </Border>
 
         <!-- Grilla -->
-        <Border Grid.Row="1" Background="#FFFFFF" Style="{StaticResource ShadowBorderStyle}" Margin="10,10,28,10" Padding="10" Grid.ColumnSpan="2">
+        <Border Grid.Row="1" Background="#F5F5DC" Style="{StaticResource ShadowBorderStyle}" Margin="10,10,28,10" Padding="10" Grid.ColumnSpan="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ListView x:Name="Producciones" Width="750" SelectionChanged="Producciones_SelectionChanged" RenderTransformOrigin="0.664,0.535">
                     <ListView.View>
@@ -117,7 +150,7 @@
         </Border>
 
         <!-- Botones CRUD -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="236,10,0,10" Width="662" Grid.ColumnSpan="2">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="236,10,0,10" Width="662" Grid.ColumnSpan="2" >
             <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="10"/>
             <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="10"/>
             <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="10"/>
@@ -126,7 +159,7 @@
         <!-- Botones Confirmar y Cancelar -->
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="347,10,0,10" RenderTransformOrigin="0.51,0.517" Grid.ColumnSpan="2">
             <Button Style="{StaticResource ModernButtonStyle}" Content="Confirmar" Margin="10"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Background="#DC3545" Content="Cancelar" Margin="10"/>
+            <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar" Margin="10"/>
         </StackPanel>
     </Grid>
 </Window>

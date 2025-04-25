@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 
-61678358223
+7964152736
 
 9-970214668
 218-783742788
-Views\App.xaml;Views\LogIn.xaml;Views\MenuProducciones.xaml;Views\MenuProduccionGerente.xaml;Views\PasswordRequest.xaml;Views\ProduccionAgregar.xaml;
+Views\App.xaml;Views\LogIn.xaml;Views\MenuProducciones.xaml;Views\MenuProduccionGerente.xaml;Views\PasswordRequest.xaml;Views\ProduccionAgregar.xaml;Views\Style.xaml;
 
 False
 

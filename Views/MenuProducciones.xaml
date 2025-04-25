@@ -13,55 +13,25 @@
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <!-- Botón moderno con hover y estilo minimalista -->
-        <Style x:Key="ModernButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <!-- Fondo blanco limpio -->
-            <Setter Property="Foreground" Value="#0864ac"/>
-            <!-- Azul acorde al fondo -->
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="BorderBrush" Value="#0864ac"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#0864ac"/>
-                    <!-- Fondo azul al pasar el ratón -->
-                    <Setter Property="Foreground" Value="#FFFFFF"/>
-                    <!-- Texto blanco para contraste -->
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="15" Color="Black" Opacity="0.3"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        <!-- Referencia al archivo Styles.xaml -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <!-- Sombra suave para los paneles -->
-        <Style x:Key="ShadowBorderStyle" TargetType="Border">
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="CornerRadius" Value="10"/>
-        </Style>
+            <!-- Sombra suave para los paneles -->
+            <Style x:Key="ShadowBorderStyle" TargetType="Border">
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+        </ResourceDictionary>
     </Window.Resources>
 
-    <Grid>
+    <Grid HorizontalAlignment="Left" Width="1080">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
@@ -83,15 +53,15 @@
 
         <!-- Botones CRUD Arriba -->
         <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="24,202,-4,0" Height="286">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250"/>
         </StackPanel>
 
         <!-- Botones Confirmar y Cancelar Abajo -->
-        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,10,10,10">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Confirmar" Margin="10,5,10,5"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Background="#DC3545" Content="Cancelar" Margin="10,5,10,5"/>
+        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Left" Margin="2,0,0,10">
+            <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar"/>
+            <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar" Margin="10"/>
         </StackPanel>
     </Grid>
 </Window>

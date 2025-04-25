@@ -28,5 +28,23 @@ namespace ProdLogApp.Views
         {
 
         }
+        private void Buscar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void aplicarFiltro(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void BuscarProductoTextBox_TextChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void AplicarFiltros_Click(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+       
+
     }
 }
