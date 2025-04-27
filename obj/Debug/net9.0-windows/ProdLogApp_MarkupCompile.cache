@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 
-7964152736
+17-1024403956
 
-9-970214668
-218-783742788
-Views\App.xaml;Views\LogIn.xaml;Views\MenuProducciones.xaml;Views\MenuProduccionGerente.xaml;Views\PasswordRequest.xaml;Views\ProduccionAgregar.xaml;Views\Style.xaml;
+191089568274
+2231514763661
+Views\App.xaml;Views\CategoriaAgregar.xaml;Views\GestionCategoria.xaml;Views\GestionProducto.xaml;Views\GestionPuesto.xaml;Views\GestionUsuario.xaml;Views\LogIn.xaml;Views\MenuGerente.xaml;Views\MenuProduccion.xaml;Views\PasswordRequest.xaml;Views\ProduccionAgregar.xaml;Views\ProduccionGerente.xaml;Views\ProductoAgregar.xaml;Views\PromptProducto.xaml;Views\PuestoAgregar.xaml;Views\Style.xaml;Views\UsuarioAgregar.xaml;
 
 False
 

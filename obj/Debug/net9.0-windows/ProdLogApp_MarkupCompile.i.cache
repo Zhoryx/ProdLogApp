@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 
-7964152736
+17-1024403956
 
-11-1394518612
-218-783742788
-Views\App.xaml;Views\LogIn.xaml;Views\MenuProducciones.xaml;Views\MenuProduccionGerente.xaml;Views\PasswordRequest.xaml;Views\ProduccionAgregar.xaml;Views\Style.xaml;
+21665264330
+2231514763661
+Views\App.xaml;Views\CategoriaAgregar.xaml;Views\GestionCategoria.xaml;Views\GestionProducto.xaml;Views\GestionPuesto.xaml;Views\GestionUsuario.xaml;Views\LogIn.xaml;Views\MenuGerente.xaml;Views\MenuProduccion.xaml;Views\PasswordRequest.xaml;Views\ProduccionAgregar.xaml;Views\ProduccionGerente.xaml;Views\ProductoAgregar.xaml;Views\PromptProducto.xaml;Views\PuestoAgregar.xaml;Views\Style.xaml;Views\UsuarioAgregar.xaml;
 
 False
 

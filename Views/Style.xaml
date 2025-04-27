@@ -10,7 +10,7 @@
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Height" Value="45"/>
         <Setter Property="Width" Value="200"/>
-        <Setter Property="BorderBrush" Value="#0864ac"/>
+        <Setter Property="BorderBrush" Value="#2680D4"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -23,7 +23,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#0864ac"/>
+                <Setter Property="Background" Value="#4A9EE6"/>
                 <Setter Property="Foreground" Value="#FFFFFF"/>
                 <Setter Property="Effect">
                     <Setter.Value>
@@ -36,7 +36,7 @@
 
     <!-- Estilo para el botón "Cancelar" -->
     <Style x:Key="CancelButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="#F5F5DC"/>
+        <Setter Property="Background" Value="#FFFFFF"/>
         <Setter Property="Foreground" Value="#D9534F"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontWeight" Value="Bold"/>
@@ -69,8 +69,8 @@
 
     <!-- Estilo para el botón "Confirmar" -->
     <Style x:Key="ConfirmButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="#28A745"/>
-        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="Background" Value="#FFFFFF"/>
+        <Setter Property="Foreground" Value="#28A745"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Cursor" Value="Hand"/>
@@ -117,4 +117,42 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="ShadowBorderStyle" TargetType="Border">
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+
+    <!-- Sombra -->
+    <DropShadowEffect x:Key="DropShadow"
+                              Color="Black"
+                              Direction="320"
+                              ShadowDepth="5"
+                              Opacity="0.2"
+                              BlurRadius="10"
+    />
+
+    <!-- Estilo para el TextBox redondeado -->
+    <Style x:Key="RoundedTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="#E6F0FA"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                         CornerRadius="6"
+                         SnapsToDevicePixels="True">
+                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

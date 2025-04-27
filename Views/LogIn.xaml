@@ -62,7 +62,7 @@
 
     <Grid>
         <!-- Card contenedora -->
-        <Border Background="White"
+        <Border Background="#E6F0FA"
                 CornerRadius="15"
                 Padding="30"
                 Width="300"

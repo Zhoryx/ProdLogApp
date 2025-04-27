@@ -9,7 +9,7 @@ namespace ProdLogApp
         [STAThread]
         public static void Main()
         {
-            ProduccionAgregar view = new ProduccionAgregar();
+            MenuProduccionGerente view = new MenuProduccionGerente();
             view.Show();
             new Application().Run();
         }

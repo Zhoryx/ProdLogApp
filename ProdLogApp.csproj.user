@@ -8,16 +8,22 @@
     <Compile Update="Views\LogIn.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\MenuProducciones.xaml.cs">
+    <Compile Update="Views\MenuGerente.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\MenuProduccionGerente.xaml.cs">
+    <Compile Update="Views\MenuProduccion.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ProduccionGerente.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\PasswordRequest.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\ProduccionAgregar.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\PromptProducto.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
