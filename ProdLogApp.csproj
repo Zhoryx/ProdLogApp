@@ -25,28 +25,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\GestionProducto.xaml.cs">
+    <Compile Update="Views\Maestros\Gestion\GestionProducto.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\GestionUsuario.xaml.cs">
+    <Compile Update="Views\Maestros\Gestion\GestionUsuario.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\GestionPuesto.xaml.cs">
+    <Compile Update="Views\Maestros\Gestion\GestionPuesto.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\GestionCategoria.xaml.cs">
+    <Compile Update="Views\Maestros\Gestion\GestionCategoria.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\CategoriaAgregar.xaml.cs">
+    <Compile Update="Views\Maestros\Agregar\CategoriaAgregar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\PuestoAgregar.xaml.cs">
+    <Compile Update="Views\Maestros\Agregar\PuestoAgregar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\UsuarioAgregar.xaml.cs">
+    <Compile Update="Views\Maestros\Agregar\UsuarioAgregar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\ProductoAgregar.xaml.cs">
+    <Compile Update="Views\Maestros\Agregar\ProductoAgregar.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Menus\ProduccionAgregarGerente.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

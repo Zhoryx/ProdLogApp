@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 
-17-1024403956
+18494598891
 
-191089568274
+20-293286899
 2231514763661
-Views\App.xaml;Views\CategoriaAgregar.xaml;Views\GestionCategoria.xaml;Views\GestionProducto.xaml;Views\GestionPuesto.xaml;Views\GestionUsuario.xaml;Views\LogIn.xaml;Views\MenuGerente.xaml;Views\MenuProduccion.xaml;Views\PasswordRequest.xaml;Views\ProduccionAgregar.xaml;Views\ProduccionGerente.xaml;Views\ProductoAgregar.xaml;Views\PromptProducto.xaml;Views\PuestoAgregar.xaml;Views\Style.xaml;Views\UsuarioAgregar.xaml;
+Views\App.xaml;Views\LogIn.xaml;Views\Maestros\Agregar\CategoriaAgregar.xaml;Views\Maestros\Agregar\ProductoAgregar.xaml;Views\Maestros\Agregar\PuestoAgregar.xaml;Views\Maestros\Agregar\UsuarioAgregar.xaml;Views\Maestros\Gestion\GestionCategoria.xaml;Views\Maestros\Gestion\GestionProducto.xaml;Views\Maestros\Gestion\GestionPuesto.xaml;Views\Maestros\Gestion\GestionUsuario.xaml;Views\Menus\MenuGerente.xaml;Views\Menus\MenuProduccion.xaml;Views\Menus\ProduccionAgregar.xaml;Views\Menus\ProduccionAgregarGerente.xaml;Views\Menus\ProduccionGerente.xaml;Views\Prompts\PasswordRequest.xaml;Views\Prompts\PromptProducto.xaml;Views\Style.xaml;
 
 False
 

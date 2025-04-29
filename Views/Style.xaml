@@ -118,6 +118,7 @@
         </Setter>
     </Style>
 
+
     <Style x:Key="ShadowBorderStyle" TargetType="Border">
         <Setter Property="Effect">
             <Setter.Value>
@@ -126,6 +127,50 @@
         </Setter>
         <Setter Property="CornerRadius" Value="10"/>
     </Style>
+
+    <Style x:Key="ModernComboBoxStyle" TargetType="ComboBox">
+        <Setter Property="Background" Value="#F9FAFB"/>
+        <Setter Property="Padding" Value="6"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#0864AC"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Foreground" Value="#333333"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Gray" BlurRadius="6" ShadowDepth="1" Opacity="0.4"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="12">
+                            <DockPanel>
+                                <ContentPresenter Margin="6,0,0,0" 
+                                              VerticalAlignment="Center"/>
+                                <ToggleButton DockPanel.Dock="Right"
+                                          Width="20" Height="20"
+                                        
+                                          IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" 
+                                          Focusable="false">
+                                    <Path Data="M 0 0 L 4 4 L 8 0 Z" 
+                                      Fill="#0864AC" Width="10" Height="6" 
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </ToggleButton>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+   
+
+
 
     <!-- Sombra -->
     <DropShadowEffect x:Key="DropShadow"
