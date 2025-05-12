@@ -1,0 +1,62 @@
+﻿<Window x:Class="ProdLogApp.Views.GestionPuesto"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProdLogApp.Views"
+        mc:Ignorable="d"
+        Title="Menu - Producciones"
+        Height="720"
+        Width="1080"
+        WindowStartupLocation="CenterScreen"
+        Background="#0864ac"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <!-- Referencia al archivo Styles.xaml -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Sombra suave para los paneles -->
+            <Style x:Key="ShadowBorderStyle" TargetType="Border">
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid HorizontalAlignment="Left" Width="1080">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Grilla a la izquierda -->
+        <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
+            <ListView x:Name="Producciones">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="Auto" Header="Puesto" DisplayMemberBinding="{Binding Nombre}" />
+                        
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- Botones CRUD Arriba -->
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="6,168,14,0" Height="383">
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AgregarPuesto"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Margin="10" Click="Volver"/>
+        </StackPanel>
+
+       
+    </Grid>
+</Window>

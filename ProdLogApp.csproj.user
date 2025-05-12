@@ -2,28 +2,28 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="Views\App.xaml.cs">
+    <Compile Update="Views\Designs\App.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\LogIn.xaml.cs">
+    <Compile Update="Views\Designs\LogIn.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Menus\MenuGerente.xaml.cs">
+    <Compile Update="Views\Designs\Menus\MenuGerente.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Menus\MenuProduccion.xaml.cs">
+    <Compile Update="Views\Designs\Menus\OperatorMenu.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Menus\ProduccionGerente.xaml.cs">
+    <Compile Update="Views\Designs\Menus\ProduccionGerente.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Prompts\PasswordRequest.xaml.cs">
+    <Compile Update="Views\Designs\Prompts\PasswordRequest.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Menus\ProduccionAgregar.xaml.cs">
+    <Compile Update="Views\Designs\Menus\ProduccionAgregar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Prompts\PromptProducto.xaml.cs">
+    <Compile Update="Views\Designs\Prompts\PromptProducto.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

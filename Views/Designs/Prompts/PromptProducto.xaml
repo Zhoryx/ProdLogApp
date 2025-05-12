@@ -1,0 +1,44 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProdLogApp.Views"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="ProdLogApp.Views.PromptProducto"
+        mc:Ignorable="d"
+        Title="PromptProducto" Height="450" Width="800"
+        Background="#0864AC">
+
+    <Window.Resources>
+        <!-- Referencia al archivo Styles.xaml -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Margin="10,10,342,10" Padding="10">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ListView x:Name="Producciones" Width="431" SelectionChanged="Producciones_SelectionChanged" RenderTransformOrigin="0.664,0.535" Height="398">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="Auto" Header="Cod. Producto" DisplayMemberBinding="{Binding CodProducto}"/>
+                            <GridViewColumn Width="Auto" Header="Producto" DisplayMemberBinding="{Binding Producto}"/>
+                            <GridViewColumn Width="Auto" Header="Categoria" DisplayMemberBinding="{Binding Cantidad}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </ScrollViewer>
+        </Border>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="463,158,0,158" RenderTransformOrigin="0.51,0.517" Width="324">
+            <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar" Margin="10"/>
+            <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar"/>
+        </StackPanel>
+        <Label Margin="570,6,120,399" FontSize="14" Foreground="Black" Content="Buscar Producto"/>
+        <xctk:AutoSelectTextBox x:Name="ProductoAutoComplete"
+        Margin="525,35,75,369"/>
+    </Grid>
+
+</Window>
