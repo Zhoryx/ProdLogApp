@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ProdLogApp.Models;
 
 namespace ProdLogApp.Views
 {
@@ -19,8 +20,9 @@ namespace ProdLogApp.Views
     /// </summary>
     public partial class OperatorMenu : Window
     {
-        public OperatorMenu()
+        public OperatorMenu(User activeUser)
         {
+            InitializeComponent();
         }
     }
 }

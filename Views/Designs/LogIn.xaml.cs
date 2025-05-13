@@ -23,20 +23,20 @@ namespace ProdLogApp.Views
             MessageBox.Show(message);
         }
 
-        public void ShowAdminWindow(User user)
+        public void ShowAdminWindow(User activeUser)
         {
             // Open the authentication window as a popup
-            //var passwordRequest = new PasswordRequest(user);
-            //passwordRequest.Owner = this; // Set this as parent window
-            //passwordRequest.ShowDialog(); // Show as popup
+            var passwordRequest = new PasswordRequest(activeUser);
+            passwordRequest.Owner = this; 
+            passwordRequest.ShowDialog(); 
         }
 
         public void ShowMainWindow(User activeUser)
         {
             // Open the main window and close the login
-            //var mainWindow = new OperatorMenu(user);
-            //mainWindow.Show();
-            //this.Close(); // Close the login window
+            var mainWindow = new OperatorMenu(activeUser);
+            mainWindow.Show();
+            this.Close(); 
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)

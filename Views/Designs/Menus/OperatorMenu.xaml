@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProdLogApp.Views"
         mc:Ignorable="d"
         Title="Menu - Producciones"
-        Height="689"
+        Height="746"
         Width="1080"
         WindowStartupLocation="CenterScreen"
         Background="#0864ac"
@@ -16,7 +16,7 @@
         <!-- Referencia al archivo Styles.xaml -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Views/Style.xaml"/>
+                <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Sombra suave para los paneles -->
@@ -31,14 +31,14 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid HorizontalAlignment="Center" Width="1080" Margin="0,0,0,120">
+    <Grid HorizontalAlignment="Center" Width="1080" Height="712" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Grilla a la izquierda -->
-        <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
+        <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="16,10,4,0" VerticalAlignment="Top" Height="625">
             <ListView x:Name="Producciones" Height="526" VerticalAlignment="Top">
                 <ListView.View>
                     <GridView>
@@ -63,6 +63,6 @@
             <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar"/>
             <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar" Margin="10"/>
         </StackPanel>
-        <Button Style="{StaticResource CancelButtonStyle}" Content="Desconectar" Height="NaN" Width="NaN" Margin="10,600,388,-97"/>
+        <Button Style="{StaticResource CancelButtonStyle}" Content="Desconectar" Height="NaN" Width="NaN" Margin="16,640,382,27"/>
     </Grid>
 </Window>

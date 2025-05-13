@@ -14,23 +14,26 @@ namespace ProdLogApp.Presenters
 
         public void ValidateLogin()
         {
-            User user = User.GetByDni(_view.Dni);
+            User activeUser = null;
 
-            if (user != null)
-            {
-                if (user.IsAdmin)
-                {
-                    _view.ShowAdminWindow(user); 
-                }
-                else
-                {
-                    _view.ShowMainWindow(user); 
-                }
-            }
-            else
-            {
-                _view.ShowMessage("Usuario no encontrado, revise su DNI");
-            }
+            _view.ShowMainWindow(activeUser);
+            //User activeUser = User.GetByDni(_view.Dni);
+
+            //if (activeUser != null)
+            //{
+            //    if (activeUser.IsAdmin)
+            //    {
+            //        _view.ShowAdminWindow(activeUser); 
+            //    }
+            //    else
+            //    {
+            //        _view.ShowMainWindow(activeUser); 
+            //    }
+            //}
+            //else
+            //{
+            //    _view.ShowMessage("Usuario no encontrado, revise su DNI");
+            //}
         }
     }
 }

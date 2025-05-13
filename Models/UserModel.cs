@@ -1,3 +1,4 @@
+using System.Windows.Controls;
 using Devart.Data.MySql;
 using ProdLogApp.Services;
 
@@ -6,6 +7,7 @@ namespace ProdLogApp.Models
     public class User
     {
         public required string Dni { get; set; }
+        private string Password { get; set; }
         public bool IsAdmin { get; set; }
 
         public static User GetByDni(string dni)
