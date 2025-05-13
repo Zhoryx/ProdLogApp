@@ -35,6 +35,7 @@ namespace ProdLogApp.Views
         {
             var managerMenu = new ManagerMenu(activeUser);
             managerMenu.Show();
+            this.Owner.Close();
             CloseWindow();
         }
 

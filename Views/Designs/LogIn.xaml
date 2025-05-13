@@ -78,7 +78,7 @@
                        Height="95"/>
 
                 <!-- Label -->
-                <TextBlock Text="Enter your DNI"
+                <TextBlock Text="Ingrese su DNI"
                            FontSize="16"
                            FontWeight="SemiBold"
                            Foreground="#333"

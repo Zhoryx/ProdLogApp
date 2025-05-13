@@ -12,7 +12,7 @@
         <!-- Referencia al diccionario de estilos global -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Views/Style.xaml"/>
+                <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -43,7 +43,7 @@
                VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" 
                Margin="0,46,10,0" Height="31"/>
         <Button Style="{StaticResource ModernButtonStyle}" Content="Seleccionar"
-                Grid.Row="0" Grid.Column="1" Width="NaN" Height="25" Margin="157,23,18,50" 
+                Grid.Row="0" Grid.Column="1" Width="NaN" Height="25" Margin="167,23,7,50" 
                 Click="SeleccionarProducto_Click"/>
 
         <TextBox x:Name="ProductoTextBox" Style="{StaticResource ModernTextBoxStyle}" Grid.Column="1" 

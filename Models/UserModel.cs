@@ -19,7 +19,7 @@ namespace ProdLogApp.Models
                 try
                 {
                     connection.Open();
-                    string query = "SELECT Dni, IsAdmin, Password FROM Users WHERE Dni = @dni";
+                    string query = "SELECT UsDNI, UsGerente, UsPass FROM Usuario WHERE UsDNI = @dni";
 
                     using (var command = new MySqlCommand(query, connection))
                     {
@@ -31,9 +31,9 @@ namespace ProdLogApp.Models
                             {
                                 activeUser = new User
                                 {
-                                    Dni = reader["Dni"].ToString(),
-                                    Password = reader["Password"].ToString(),
-                                    IsAdmin = Convert.ToBoolean(reader["IsAdmin"])
+                                    Dni = reader["UsDNI"].ToString(),
+                                    Password = reader["UsPass"].ToString(),
+                                    IsAdmin = Convert.ToBoolean(reader["UsGerente"])
                                 };
                             }
                         }

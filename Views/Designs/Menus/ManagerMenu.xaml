@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProdLogApp.Views"
         mc:Ignorable="d"
         Title="Menu - Producciones"
-        Height="603"
+        Height="625"
         Width="786"
         WindowStartupLocation="CenterScreen"
         Background="#0864ac"
@@ -33,8 +33,8 @@
 
     <Grid HorizontalAlignment="Center" Width="312" Margin="0,0,0,35">
         <Grid.RowDefinitions>
-            <RowDefinition Height="247*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="61*"/>
@@ -43,7 +43,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Botones Gestion -->
-        <StackPanel VerticalAlignment="Top" Margin="0,10,0,0" Height="537" HorizontalAlignment="Center" Width="280" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <StackPanel VerticalAlignment="Top" Margin="10,27,0,0" Height="539" HorizontalAlignment="Left" Width="280" Grid.ColumnSpan="2">
             <Button Style="{StaticResource ModernButtonStyle}" Content="Partes Diarios" Margin="0,5,0,40" Height="50" Width="250" Click="AbrirPartesDiarios"/>
             <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Productos" Margin="0,5,0,40" Height="50" Width="250" Click="MaestroProducto"/>
             <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Categoria" Margin="0,5,0,40" Height="50" Width="250" Click="MaestroCategoria"/>
