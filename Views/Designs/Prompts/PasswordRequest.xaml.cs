@@ -1,58 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using ProdLogApp.Presenters;
 using ProdLogApp.Models;
+using ProdLogApp.Views.Interfaces;
 
 namespace ProdLogApp.Views
 {
-    /// <summary>
-    /// Lógica de interacción para PasswordRequest.xaml
-    /// </summary>
-    public partial class PasswordRequest : Window
+    public partial class PasswordRequest : Window, IPasswordRequestView
     {
-        public PasswordRequest(User ActiveUser)
+        private readonly User _activeUser;
+        private readonly PasswordRequestPresenter _presenter;
+
+        public PasswordRequest(User activeUser)
         {
             InitializeComponent();
+            _activeUser = activeUser ?? throw new ArgumentNullException(nameof(activeUser));
+            _presenter = new PasswordRequestPresenter(this);
         }
 
+       
+        public string EnteredPassword => txtPassword.Password; 
 
-        private void txtPassword_GotFocus(object sender, RoutedEventArgs e)
+        public void ShowMessage(string message)
         {
-            if (txtPassword.Text == "Escriba Constraseña Aqui...")
-            {
-                txtPassword.Text = "";
-                txtPassword.Foreground = Brushes.Black;
-            }
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-        private void txtDNI_LostFocus(object sender, RoutedEventArgs e)
+        public void CloseWindow()
         {
-            if (string.IsNullOrWhiteSpace(txtPassword.Text))
-            {
-                txtPassword.Text = "Escriba Constraseña Aqui...";
-                txtPassword.Foreground = Brushes.Gray;
-            }
+            this.Close();
         }
 
-        private void txtPassword_TextChanged(object sender, TextChangedEventArgs e)
+        public void ShowAdminMenu(User activeUser)
         {
-
+            var managerMenu = new ManagerMenu(activeUser);
+            managerMenu.Show();
+            CloseWindow();
         }
+
         private void Confirmar(object sender, RoutedEventArgs e)
         {
-            // Your code here
+            _presenter.ValidatePassword(_activeUser, EnteredPassword);
         }
 
-        private void Cancelar(object sender, RoutedEventArgs e) { }
+        private void Cancelar(object sender, RoutedEventArgs e)
+        {
+            CloseWindow();
+        }
     }
 }

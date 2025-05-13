@@ -95,7 +95,7 @@ C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdL
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Gestion\GestionProducto.g.cs
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Gestion\GestionPuesto.g.cs
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Gestion\GestionUsuario.g.cs
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\MenuGerente.g.cs
+C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\ManagerMenu.g.cs
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\OperatorMenu.g.cs
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\ProduccionAgregar.g.cs
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\ProduccionAgregarGerente.g.cs
@@ -109,7 +109,7 @@ C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdL
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Gestion\GestionProducto.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Gestion\GestionPuesto.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Gestion\GestionUsuario.baml
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\MenuGerente.baml
+C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\ManagerMenu.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\OperatorMenu.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\ProduccionGerente.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Prompts\PasswordRequest.baml

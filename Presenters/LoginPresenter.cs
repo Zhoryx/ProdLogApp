@@ -1,39 +1,35 @@
 using ProdLogApp.Models;
 using ProdLogApp.Views.Interfaces;
-
-namespace ProdLogApp.Presenters
+using ProdLogApp.Presenters;
+namespace ProdLogApp.Presenters;
+public class LoginPresenter
 {
-    public class LoginPresenter
+    private readonly ILoginView _view;
+
+    public LoginPresenter(ILoginView view)
     {
-        private readonly ILoginView _view;
+        _view = view;
+    }
 
-        public LoginPresenter(ILoginView view)
+    public void ValidateLogin()
+    {
+        User activeUser = User.GetByDni(_view.Dni);
+
+        if (activeUser != null)
         {
-            _view = view;
+            if (activeUser.IsAdmin)
+            {
+                _view.ShowAdminWindow(activeUser);
+            }
+            else
+            {
+                _view.ShowMainWindow(activeUser);
+            }
+        }
+        else
+        {
+            _view.ShowMessage("Usuario no encontrado, revise su DNI");
         }
 
-        public void ValidateLogin()
-        {
-            User activeUser = null;
-
-            _view.ShowMainWindow(activeUser);
-            //User activeUser = User.GetByDni(_view.Dni);
-
-            //if (activeUser != null)
-            //{
-            //    if (activeUser.IsAdmin)
-            //    {
-            //        _view.ShowAdminWindow(activeUser); 
-            //    }
-            //    else
-            //    {
-            //        _view.ShowMainWindow(activeUser); 
-            //    }
-            //}
-            //else
-            //{
-            //    _view.ShowMessage("Usuario no encontrado, revise su DNI");
-            //}
-        }
     }
 }

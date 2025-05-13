@@ -6,7 +6,7 @@ namespace ProdLogApp.Views.Interfaces
     {
         string Dni { get; }
         void ShowMessage(string message);
-        void ShowAdminWindow(User ActiveUser); // New function to open admin window
-        void ShowMainWindow(User ActiveUser); // New function for regular users
+        void ShowAdminWindow(User ActiveUser);
+        void ShowMainWindow(User ActiveUser);
     }
 }

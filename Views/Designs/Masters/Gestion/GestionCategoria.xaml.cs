@@ -27,9 +27,9 @@ namespace ProdLogApp.Views
         }
         private void Volver(object sender, RoutedEventArgs e)
         {
-            MenuGerente ventanaSecundaria = new MenuGerente();
-            ventanaSecundaria.Show();
-            this.Close(); // Opcional: cierra la ventana actual
+            //MenuGerente ventanaSecundaria = new MenuGerente();
+            //ventanaSecundaria.Show();
+            //this.Close(); // Opcional: cierra la ventana actual
         }
     }
 }

@@ -8,7 +8,7 @@
     <Compile Update="Views\Designs\LogIn.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Menus\MenuGerente.xaml.cs">
+    <Compile Update="Views\Designs\Menus\ManagerMenu.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Menus\OperatorMenu.xaml.cs">

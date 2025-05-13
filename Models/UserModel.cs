@@ -19,7 +19,7 @@ namespace ProdLogApp.Models
                 try
                 {
                     connection.Open();
-                    string query = "SELECT Dni, IsAdmin FROM Users WHERE Dni = @dni";
+                    string query = "SELECT Dni, IsAdmin, Password FROM Users WHERE Dni = @dni";
 
                     using (var command = new MySqlCommand(query, connection))
                     {
@@ -32,6 +32,7 @@ namespace ProdLogApp.Models
                                 activeUser = new User
                                 {
                                     Dni = reader["Dni"].ToString(),
+                                    Password = reader["Password"].ToString(),
                                     IsAdmin = Convert.ToBoolean(reader["IsAdmin"])
                                 };
                             }
@@ -45,6 +46,10 @@ namespace ProdLogApp.Models
             }
 
             return activeUser;
+        }
+
+        public static bool PasswordValidate(User activeUser, string PasswordGet) {
+            if (activeUser.Password == PasswordGet) return true; else return false;
         }
     }
 }
