@@ -39,7 +39,7 @@
 
         <!-- Grilla a la izquierda -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="16,10,4,0" VerticalAlignment="Top" Height="625">
-            <ListView x:Name="Producciones" Height="526" VerticalAlignment="Top">
+            <ListView x:Name="Productions" Height="526" VerticalAlignment="Top">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="Auto" Header="Producto" DisplayMemberBinding="{Binding Producto}" />
@@ -53,9 +53,9 @@
 
         <!-- Botones CRUD Arriba -->
         <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,81,10,0" Height="286">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="Add_Click"/>
             <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="Modify_Click"/>
         </StackPanel>
 
         <!-- Botones Confirmar y Cancelar Abajo -->

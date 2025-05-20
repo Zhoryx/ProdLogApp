@@ -1,0 +1,51 @@
+﻿<Window x:Class="ProdLogApp.Views.Designs.Prompts.PromptProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression.blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProdLogApp.Views.Designs.Prompts"
+        mc:Ignorable="d"
+        Title="Seleccionar Producto" Height="500" Width="850"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#0864AC">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <!-- Filtros -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,0,0,10">
+            <Label Content="Buscar por nombre:" FontSize="14" Foreground="White" Margin="0,0,0,5"/>
+            <TextBox x:Name="SearchBox" Width="250" Height="40" Style="{StaticResource ModernTextBoxStyle}"/>
+
+            <Label Content="Filtrar por categoría:" FontSize="14" Foreground="White" Margin="0,10,0,5"/>
+            <ComboBox x:Name="CategoryFilter" Width="250" Height="40" Style="{StaticResource ModernComboBoxStyle}">
+                <ComboBoxItem Content="Todas las categorías" IsSelected="True"/>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- Lista de productos -->
+        <Border Style="{StaticResource ShadowBorderStyle}" Padding="10" Margin="280,0,0,80" HorizontalAlignment="Left" Width="530">
+            <ListView x:Name="ProductList" Height="320" SelectionMode="Single">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Nombre del Producto" DisplayMemberBinding="{Binding NombreProducto}" Width="250"/>
+                        <GridViewColumn Header="Categoría" DisplayMemberBinding="{Binding CategoriaProducto}" Width="200"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- Botones de acción -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20">
+            <Button x:Name="ConfirmButton" Content="Confirmar" Style="{StaticResource ConfirmButtonStyle}" Width="120"/>
+            <Button x:Name="CancelButton" Content="Cancelar" Style="{StaticResource CancelButtonStyle}" Width="120" Margin="10,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

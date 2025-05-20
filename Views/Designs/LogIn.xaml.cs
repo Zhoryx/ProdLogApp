@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Windows;
 using ProdLogApp.Presenters;
 using ProdLogApp.Models;
 using ProdLogApp.Views.Interfaces;
+using ProdLogApp.Services; // ✅ Added missing namespace for UserSession
 
 namespace ProdLogApp.Views
 {
@@ -25,18 +26,24 @@ namespace ProdLogApp.Views
 
         public void ShowAdminWindow(User activeUser)
         {
+            // ✅ Store user in session before opening new window
+            UserSession.GetInstance().SetUser(activeUser);
+
             // Open the authentication window as a popup
             var passwordRequest = new PasswordRequest(activeUser);
-            passwordRequest.Owner = this; 
-            passwordRequest.ShowDialog(); 
+            passwordRequest.Owner = this;
+            passwordRequest.ShowDialog();
         }
 
         public void ShowMainWindow(User activeUser)
         {
+            // ✅ Store user in session before opening OperatorMenu
+            UserSession.GetInstance().SetUser(activeUser);
+
             // Open the main window and close the login
-            var mainWindow = new OperatorMenu(activeUser);
+            var mainWindow = new OperatorMenu();
             mainWindow.Show();
-            this.Close(); 
+            this.Close();
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)

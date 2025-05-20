@@ -1,0 +1,82 @@
+﻿<Window x:Class="ProdLogApp.Views.ProductionForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Agregar Producción"
+        Height="400"
+        Width="600"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#0864ac">
+
+    <Window.Resources>
+        <!-- Referencia al diccionario de estilos global -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="10,0,0,-2">
+        <!-- Definición de filas y columnas -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Producto -->
+            <RowDefinition Height="Auto"/>
+            <!-- Hora Inicio -->
+            <RowDefinition Height="Auto"/>
+            <!-- Hora Fin -->
+            <RowDefinition Height="Auto"/>
+            <!-- Cantidad -->
+            <RowDefinition Height="Auto"/>
+            <!-- Botones -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="30*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Selección del Producto -->
+        <Label x:Name="ProductoLabel" Content="Producto:" 
+               FontSize="16"  Foreground="#FFFFFF" 
+               VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" 
+               Margin="0,46,10,0" Height="31"/>
+        <Button Style="{StaticResource ModernButtonStyle}" Content="Seleccionar"
+                Grid.Row="0" Grid.Column="1" Width="NaN" Height="25" Margin="167,23,7,50" 
+                Click="SeleccionarProducto_Click"/>
+
+        <TextBox x:Name="ProductoTextBox" Style="{StaticResource ModernTextBoxStyle}" Grid.Column="1" 
+         Margin="56,42,58,17" Grid.ColumnSpan="2"/>
+
+        <!-- Hora Inicio -->
+        <Label Content="Hora Inicio:" FontSize="14" Foreground="#FFFFFF" 
+               VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" 
+               Margin="0,0,10,0" Height="28"/>
+        <TextBox x:Name="HoraInicioTextBox" Style="{StaticResource ModernTextBoxStyle}" Grid.Column="1" 
+                 Margin="57,92,58,53" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+
+        <!-- Hora Fin -->
+        <Label Content="Hora Fin:" FontSize="14" Foreground="#FFFFFF" 
+               VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" 
+               Margin="0,0,10,0" Height="28"/>
+        <TextBox x:Name="HoraFinTextBox" Style="{StaticResource ModernTextBoxStyle}" Grid.Row="2" Grid.Column="1" 
+                 Margin="57,10,58,10" Grid.ColumnSpan="2"/>
+
+        <!-- Cantidad Producida -->
+        <Label Content="Cantidad Producida:" FontSize="14" Foreground="#FFFFFF" 
+               VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" 
+               Margin="0,0,10,0" Height="28"/>
+        <TextBox x:Name="CantidadTextBox" Style="{StaticResource ModernTextBoxStyle}" Grid.Row="3" Grid.Column="1" 
+                 Margin="57,10,58,10" Grid.ColumnSpan="2"/>
+
+        <!-- Botones Confirmar y Cancelar -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
+                    Grid.Row="4" Grid.ColumnSpan="3" Margin="120,10,0,10" Width="439">
+            <Button Style="{StaticResource ConfirmButtonStyle}" Height="35" Content="Confirmar" 
+                    Margin="10" Click="Confirmar_Click"/>
+            <Button Style="{StaticResource CancelButtonStyle}" Height="35" Content="Cancelar" 
+                    Margin="10" Click="Cancelar_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

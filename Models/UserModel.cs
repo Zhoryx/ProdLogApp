@@ -1,29 +1,29 @@
-using System.Windows.Controls;
 using Devart.Data.MySql;
 using ProdLogApp.Services;
+using System;
 
 namespace ProdLogApp.Models
 {
     public class User
     {
-        public required string Dni { get; set; }
+        public string Dni { get; set; }
         private string Password { get; set; }
         public bool IsAdmin { get; set; }
-
+        public int Id { get; set; }
         public static User GetByDni(string dni)
         {
             User activeUser = null;
 
-            using (var connection = DatabaseService.GetConnection()) 
+            try
             {
-                try
+                DatabaseService dbService = new DatabaseService(); 
+                using (var connection = dbService.GetConnection())
                 {
-                    connection.Open();
-                    string query = "SELECT UsDNI, UsGerente, UsPass FROM Usuario WHERE UsDNI = @dni";
+                    string query = "SELECT UsDNI, UsGerente, UsPass, UsId FROM Usuario WHERE UsDNI = @dni";
 
                     using (var command = new MySqlCommand(query, connection))
                     {
-                        command.Parameters.Add(new MySqlParameter("@dni", dni));
+                        command.Parameters.AddWithValue("@dni", dni); 
 
                         using (var reader = command.ExecuteReader())
                         {
@@ -33,23 +33,25 @@ namespace ProdLogApp.Models
                                 {
                                     Dni = reader["UsDNI"].ToString(),
                                     Password = reader["UsPass"].ToString(),
-                                    IsAdmin = Convert.ToBoolean(reader["UsGerente"])
+                                    IsAdmin = reader.GetBoolean("UsGerente"),
+                                    Id = reader.GetInt32("UsId")
                                 };
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error Buscando el Usuario: {ex.Message}");
-                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error fetching user: {ex.Message}");
             }
 
             return activeUser;
         }
 
-        public static bool PasswordValidate(User activeUser, string PasswordGet) {
-            if (activeUser.Password == PasswordGet) return true; else return false;
+        public static bool PasswordValidate(User activeUser, string PasswordGet)
+        {
+            return activeUser?.Password == PasswordGet; 
         }
     }
 }
