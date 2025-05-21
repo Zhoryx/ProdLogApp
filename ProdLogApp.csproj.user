@@ -14,7 +14,7 @@
     <Compile Update="Views\Designs\Menus\OperatorMenu.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Menus\ProduccionGerente.xaml.cs">
+    <Compile Update="Views\Designs\Menus\ManagerProduction.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Prompts\PasswordRequest.xaml.cs">
