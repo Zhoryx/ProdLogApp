@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 
-191518973716
+19-1224307527
 
-37479676586
+39867682324
 2251039460777
-Views\Designs\App.xaml;Views\Designs\LogIn.xaml;Views\Designs\Masters\Agregar\CategoriaAgregar.xaml;Views\Designs\Masters\Agregar\ProductoAgregar.xaml;Views\Designs\Masters\Agregar\PuestoAgregar.xaml;Views\Designs\Masters\Agregar\UsuarioAgregar.xaml;Views\Designs\Masters\Management\GestionCategoria.xaml;Views\Designs\Masters\Management\GestionPuesto.xaml;Views\Designs\Masters\Management\ProductManagement.xaml;Views\Designs\Masters\Management\UserManagement.xaml;Views\Designs\Menus\ManagerMenu.xaml;Views\Designs\Menus\ManagerProduction.xaml;Views\Designs\Menus\OperatorMenu.xaml;Views\Designs\Menus\ProduccionAgregarGerente.xaml;Views\Designs\Menus\ProductionForm.xaml;Views\Designs\Prompts\PasswordRequest.xaml;Views\Designs\Prompts\PromptOperario.xaml;Views\Designs\Prompts\PromptProduct.xaml;Views\Designs\Style.xaml;
+Views\Designs\App.xaml;Views\Designs\LogIn.xaml;Views\Designs\Masters\Agregar\CategoriaAgregar.xaml;Views\Designs\Masters\Agregar\ProductoAgregar.xaml;Views\Designs\Masters\Agregar\PuestoAgregar.xaml;Views\Designs\Masters\Agregar\UsuarioAgregar.xaml;Views\Designs\Masters\Management\GestionCategoria.xaml;Views\Designs\Masters\Management\PositionManagement.xaml;Views\Designs\Masters\Management\ProductManagement.xaml;Views\Designs\Masters\Management\UserManagement.xaml;Views\Designs\Menus\ManagerMenu.xaml;Views\Designs\Menus\ManagerProduction.xaml;Views\Designs\Menus\OperatorMenu.xaml;Views\Designs\Menus\ProduccionAgregarGerente.xaml;Views\Designs\Menus\ProductionForm.xaml;Views\Designs\Prompts\PasswordRequest.xaml;Views\Designs\Prompts\PromptOperario.xaml;Views\Designs\Prompts\PromptProduct.xaml;Views\Designs\Style.xaml;
 
-False
+True
 

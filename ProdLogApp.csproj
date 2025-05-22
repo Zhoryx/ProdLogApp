@@ -32,10 +32,10 @@
     <Compile Update="Views\Designs\Masters\Management\UserManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Management\GestionPuesto.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Management\PositionManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Management\GestionCategoria.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Management\CategoryManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Masters\Agregar\CategoriaAgregar.xaml.cs">

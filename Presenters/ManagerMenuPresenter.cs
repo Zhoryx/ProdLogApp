@@ -25,8 +25,8 @@ namespace ProdLogApp.Presenters
 
         private void AbrirPartesDiarios() => NavegarA(new ManagerProduction(_activeUser));
         private void AbrirGestionProducto() => NavegarA(new ProductManagement(_activeUser));
-        private void AbrirGestionCategoria() => NavegarA(new GestionCategoria());
-        private void AbrirGestionPuesto() => NavegarA(new GestionPuesto());
+        private void AbrirGestionCategoria() => NavegarA(new CategoryManagement());
+        private void AbrirGestionPuesto() => NavegarA(new PositionManagement(_activeUser));
         private void AbrirGestionUsuario() => NavegarA(new UserManagement(_activeUser));
         private void CerrarMenu() => _view.CerrarVentana();
 
