@@ -73,7 +73,7 @@
         <!-- Grilla -->
         <Border Grid.Row="1" Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Margin="110,10,110,10" Padding="10" Grid.ColumnSpan="2" RenderTransformOrigin="0.503,0.528">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ListView x:Name="Producciones" Width="884" SelectionChanged="Producciones_SelectionChanged" RenderTransformOrigin="0.664,0.535">
+                <ListView x:Name="Producciones" Width="884" RenderTransformOrigin="0.664,0.535">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="Auto" Header="Operario" DisplayMemberBinding="{Binding Operario}"/>
@@ -96,7 +96,7 @@
 
         <!-- Botones Confirmar y Cancelar -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" RenderTransformOrigin="0.51,0.517" Margin="251,78,-13,7" Grid.RowSpan="2" Grid.Column="1">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Click="Button_Click"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Click="Volver"/>
         </StackPanel>
     </Grid>
 </Window>

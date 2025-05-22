@@ -21,6 +21,6 @@ namespace ProdLogApp.Presenters
         private void AgregarCategoria() => MessageBox.Show("Agregar categoría...");
         private void EliminarCategoria() => MessageBox.Show("Eliminar categoría...");
         private void ModificarCategoria() => MessageBox.Show("Modificar categoría...");
-        private void Volver() => _view.NavegarAMenu(); // ✅ Ahora la vista maneja la navegación
+        private void Volver() => _view.NavegarAMenu(); 
     }
 }

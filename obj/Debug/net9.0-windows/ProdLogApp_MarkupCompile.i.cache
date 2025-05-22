@@ -12,8 +12,8 @@ TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 
 191881822321
 
-43-2015622044
-2251039460777
+45-485284753
+2251649664504
 Views\Designs\App.xaml;Views\Designs\LogIn.xaml;Views\Designs\Masters\Agregar\CategoriaAgregar.xaml;Views\Designs\Masters\Agregar\ProductoAgregar.xaml;Views\Designs\Masters\Agregar\PuestoAgregar.xaml;Views\Designs\Masters\Agregar\UsuarioAgregar.xaml;Views\Designs\Masters\Management\CategoryManagement.xaml;Views\Designs\Masters\Management\PositionManagement.xaml;Views\Designs\Masters\Management\ProductManagement.xaml;Views\Designs\Masters\Management\UserManagement.xaml;Views\Designs\Menus\ManagerMenu.xaml;Views\Designs\Menus\ManagerProduction.xaml;Views\Designs\Menus\OperatorMenu.xaml;Views\Designs\Menus\ProduccionAgregarGerente.xaml;Views\Designs\Menus\ProductionForm.xaml;Views\Designs\Prompts\PasswordRequest.xaml;Views\Designs\Prompts\PromptOperario.xaml;Views\Designs\Prompts\PromptProduct.xaml;Views\Designs\Style.xaml;
 
 False
