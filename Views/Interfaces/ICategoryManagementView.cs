@@ -4,12 +4,22 @@ namespace ProdLogApp.Views.Interfaces
 {
     public interface ICategoryManagementView
     {
-        event Action OnAgregarCategoria;
-        event Action OnEliminarCategoria;
-        event Action OnModificarCategoria;
-        event Action OnVolver;
+        // Event triggered when the "Add Category" action is requested
+        event Action OnAddCategory;
 
-        void CerrarVentana();
-        void NavegarAMenu();
+        // Event triggered when the "Delete Category" action is requested
+        event Action OnDeleteCategory;
+
+        // Event triggered when the "Modify Category" action is requested
+        event Action OnModifyCategory;
+
+        // Event triggered when returning to the previous menu
+        event Action OnReturn;
+
+        // Method to close the current window
+        void CloseWindow();
+
+        // Method to navigate back to the main menu
+        void NavigateToMenu();
     }
 }

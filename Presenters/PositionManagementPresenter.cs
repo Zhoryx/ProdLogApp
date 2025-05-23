@@ -12,15 +12,23 @@ namespace ProdLogApp.Presenters
         {
             _view = view;
 
-            _view.OnAgregarPuesto += AgregarPuesto;
-            _view.OnEliminarPuesto += EliminarPuesto;
-            _view.OnModificarPuesto += ModificarPuesto;
-            _view.OnVolver += Volver;
+            // Subscribe events from the view
+            _view.OnAddPosition += AddPosition;
+            _view.OnDeletePosition += DeletePosition;
+            _view.OnModifyPosition += ModifyPosition;
+            _view.OnReturn += ReturnToMenu;
         }
 
-        private void AgregarPuesto() => MessageBox.Show("Agregar puesto...");
-        private void EliminarPuesto() => MessageBox.Show("Eliminar puesto...");
-        private void ModificarPuesto() => MessageBox.Show("Modificar puesto...");
-        private void Volver() => _view.NavegarAMenu();
+        // Handles adding a new position
+        private void AddPosition() => MessageBox.Show("Add position...");
+
+        // Handles deleting a position
+        private void DeletePosition() => MessageBox.Show("Delete position...");
+
+        // Handles modifying an existing position
+        private void ModifyPosition() => MessageBox.Show("Modify position...");
+
+        // Navigates back to the main menu
+        private void ReturnToMenu() => _view.NavigateToMenu();
     }
 }

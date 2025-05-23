@@ -4,11 +4,19 @@ namespace ProdLogApp.Views
 {
     public interface IProductManagementView
     {
-        event Action OnAgregarProducto;
-        event Action OnEliminarProducto;
-        event Action OnModificarProducto;
-        event Action OnVolver;
+        // Event triggered when the "Add Product" action is requested
+        event Action OnAddProduct;
 
-        void NavegarAMenu();
+        // Event triggered when the "Delete Product" action is requested
+        event Action OnDeleteProduct;
+
+        // Event triggered when the "Modify Product" action is requested
+        event Action OnModifyProduct;
+
+        // Event triggered when returning to the previous menu
+        event Action OnReturn;
+
+        // Method to navigate back to the main menu
+        void NavigateToMenu();
     }
 }

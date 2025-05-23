@@ -12,15 +12,23 @@ namespace ProdLogApp.Presenters
         {
             _view = view;
 
-            _view.OnAgregarProducto += AgregarProducto;
-            _view.OnEliminarProducto += EliminarProducto;
-            _view.OnModificarProducto += ModificarProducto;
-            _view.OnVolver += Volver;
+            // Subscribe events from the view
+            _view.OnAddProduct += AddProduct;
+            _view.OnDeleteProduct += DeleteProduct;
+            _view.OnModifyProduct += ModifyProduct;
+            _view.OnReturn += ReturnToMenu;
         }
 
-        private void AgregarProducto() => MessageBox.Show("Agregar producto...");
-        private void EliminarProducto() => MessageBox.Show("Eliminar producto...");
-        private void ModificarProducto() => MessageBox.Show("Modificar producto...");
-        private void Volver() => _view.NavegarAMenu();
+        // Handles adding a new product
+        private void AddProduct() => MessageBox.Show("Add product...");
+
+        // Handles deleting a product
+        private void DeleteProduct() => MessageBox.Show("Delete product...");
+
+        // Handles modifying an existing product
+        private void ModifyProduct() => MessageBox.Show("Modify product...");
+
+        // Navigates back to the main menu
+        private void ReturnToMenu() => _view.NavigateToMenu();
     }
 }

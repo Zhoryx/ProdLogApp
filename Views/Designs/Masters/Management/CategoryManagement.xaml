@@ -9,17 +9,17 @@
         Height="720"
         Width="1080"
         WindowStartupLocation="CenterScreen"
-        Background="#0864ac"
+        Background="#0864AC"
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <!-- Referencia al archivo Styles.xaml -->
+        <!-- Reference to Styles.xaml -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Sombra suave para los paneles -->
+            <!-- Soft shadow effect for panels -->
             <Style x:Key="ShadowBorderStyle" TargetType="Border">
                 <Setter Property="Effect">
                     <Setter.Value>
@@ -37,26 +37,23 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Grilla a la izquierda -->
+        <!-- Left-side grid displaying category data -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="Producciones">
+            <ListView x:Name="Productions">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="Auto" Header="Categoria" DisplayMemberBinding="{Binding Producto}" />
-
+                        <GridViewColumn Width="Auto" Header="Categoría" DisplayMemberBinding="{Binding Producto}" />
                     </GridView>
                 </ListView.View>
             </ListView>
         </Border>
 
-        <!-- Botones CRUD Arriba -->
+        <!-- CRUD Buttons -->
         <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,131,10,0" Height="385">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AgregarCategoria"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Click="Volver"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AddCategory"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250" Click="DeleteCategory"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="ModifyCategory"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Click="ReturnToMenu"/>
         </StackPanel>
-
-        
     </Grid>
 </Window>

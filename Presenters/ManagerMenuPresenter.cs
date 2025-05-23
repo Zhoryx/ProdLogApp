@@ -1,7 +1,8 @@
-﻿using System;
-using System.Windows;
-using ProdLogApp.Models;
+﻿using ProdLogApp.Models;
 using ProdLogApp.Views;
+using ProdLogApp.Views.Interfaces;
+using System;
+using System.Windows;
 
 namespace ProdLogApp.Presenters
 {
@@ -15,44 +16,47 @@ namespace ProdLogApp.Presenters
             _view = view;
             _activeUser = activeUser;
 
-            _view.OnAbrirPartesDiarios += AbrirPartesDiarios;
-            _view.OnMaestroProducto += AbrirGestionProducto;
-            _view.OnMaestroCategoria += AbrirGestionCategoria;
-            _view.OnMaestroPuesto += AbrirGestionPuesto;
-            _view.OnMaestroUsuario += AbrirGestionUsuario;
-            _view.OnDesconectar += CerrarMenu;
+            // Subscribe events from the view
+            _view.OnOpenDailyReports += OpenDailyReports;
+            _view.OnManageProducts += OpenProductManagement;
+            _view.OnManageCategories += OpenCategoryManagement;
+            _view.OnManagePositions += OpenPositionManagement;
+            _view.OnManageUsers += OpenUserManagement;
+            _view.OnDisconnect += CloseMenu;
         }
 
-        private void AbrirPartesDiarios() => NavegarA(new ManagerProduction(_activeUser));
-        private void AbrirGestionProducto() => NavegarA(new ProductManagement(_activeUser));
-        private void AbrirGestionCategoria() => NavegarA(new CategoryManagement(_activeUser));
-        private void AbrirGestionPuesto() => NavegarA(new PositionManagement(_activeUser));
-        private void AbrirGestionUsuario() => NavegarA(new UserManagement(_activeUser));
-        private void CerrarMenu() => _view.CerrarVentana();
+        // Methods to navigate to different management screens
+        private void OpenDailyReports() => NavigateTo(new ManagerProduction(_activeUser));
+        private void OpenProductManagement() => NavigateTo(new ProductManagement(_activeUser));
+        private void OpenCategoryManagement() => NavigateTo(new CategoryManagement(_activeUser));
+        private void OpenPositionManagement() => NavigateTo(new PositionManagement(_activeUser));
+        private void OpenUserManagement() => NavigateTo(new UserManagement(_activeUser));
 
-        private void NavegarA(Window ventana)
+        // Closes the current menu and navigates to the login screen
+        private void CloseMenu()
         {
             try
             {
-                ventana.Show();
-                _view.CerrarVentana();
+                _view.NavigateToLogin();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir la ventana: {ex.Message}");
+                MessageBox.Show($"Error while logging out: {ex.Message}");
             }
         }
-    }
 
-    public interface IManagerMenuView
-    {
-        event Action OnAbrirPartesDiarios;
-        event Action OnMaestroProducto;
-        event Action OnMaestroCategoria;
-        event Action OnMaestroPuesto;
-        event Action OnMaestroUsuario;
-        event Action OnDesconectar;
-
-        void CerrarVentana();
+        // Handles navigation to another window and closes the current one
+        private void NavigateTo(Window window)
+        {
+            try
+            {
+                window.Show();
+                _view.CloseWindow();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error while opening the window: {ex.Message}");
+            }
+        }
     }
 }

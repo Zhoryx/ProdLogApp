@@ -5,7 +5,13 @@ namespace ProdLogApp.Views
 {
     public interface IOperatorMenuView
     {
+        // Displays a message to the user
         void ShowMessage(string message);
+
+        // Updates the production list in the view
         void UpdateProductionList(List<Production> productions);
+
+        
+
     }
 }

@@ -9,17 +9,17 @@
         Height="720"
         Width="1080"
         WindowStartupLocation="CenterScreen"
-        Background="#0864ac"
+        Background="#0864AC"
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <!-- Referencia al archivo Styles.xaml -->
+        <!-- Reference to Styles.xaml -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Sombra suave para los paneles -->
+            <!-- Soft shadow effect for panels -->
             <Style x:Key="ShadowBorderStyle" TargetType="Border">
                 <Setter Property="Effect">
                     <Setter.Value>
@@ -37,26 +37,23 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Grilla a la izquierda -->
+        <!-- Left-side grid displaying position data -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="Producciones">
+            <ListView x:Name="Positions">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="Auto" Header="Puesto" DisplayMemberBinding="{Binding Nombre}" />
-                        
                     </GridView>
                 </ListView.View>
             </ListView>
         </Border>
 
-        <!-- Botones CRUD Arriba -->
+        <!-- CRUD Buttons -->
         <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="6,168,14,0" Height="383">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AgregarPuesto"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Margin="10" Click="Volver"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AddPosition"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250" Click="DeletePosition"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="ModifyPosition"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Margin="10" Click="ReturnToMenu"/>
         </StackPanel>
-
-       
     </Grid>
 </Window>

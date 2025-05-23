@@ -2,34 +2,46 @@
 using System.Windows;
 using ProdLogApp.Models;
 using ProdLogApp.Presenters;
-
+using ProdLogApp.Views.Interfaces;
 
 namespace ProdLogApp.Views
 {
     public partial class ManagerMenu : Window, IManagerMenuView
     {
-        private ManagerMenuPresenter _presenter;
+        private readonly ManagerMenuPresenter _presenter;
+        private readonly User _activeUser; // Store the active user
 
-        public event Action OnAbrirPartesDiarios;
-        public event Action OnMaestroProducto;
-        public event Action OnMaestroCategoria;
-        public event Action OnMaestroPuesto;
-        public event Action OnMaestroUsuario;
-        public event Action OnDesconectar;
+        public event Action OnOpenDailyReports;
+        public event Action OnManageProducts;
+        public event Action OnManageCategories;
+        public event Action OnManagePositions;
+        public event Action OnManageUsers;
+        public event Action OnDisconnect;
 
         public ManagerMenu(User activeUser)
         {
             InitializeComponent();
-            _presenter = new ManagerMenuPresenter(this, activeUser); 
+            _activeUser = activeUser; // Save the active user
+            _presenter = new ManagerMenuPresenter(this, _activeUser); // Pass the user to the presenter
         }
 
-        private void AbrirPartesDiarios(object sender, RoutedEventArgs e) => OnAbrirPartesDiarios?.Invoke();
-        private void MaestroProducto(object sender, RoutedEventArgs e) => OnMaestroProducto?.Invoke();
-        private void MaestroCategoria(object sender, RoutedEventArgs e) => OnMaestroCategoria?.Invoke();
-        private void MaestroPuesto(object sender, RoutedEventArgs e) => OnMaestroPuesto?.Invoke();
-        private void MaestroUsuario(object sender, RoutedEventArgs e) => OnMaestroUsuario?.Invoke();
-        private void Desconectar(object sender, RoutedEventArgs e) => OnDesconectar?.Invoke();
+        private void OpenDailyReports(object sender, RoutedEventArgs e) => OnOpenDailyReports?.Invoke();
+        private void ManageProducts(object sender, RoutedEventArgs e) => OnManageProducts?.Invoke();
+        private void ManageCategories(object sender, RoutedEventArgs e) => OnManageCategories?.Invoke();
+        private void ManagePositions(object sender, RoutedEventArgs e) => OnManagePositions?.Invoke();
+        private void ManageUsers(object sender, RoutedEventArgs e) => OnManageUsers?.Invoke();
+        private void Disconnect(object sender, RoutedEventArgs e) => OnDisconnect?.Invoke();
 
-        public void CerrarVentana() => this.Close();
+        public void CloseWindow()
+        {
+            this.Close(); // Close ManagerMenu
+        }
+
+        public void NavigateToLogin()
+        {
+            Login login = new Login();
+            login.Show(); // Show the Login window correctly
+            CloseWindow(); // Close ManagerMenu
+        }
     }
 }

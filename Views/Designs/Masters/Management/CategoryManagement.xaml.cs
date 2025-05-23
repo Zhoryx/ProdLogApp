@@ -10,33 +10,37 @@ namespace ProdLogApp.Views
     {
         private readonly CategoryManagementPresenter _presenter;
         private readonly User _activeUser;
-        public event Action OnAgregarCategoria;
-        public event Action OnEliminarCategoria;
-        public event Action OnModificarCategoria;
-        public event Action OnVolver;
 
-        public CategoryManagement(User activeuser)
+        public event Action OnAddCategory;
+        public event Action OnDeleteCategory;
+        public event Action OnModifyCategory;
+        public event Action OnReturn;
+
+        public CategoryManagement(User activeUser)
         {
             InitializeComponent();
-            _activeUser = activeuser;
+            _activeUser = activeUser;
             _presenter = new CategoryManagementPresenter(this);
         }
 
-        private void AgregarCategoria(object sender, RoutedEventArgs e) => OnAgregarCategoria?.Invoke();
-        private void EliminarCategoria(object sender, RoutedEventArgs e) => OnEliminarCategoria?.Invoke();
-        private void ModificarCategoria(object sender, RoutedEventArgs e) => OnModificarCategoria?.Invoke();
-        private void Volver(object sender, RoutedEventArgs e) => OnVolver?.Invoke();
+        // Event handlers for category management actions
+        private void AddCategory(object sender, RoutedEventArgs e) => OnAddCategory?.Invoke();
+        private void DeleteCategory(object sender, RoutedEventArgs e) => OnDeleteCategory?.Invoke();
+        private void ModifyCategory(object sender, RoutedEventArgs e) => OnModifyCategory?.Invoke();
+        private void ReturnToMenu(object sender, RoutedEventArgs e) => OnReturn?.Invoke();
 
-        public void CerrarVentana()
+        // Method to close the current window
+        public void CloseWindow()
         {
             this.Close();
         }
 
-        public void NavegarAMenu()
+        // Method to navigate back to the main menu
+        public void NavigateToMenu()
         {
             ManagerMenu menu = new ManagerMenu(_activeUser);
             menu.Show();
-            CerrarVentana();
+            CloseWindow();
         }
     }
 }

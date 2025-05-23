@@ -4,12 +4,22 @@ namespace ProdLogApp.Views.Interfaces
 {
     public interface IPositionManagementView
     {
-        event Action OnAgregarPuesto;
-        event Action OnEliminarPuesto;
-        event Action OnModificarPuesto;
-        event Action OnVolver;
+        // Event triggered when the "Add Position" action is requested
+        event Action OnAddPosition;
 
-        void CerrarVentana();
-        void NavegarAMenu();
+        // Event triggered when the "Delete Position" action is requested
+        event Action OnDeletePosition;
+
+        // Event triggered when the "Modify Position" action is requested
+        event Action OnModifyPosition;
+
+        // Event triggered when returning to the previous menu
+        event Action OnReturn;
+
+        // Method to close the current window
+        void CloseWindow();
+
+        // Method to navigate back to the main menu
+        void NavigateToMenu();
     }
 }

@@ -12,15 +12,23 @@ namespace ProdLogApp.Presenters
         {
             _view = view;
 
-            _view.OnAgregarUsuario += AgregarUsuario;
-            _view.OnEliminarUsuario += EliminarUsuario;
-            _view.OnModificarUsuario += ModificarUsuario;
-            _view.OnVolver += Volver;
+            // Subscribe events from the view
+            _view.OnAddUser += AddUser;
+            _view.OnDeleteUser += DeleteUser;
+            _view.OnModifyUser += ModifyUser;
+            _view.OnReturn += ReturnToMenu;
         }
 
-        private void AgregarUsuario() => MessageBox.Show("Agregar usuario...");
-        private void EliminarUsuario() => MessageBox.Show("Eliminar usuario...");
-        private void ModificarUsuario() => MessageBox.Show("Modificar usuario...");
-        private void Volver() => _view.NavegarAMenu(); // ✅ Ahora la vista maneja la navegación
+        // Handles adding a new user
+        private void AddUser() => MessageBox.Show("Add user...");
+
+        // Handles deleting a user
+        private void DeleteUser() => MessageBox.Show("Delete user...");
+
+        // Handles modifying an existing user
+        private void ModifyUser() => MessageBox.Show("Modify user...");
+
+        // Navigates back to the main menu
+        private void ReturnToMenu() => _view.NavigateToMenu();
     }
 }

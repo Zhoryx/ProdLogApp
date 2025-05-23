@@ -10,10 +10,11 @@ namespace ProdLogApp.Views
     {
         private readonly PositionManagementPresenter _presenter;
         private readonly User _activeUser;
-        public event Action OnAgregarPuesto;
-        public event Action OnEliminarPuesto;
-        public event Action OnModificarPuesto;
-        public event Action OnVolver;
+
+        public event Action OnAddPosition;
+        public event Action OnDeletePosition;
+        public event Action OnModifyPosition;
+        public event Action OnReturn;
 
         public PositionManagement(User activeUser)
         {
@@ -22,21 +23,24 @@ namespace ProdLogApp.Views
             _presenter = new PositionManagementPresenter(this);
         }
 
-        private void AgregarPuesto(object sender, RoutedEventArgs e) => OnAgregarPuesto?.Invoke();
-        private void EliminarPuesto(object sender, RoutedEventArgs e) => OnEliminarPuesto?.Invoke();
-        private void ModificarPuesto(object sender, RoutedEventArgs e) => OnModificarPuesto?.Invoke();
-        private void Volver(object sender, RoutedEventArgs e) => OnVolver?.Invoke();
+        // Event handlers for position management actions
+        private void AddPosition(object sender, RoutedEventArgs e) => OnAddPosition?.Invoke();
+        private void DeletePosition(object sender, RoutedEventArgs e) => OnDeletePosition?.Invoke();
+        private void ModifyPosition(object sender, RoutedEventArgs e) => OnModifyPosition?.Invoke();
+        private void ReturnToMenu(object sender, RoutedEventArgs e) => OnReturn?.Invoke();
 
-        public void CerrarVentana()
+        // Method to close the current window
+        public void CloseWindow()
         {
-            this.Close(); 
+            this.Close();
         }
 
-        public void NavegarAMenu()
+        // Method to navigate back to the main menu
+        public void NavigateToMenu()
         {
             ManagerMenu menu = new ManagerMenu(_activeUser);
             menu.Show();
-            CerrarVentana(); 
+            CloseWindow();
         }
     }
 }

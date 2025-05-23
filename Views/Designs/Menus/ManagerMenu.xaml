@@ -9,17 +9,17 @@
         Height="625"
         Width="786"
         WindowStartupLocation="CenterScreen"
-        Background="#0864ac"
+        Background="#0864AC"
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <!-- Referencia al archivo Styles.xaml -->
+        <!-- Reference to Styles.xaml -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Sombra suave para los paneles -->
+            <!-- Soft shadow effect for panels -->
             <Style x:Key="ShadowBorderStyle" TargetType="Border">
                 <Setter Property="Effect">
                     <Setter.Value>
@@ -42,14 +42,14 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <!-- Botones Gestion -->
+        <!-- Management Buttons -->
         <StackPanel VerticalAlignment="Top" Margin="10,27,0,0" Height="539" HorizontalAlignment="Left" Width="280" Grid.ColumnSpan="2">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Partes Diarios" Margin="0,5,0,40" Height="50" Width="250" Click="AbrirPartesDiarios"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Productos" Margin="0,5,0,40" Height="50" Width="250" Click="MaestroProducto"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Categoria" Margin="0,5,0,40" Height="50" Width="250" Click="MaestroCategoria"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Puestos" Margin="0,5,0,40" Height="50" Width="250" Click="MaestroPuesto"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Usuarios" Margin="0,5,0,40" Height="50" Width="250" Click="MaestroUsuario"/>
-            <Button Style="{StaticResource CancelButtonStyle}" Content="Desconectar" Height="50" Width="250"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Partes Diarios" Margin="0,5,0,40" Height="50" Width="250" Click="OpenDailyReports"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Productos" Margin="0,5,0,40" Height="50" Width="250" Click="ManageProducts"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Categoría" Margin="0,5,0,40" Height="50" Width="250" Click="ManageCategories"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Puestos" Margin="0,5,0,40" Height="50" Width="250" Click="ManagePositions"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Gestionar Usuarios" Margin="0,5,0,40" Height="50" Width="250" Click="ManageUsers"/>
+            <Button Style="{StaticResource CancelButtonStyle}" Content="Desconectar" Height="50" Width="250" Click="Disconnect"/>
         </StackPanel>
     </Grid>
 </Window>

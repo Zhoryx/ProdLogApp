@@ -12,15 +12,23 @@ namespace ProdLogApp.Presenters
         {
             _view = view;
 
-            _view.OnAgregarCategoria += AgregarCategoria;
-            _view.OnEliminarCategoria += EliminarCategoria;
-            _view.OnModificarCategoria += ModificarCategoria;
-            _view.OnVolver += Volver;
+            // Subscribe events from the view
+            _view.OnAddCategory += AddCategory;
+            _view.OnDeleteCategory += DeleteCategory;
+            _view.OnModifyCategory += ModifyCategory;
+            _view.OnReturn += ReturnToMenu;
         }
 
-        private void AgregarCategoria() => MessageBox.Show("Agregar categoría...");
-        private void EliminarCategoria() => MessageBox.Show("Eliminar categoría...");
-        private void ModificarCategoria() => MessageBox.Show("Modificar categoría...");
-        private void Volver() => _view.NavegarAMenu(); 
+        // Handles adding a new category
+        private void AddCategory() => MessageBox.Show("Add category...");
+
+        // Handles deleting a category
+        private void DeleteCategory() => MessageBox.Show("Delete category...");
+
+        // Handles modifying an existing category
+        private void ModifyCategory() => MessageBox.Show("Modify category...");
+
+        // Navigates back to the main menu
+        private void ReturnToMenu() => _view.NavigateToMenu();
     }
 }

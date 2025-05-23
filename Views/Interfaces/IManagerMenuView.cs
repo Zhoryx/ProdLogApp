@@ -4,13 +4,28 @@ namespace ProdLogApp.Views.Interfaces
 {
     public interface IManagerMenuView
     {
-        event Action OnAbrirPartesDiarios;
-        event Action OnMaestroProducto;
-        event Action OnMaestroCategoria;
-        event Action OnMaestroPuesto;
-        event Action OnMaestroUsuario;
-        event Action OnDesconectar;
+        // Event triggered when the "Daily Reports" button is clicked
+        event Action OnOpenDailyReports;
 
-        void NavegarAMenu();
+        // Event triggered when the "Manage Products" button is clicked
+        event Action OnManageProducts;
+
+        // Event triggered when the "Manage Categories" button is clicked
+        event Action OnManageCategories;
+
+        // Event triggered when the "Manage Positions" button is clicked
+        event Action OnManagePositions;
+
+        // Event triggered when the "Manage Users" button is clicked
+        event Action OnManageUsers;
+
+        // Event triggered when the "Disconnect" button is clicked
+        event Action OnDisconnect;
+
+        // Method to close the current window
+        void CloseWindow();
+
+        // Method to navigate to the login screen
+        void NavigateToLogin();
     }
 }
