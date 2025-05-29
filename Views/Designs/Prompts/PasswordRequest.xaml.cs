@@ -1,8 +1,9 @@
-﻿using System;
-using System.Windows;
+﻿using ProdLogApp.Models;
 using ProdLogApp.Presenters;
-using ProdLogApp.Models;
+using ProdLogApp.Services;
 using ProdLogApp.Views.Interfaces;
+using System;
+using System.Windows;
 
 namespace ProdLogApp.Views
 {
@@ -10,11 +11,13 @@ namespace ProdLogApp.Views
     {
         private readonly User _activeUser;
         private readonly PasswordRequestPresenter _presenter;
-
-        public PasswordRequest(User activeUser)
+        private readonly IDatabaseService _databaseService;
+        public PasswordRequest(User activeUser, IDatabaseService databaseService)
         {
             InitializeComponent();
             _activeUser = activeUser ?? throw new ArgumentNullException(nameof(activeUser));
+            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
+
             _presenter = new PasswordRequestPresenter(this);
         }
 

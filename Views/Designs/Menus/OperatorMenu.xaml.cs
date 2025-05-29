@@ -10,6 +10,7 @@ namespace ProdLogApp.Views
     public partial class OperatorMenu : Window, IOperatorMenuView
     {
         private readonly OperatorMenuPresenter _presenter;
+        private readonly IDatabaseService _databaseService;
 
         public OperatorMenu()
         {
@@ -58,7 +59,7 @@ namespace ProdLogApp.Views
 
         public void NavigateToLogin()
         {
-            Login login = new Login();
+            Login login = new Login(_databaseService);
             login.Show();
             this.Close();
         }

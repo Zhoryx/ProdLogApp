@@ -1,5 +1,7 @@
 using System;
 using System.Windows;
+using ProdLogApp.Services;
+using ProdLogApp.Views;
 
 namespace ProdLogApp
 {
@@ -8,21 +10,14 @@ namespace ProdLogApp
         [STAThread]
         public static void Main()
         {
+            IDatabaseService databaseService = new DatabaseService();
             App app = new App();
-            app.Run(new Views.Login());
+            app.Run(new Login(databaseService));
         }
     }
 }
 
 
-//sin BD
-//using System;
-//using System.Windows;
-//using ProdLogApp.Models;
-//using ProdLogApp.Views;
-
-//namespace ProdLogApp
-//{
 //    public class Program
 //    {
 //        [STAThread]
@@ -37,4 +32,3 @@ namespace ProdLogApp
 //            app.Run(new ManagerMenu(activeUser));
 //        }
 //    }
-//}

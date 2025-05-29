@@ -1,5 +1,7 @@
 ﻿using Devart.Data.MySql;
 using ProdLogApp.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProdLogApp.Services
 {
@@ -8,8 +10,11 @@ namespace ProdLogApp.Services
         MySqlConnection GetConnection();
         bool TestConnection();
 
-        public bool SavePartProductions(List<Production> productions,int userId);
+        bool SavePartProductions(List<Production> productions, int userId);
+        List<Production> GetDailyProductions();
 
-        public List<Production> GetDailyProductions();
+        // Métodos adicionales para productos y categorías
+        Task<List<Categoria>> ObtenerCategoriasDesdeDBAsync();
+        void AgregarProductoEnDB(Producto producto);
     }
 }

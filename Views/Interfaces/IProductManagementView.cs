@@ -4,8 +4,8 @@ namespace ProdLogApp.Views
 {
     public interface IProductManagementView
     {
-        // Event triggered when the "Add Product" action is requested
-        event Action OnAddProduct;
+        
+        
 
         // Event triggered when the "Delete Product" action is requested
         event Action OnDeleteProduct;

@@ -3,13 +3,15 @@ using System.Windows;
 using ProdLogApp.Models;
 using ProdLogApp.Presenters;
 using ProdLogApp.Views.Interfaces;
+using ProdLogApp.Services; // Agregamos la referencia al servicio de base de datos
 
 namespace ProdLogApp.Views
 {
     public partial class ManagerMenu : Window, IManagerMenuView
     {
         private readonly ManagerMenuPresenter _presenter;
-        private readonly User _activeUser; // Store the active user
+        private readonly User _activeUser;
+        private readonly IDatabaseService _databaseService; // Agregamos esta variable
 
         public event Action OnOpenDailyReports;
         public event Action OnManageProducts;
@@ -18,12 +20,16 @@ namespace ProdLogApp.Views
         public event Action OnManageUsers;
         public event Action OnDisconnect;
 
+        // Modificamos el constructor para recibir IDatabaseService
         public ManagerMenu(User activeUser)
         {
             InitializeComponent();
-            _activeUser = activeUser; // Save the active user
-            _presenter = new ManagerMenuPresenter(this, _activeUser); // Pass the user to the presenter
+
+            IDatabaseService databaseService = new DatabaseService(); // Instancia única en el menú
+            _activeUser = activeUser;
+            _presenter = new ManagerMenuPresenter(this, _activeUser, databaseService);
         }
+
 
         private void OpenDailyReports(object sender, RoutedEventArgs e) => OnOpenDailyReports?.Invoke();
         private void ManageProducts(object sender, RoutedEventArgs e) => OnManageProducts?.Invoke();
@@ -34,14 +40,14 @@ namespace ProdLogApp.Views
 
         public void CloseWindow()
         {
-            this.Close(); // Close ManagerMenu
+            this.Close(); // Cerrar ManagerMenu
         }
 
         public void NavigateToLogin()
         {
-            Login login = new Login();
-            login.Show(); // Show the Login window correctly
-            CloseWindow(); // Close ManagerMenu
+            Login login = new Login(_databaseService);
+            login.Show(); // Mostrar la ventana de Login
+            CloseWindow(); // Cerrar ManagerMenu
         }
     }
 }

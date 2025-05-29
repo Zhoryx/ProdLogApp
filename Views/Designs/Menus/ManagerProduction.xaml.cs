@@ -1,5 +1,6 @@
 ﻿using ProdLogApp.Models;
 using ProdLogApp.Presenters;
+using ProdLogApp.Services;
 using ProdLogApp.Views.Interfaces;
 using System;
 using System.Windows;
@@ -10,15 +11,17 @@ namespace ProdLogApp.Views
     {
         private readonly ManagerProductionPresenter _presenter;
         private readonly User _activeUser;
+        private readonly IDatabaseService _databaseService;
         public event Action OnAgregarProduccion;
         public event Action OnEliminarProduccion;
         public event Action OnModificarProduccion;
         public event Action OnVolver;
 
-        public ManagerProduction(User activeUser)
+        public ManagerProduction(User activeUser, IDatabaseService databaseService)
         {
             InitializeComponent();
             _activeUser= activeUser;
+            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
             _presenter = new ManagerProductionPresenter(this, _activeUser);
         }
 

@@ -1,6 +1,7 @@
 ﻿using ProdLogApp.Models;
 using ProdLogApp.Views;
 using ProdLogApp.Views.Interfaces;
+using ProdLogApp.Services;
 using System;
 using System.Windows;
 
@@ -10,13 +11,15 @@ namespace ProdLogApp.Presenters
     {
         private readonly IManagerMenuView _view;
         private readonly User _activeUser;
+        private readonly IDatabaseService _databaseService; // Nuevo campo
 
-        public ManagerMenuPresenter(IManagerMenuView view, User activeUser)
+        public ManagerMenuPresenter(IManagerMenuView view, User activeUser, IDatabaseService databaseService)
         {
             _view = view;
             _activeUser = activeUser;
+            _databaseService = databaseService; 
 
-            // Subscribe events from the view
+            // Suscripción a los eventos de la vista
             _view.OnOpenDailyReports += OpenDailyReports;
             _view.OnManageProducts += OpenProductManagement;
             _view.OnManageCategories += OpenCategoryManagement;
@@ -25,14 +28,14 @@ namespace ProdLogApp.Presenters
             _view.OnDisconnect += CloseMenu;
         }
 
-        // Methods to navigate to different management screens
-        private void OpenDailyReports() => NavigateTo(new ManagerProduction(_activeUser));
-        private void OpenProductManagement() => NavigateTo(new ProductManagement(_activeUser));
-        private void OpenCategoryManagement() => NavigateTo(new CategoryManagement(_activeUser));
-        private void OpenPositionManagement() => NavigateTo(new PositionManagement(_activeUser));
-        private void OpenUserManagement() => NavigateTo(new UserManagement(_activeUser));
+        // Métodos para navegación
+        private void OpenDailyReports() => NavigateTo(new ManagerProduction(_activeUser, _databaseService));
+        private void OpenProductManagement() => NavigateTo(new ProductManagement(_activeUser, _databaseService)); 
+        private void OpenCategoryManagement() => NavigateTo(new CategoryManagement(_activeUser, _databaseService));
+        private void OpenPositionManagement() => NavigateTo(new PositionManagement(_activeUser, _databaseService));
+        private void OpenUserManagement() => NavigateTo(new UserManagement(_activeUser, _databaseService));
 
-        // Closes the current menu and navigates to the login screen
+        // Cierra el menú y navega al login
         private void CloseMenu()
         {
             try
@@ -41,11 +44,11 @@ namespace ProdLogApp.Presenters
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error while logging out: {ex.Message}");
+                MessageBox.Show($"Error al cerrar sesión: {ex.Message}");
             }
         }
 
-        // Handles navigation to another window and closes the current one
+        // Maneja la navegación a otra ventana y cierra la actual
         private void NavigateTo(Window window)
         {
             try
@@ -55,8 +58,10 @@ namespace ProdLogApp.Presenters
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error while opening the window: {ex.Message}");
+                MessageBox.Show($"Error al abrir la ventana: {ex.Message}");
             }
         }
+
+
     }
 }

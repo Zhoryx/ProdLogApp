@@ -1,8 +1,9 @@
-﻿using System;
-using System.Windows;
-using ProdLogApp.Models;
+﻿using ProdLogApp.Models;
 using ProdLogApp.Presenters;
+using ProdLogApp.Services;
 using ProdLogApp.Views.Interfaces;
+using System;
+using System.Windows;
 
 namespace ProdLogApp.Views
 {
@@ -10,16 +11,17 @@ namespace ProdLogApp.Views
     {
         private readonly PositionManagementPresenter _presenter;
         private readonly User _activeUser;
-
+        private readonly IDatabaseService _databaseService;
         public event Action OnAddPosition;
         public event Action OnDeletePosition;
         public event Action OnModifyPosition;
         public event Action OnReturn;
 
-        public PositionManagement(User activeUser)
+        public PositionManagement(User activeUser, IDatabaseService databaseService)
         {
             InitializeComponent();
             _activeUser = activeUser;
+            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
             _presenter = new PositionManagementPresenter(this);
         }
 

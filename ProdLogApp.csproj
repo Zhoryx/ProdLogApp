@@ -38,16 +38,13 @@
     <Compile Update="Views\Designs\Masters\Management\CategoryManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\CategoriaAgregar.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\AddCategory.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Masters\Agregar\PuestoAgregar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Masters\Agregar\UsuarioAgregar.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\ProductoAgregar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Menus\ProduccionAgregarGerente.xaml.cs">

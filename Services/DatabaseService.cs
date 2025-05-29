@@ -1,7 +1,10 @@
-﻿using System;
-using System.Text;
-using Devart.Data.MySql;
+﻿using Devart.Data.MySql;
 using ProdLogApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ProdLogApp.Services
 {
@@ -22,7 +25,7 @@ namespace ProdLogApp.Services
                 throw new Exception($"Database connection failed: {ex.Message}");
             }
         }
-                         
+
         public bool TestConnection()
         {
             using (var connection = GetConnection())
@@ -31,12 +34,11 @@ namespace ProdLogApp.Services
             }
         }
 
-        public void SavePartProductions(List<Production> productionList, int userId)
+        public bool SavePartProductions(List<Production> productionList, int userId)
         {
             using (var connection = GetConnection())
             {
                 connection.Open();
-
 
                 string insertPartQuery = "INSERT INTO Parte (Parte_Fecha, Usuario_Id) VALUES (@Fecha, @UsuarioId); SELECT LAST_INSERT_ID();";
                 int partId;
@@ -47,7 +49,6 @@ namespace ProdLogApp.Services
                     command.Parameters.AddWithValue("@UsuarioId", userId);
                     partId = Convert.ToInt32(command.ExecuteScalar());
                 }
-
 
                 StringBuilder query = new StringBuilder();
                 query.Append("INSERT INTO Producciones (Produccion_HoraInicio, Produccion_HoraFin, Produccion_Cantidad, Producto_Id, Puesto_Id, Parte_Id) VALUES ");
@@ -69,6 +70,8 @@ namespace ProdLogApp.Services
                 {
                     command.ExecuteNonQuery();
                 }
+
+                return true;
             }
         }
 
@@ -76,35 +79,72 @@ namespace ProdLogApp.Services
         {
             List<Production> productions = new List<Production>();
 
-        //    using (var connection = GetConnection())
-        //    {
-        //        connection.Open();
-        //        string query = "SELECT * FROM Producciones WHERE DATE(Produccion_HoraInicio) = CURDATE();";
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "SELECT * FROM Producciones WHERE DATE(Produccion_HoraInicio) = CURDATE();";
 
-        //        using (var command = new MySqlCommand(query, connection))
-        //        using (var reader = command.ExecuteReader())
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                productions.Add(new Production
-        //                {
-        //                    ProductionId = reader.GetInt32("Produccion_Id"),
-        //                    HInicio = reader.GetTimeSpan("Produccion_HoraInicio"),
-        //                    HFin = reader.GetTimeSpan("Produccion_HoraFin"),
-        //                    Cantidad = reader.GetInt32("Produccion_Cantidad"),
-        //                    ProductoId = reader.GetInt32("Producto_Id"),
-        //                    PuestoId = reader.GetInt32("Puesto_Id")
-        //                });
-        //            }
-        //        }
-        //    }
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        productions.Add(new Production
+                        {
+                            ProductionId = reader.GetInt32("Produccion_Id"),
+                            HInicio = reader.GetTimeSpan("Produccion_HoraInicio"),
+                            HFin = reader.GetTimeSpan("Produccion_HoraFin"),
+                            Cantidad = reader.GetInt32("Produccion_Cantidad"),
+                            ProductoId = reader.GetInt32("Producto_Id"),
+                            PuestoId = reader.GetInt32("Puesto_Id")
+                        });
+                    }
+                }
+            }
 
-           return productions;
+            return productions;
         }
 
-        bool IDatabaseService.SavePartProductions(List<Production> productions, int userId)
+        public async Task<List<Categoria>> ObtenerCategoriasDesdeDBAsync()
         {
-            throw new NotImplementedException();
+            List<Categoria> categorias = new List<Categoria>();
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync(); 
+                string query = "SELECT CategoriaId, CategoriaNombre FROM Categoria;";
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        categorias.Add(new Categoria
+                        {
+                            Id = reader.GetInt32("CategoriaId"),
+                            Nombre = reader.GetString("CategoriaNombre")
+                        });
+                    }
+                }
+            }
+
+            return categorias;
+        }
+
+        public void AgregarProductoEnDB(Producto producto)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "INSERT INTO Producto (ProductoNombre, CategoriaId) VALUES (@Nombre, @CategoriaId);";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", producto.Nombre);
+                    command.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
+                    command.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
