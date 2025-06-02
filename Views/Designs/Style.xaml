@@ -153,38 +153,38 @@
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
                         <Border Background="{TemplateBinding Background}" 
-                  BorderBrush="{TemplateBinding BorderBrush}" 
-                  BorderThickness="{TemplateBinding BorderThickness}" 
-                  CornerRadius="12">
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="12">
                             <DockPanel LastChildFill="True">
                                 <ContentPresenter Margin="6,0,0,0" VerticalAlignment="Center"/>
                                 <!-- Botón de flecha -->
                                 <ToggleButton DockPanel.Dock="Right"
-                            Width="25" Height="25"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Focusable="False"
-                            IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}">
+                                    Width="25" Height="25"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Focusable="False"
+                                    IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}">
                                     <Path Data="M 0 0 L 5 5 L 10 0 Z" 
-                      Fill="#0864AC"
-                      Width="12" Height="6"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"/>
+                                        Fill="#0864AC"
+                                        Width="12" Height="6"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
                                 </ToggleButton>
                             </DockPanel>
                         </Border>
 
                         <!-- Popup que muestra la lista del ComboBox -->
                         <Popup x:Name="PART_Popup"
-                 Placement="Bottom"
-                 IsOpen="{TemplateBinding IsDropDownOpen}"
-                 AllowsTransparency="True"
-                 Focusable="False"
-                 PopupAnimation="Slide">
+                            Placement="Center"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True"
+                            Focusable="False"
+                            PopupAnimation="Slide">
                             <Border Background="White" 
-                    BorderBrush="{TemplateBinding BorderBrush}" 
-                    BorderThickness="1"
-                    CornerRadius="0">
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="1"
+                                CornerRadius="0">
                                 <ScrollViewer MaxHeight="300" CanContentScroll="True">
                                     <ItemsPresenter />
                                 </ScrollViewer>
