@@ -2,6 +2,7 @@
 using ProdLogApp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProdLogApp.Services
 {
@@ -13,8 +14,19 @@ namespace ProdLogApp.Services
         bool SavePartProductions(List<Production> productions, int userId);
         List<Production> GetDailyProductions();
 
-        // Métodos adicionales para productos y categorías
-        Task<List<Categoria>> ObtenerCategoriasDesdeDBAsync();
+        Task<List<Categoria>> ObtenerCategoriasActivas();
+
         void AgregarProductoEnDB(Producto producto);
+
+        List<Producto> ObtenerTodosLosProductos();
+
+        void ModificarProductoEnDB(Producto producto);
+        void ToggleProductState(int productoId, bool estado);
+
+
     }
+
+
+
 }
+

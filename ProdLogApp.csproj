@@ -53,6 +53,9 @@
     <Compile Update="Views\Designs\Prompts\PromptOperario.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Designs\Prompts\PromptCategory.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

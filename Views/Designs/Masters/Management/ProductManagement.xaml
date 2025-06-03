@@ -39,22 +39,25 @@
 
         <!-- Left-side grid displaying product data -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="Products">
+            <ListView x:Name="ProductList">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="Auto" Header="Producto" DisplayMemberBinding="{Binding Producto}" />
-                        <GridViewColumn Width="Auto" Header="Categoría" DisplayMemberBinding="{Binding Cantidad}" />
+                        <GridViewColumn Width="Auto" Header="Producto" DisplayMemberBinding="{Binding Nombre}" />
+                        <GridViewColumn Width="Auto" Header="Categoría" DisplayMemberBinding="{Binding CategoriaNombre}" />
+                        <GridViewColumn Width="Auto" Header="Activo" DisplayMemberBinding="{Binding Activo}" />
                     </GridView>
                 </ListView.View>
             </ListView>
         </Border>
 
         <!-- CRUD Buttons -->
-        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="0,182,20,0" Height="394">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AddProduct"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250" Click="DeleteProduct"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="ModifyProduct"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Margin="10" Click="ReturnToMenu"/>
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,152,10,0" Height="588">
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AddProduct_Click"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="ModifyProduct_Click"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Activar/Desactivar"
+             Margin="0,5,0,50" Height="50" Width="250" Click="ToggleProductState"/>
+
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Margin="10" Click="ReturnToMenu_Click"/>
         </StackPanel>
     </Grid>
 </Window>

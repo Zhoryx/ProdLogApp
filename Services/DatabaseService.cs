@@ -105,32 +105,6 @@ namespace ProdLogApp.Services
             return productions;
         }
 
-        public async Task<List<Categoria>> ObtenerCategoriasDesdeDBAsync()
-        {
-            List<Categoria> categorias = new List<Categoria>();
-
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                await connection.OpenAsync(); 
-                string query = "SELECT CategoriaId, CategoriaNombre FROM Categoria;";
-
-                using (var command = new MySqlCommand(query, connection))
-                using (var reader = await command.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        categorias.Add(new Categoria
-                        {
-                            Id = reader.GetInt32("CategoriaId"),
-                            Nombre = reader.GetString("CategoriaNombre")
-                        });
-                    }
-                }
-            }
-
-            return categorias;
-        }
-
         public void AgregarProductoEnDB(Producto producto)
         {
             using (var connection = GetConnection())
@@ -146,5 +120,104 @@ namespace ProdLogApp.Services
                 }
             }
         }
+
+        public async Task<List<Categoria>> ObtenerCategoriasActivas()
+        {
+            var categorias = new List<Categoria>();
+
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync(); 
+                string query = "SELECT CategoriaId, CategoriaNombre FROM Categoria WHERE Activo = TRUE;";
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = await command.ExecuteReaderAsync()) 
+                {
+                    while (await reader.ReadAsync()) 
+                    {
+                        categorias.Add(new Categoria
+                        {
+                            Id = reader.GetInt32("CategoriaId"),
+                            Nombre = reader.GetString("CategoriaNombre")
+                        });
+                    }
+                }
+            }
+
+            return categorias;
+        }
+
+
+
+        public List<Producto> ObtenerTodosLosProductos()
+        {
+            var productos = new List<Producto>();
+
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = @"
+            SELECT p.ProductoId, p.ProductoNombre, p.CategoriaId, c.CategoriaNombre, p.Activo 
+            FROM Producto p
+            INNER JOIN Categoria c ON p.CategoriaId = c.CategoriaId;
+        ";
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        productos.Add(new Producto
+                        {
+                            Id = reader.GetInt32("ProductoId"),
+                            Nombre = reader.GetString("ProductoNombre"),
+                            CategoriaId = reader.GetInt32("CategoriaId"),
+                            CategoriaNombre = reader.GetString("CategoriaNombre"),
+                            Activo = reader.GetBoolean("Activo") // Se muestra todo, incluso los inactivos
+                        });
+                    }
+                }
+            }
+
+            return productos;
+        }
+
+
+        public void ModificarProductoEnDB(Producto producto)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Producto SET ProductoNombre = @Nombre, CategoriaId = @CategoriaId WHERE ProductoId = @Id;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", producto.Nombre);
+                    command.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
+                    command.Parameters.AddWithValue("@Id", producto.Id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void ToggleProductState(int productoId, bool estado)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Producto SET Activo = @Estado WHERE ProductoId = @ProductoId;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Estado", estado);
+                    command.Parameters.AddWithValue("@ProductoId", productoId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
     }
 }
+

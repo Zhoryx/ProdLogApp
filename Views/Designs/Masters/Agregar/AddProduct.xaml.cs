@@ -1,67 +1,105 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using ProdLogApp.Models;
 using ProdLogApp.Services;
-using ProdLogApp.Models;
+using ProdLogApp.Views.Designs.Prompts;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+
+
 
 namespace ProdLogApp.Views
 {
-    public partial class ProductoAgregar : Window
+
+
+    public partial class AddProduct : Window
     {
+        private int _categoriaIdSeleccionada = 0;
         private readonly IDatabaseService _databaseService;
 
-        public ProductoAgregar(IDatabaseService databaseService)
+        public AddProduct(IDatabaseService databaseService)
         {
             InitializeComponent();
             _databaseService = databaseService;
 
-            CargarCategorias();
+           
         }
 
-        private async void CargarCategorias()
+        private readonly Producto _producto;
+
+        public AddProduct(IDatabaseService databaseService, Producto producto) : this(databaseService)
         {
-            var categorias = await _databaseService.ObtenerCategoriasDesdeDBAsync();
-
-            if (categorias == null || categorias.Count == 0)
-            {
-                MessageBox.Show("No se encontraron categorías en la base de datos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            MessageBox.Show($"Categorías cargadas: {categorias.Count}", "Carga Exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            ComboBoxCategorias.ItemsSource = categorias;
-            ComboBoxCategorias.DisplayMemberPath = "Nombre";
-            ComboBoxCategorias.SelectedValuePath = "Id";
+            _producto = producto;
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_producto != null)
+            {
+                NombreProducto.Text = _producto.Nombre;
+                _categoriaIdSeleccionada = _producto.CategoriaId;
+                SeleccionCategoria.Content = $"Seleccionado: {_producto.CategoriaNombre}";
+            }
+        }
+
+
+
+        private void SeleccionarProducto_Click(object sender, RoutedEventArgs e)
+        {
+            var prompt = new PromptCategory(_databaseService);
+            bool? resultado = prompt.ShowDialog();
+
+            if (resultado == true)
+            {
+                prompt.ObtenerSeleccion(out _categoriaIdSeleccionada, out string descripcion);
+                SeleccionCategoria.Content = $"Seleccionada: {descripcion}"; 
+            }
+        }
 
 
         private void Confirmar_Click(object sender, RoutedEventArgs e)
         {
-            string nombreProducto = NombreProducto.Text;
-            Categoria categoriaSeleccionada = (Categoria)ComboBoxCategorias.SelectedItem;
+            if (string.IsNullOrWhiteSpace(NombreProducto.Text))
+            {
+                MessageBox.Show("El nombre del producto no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
-            if (categoriaSeleccionada != null && !string.IsNullOrWhiteSpace(nombreProducto))
+            if (_categoriaIdSeleccionada == 0)
+            {
+                MessageBox.Show("Debe seleccionar una categoría.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (_producto == null) // ✅ Si no hay producto, es una creación nueva
             {
                 Producto nuevoProducto = new Producto
                 {
-                    Nombre = nombreProducto,
-                    CategoriaId = categoriaSeleccionada.Id
+                    Nombre = NombreProducto.Text,
+                    CategoriaId = _categoriaIdSeleccionada
                 };
 
                 _databaseService.AgregarProductoEnDB(nuevoProducto);
-                MessageBox.Show("Producto agregado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                Close();
             }
-            else
+            else // ✅ Si estamos editando, modificar el producto existente
             {
-                MessageBox.Show("Debe ingresar un nombre y seleccionar una categoría.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                _producto.Nombre = NombreProducto.Text;
+                _producto.CategoriaId = _categoriaIdSeleccionada;
+
+                _databaseService.ModificarProductoEnDB(_producto);
             }
+
+            MessageBox.Show("Operación realizada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+            DialogResult = true;
+            Close();
         }
+
+
 
         private void Cancelar_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
+       
     }
 }

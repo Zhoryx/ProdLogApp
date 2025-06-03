@@ -3,6 +3,7 @@ using ProdLogApp.Presenters;
 using ProdLogApp.Services;
 using ProdLogApp.Views.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace ProdLogApp.Views
@@ -13,43 +14,72 @@ namespace ProdLogApp.Views
         private readonly User _activeUser;
         private readonly IDatabaseService _databaseService;
 
-        public event Action OnDeleteProduct;
         public event Action OnModifyProduct;
         public event Action OnReturn;
 
         public ProductManagement(User activeUser, IDatabaseService databaseService)
         {
             InitializeComponent();
-
             _activeUser = activeUser;
-            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService)); // Validación
-            _presenter = new ProductManagementPresenter(this, _databaseService);
-        }
+            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
 
+            _presenter = new ProductManagementPresenter(this, _databaseService);
+
+            _presenter.CargarProductos(); // ✅ Carga los productos al iniciar
+        }
 
         // Método para navegar al menú principal
         public void NavigateToMenu()
         {
             ManagerMenu menu = new ManagerMenu(_activeUser);
             menu.Show();
-            this.Close();
+            Close();
         }
 
-        // Eventos para gestión de productos
-        private void DeleteProduct(object sender, RoutedEventArgs e) => OnDeleteProduct?.Invoke();
-        private void ModifyProduct(object sender, RoutedEventArgs e) => OnModifyProduct?.Invoke();
-        private void ReturnToMenu(object sender, RoutedEventArgs e) => OnReturn?.Invoke();
-
-        // Método para abrir la ventana de agregar producto
-        private void AddProduct(object sender, RoutedEventArgs e)
+        // Métodos para abrir ventanas (controlados por el Presenter)
+        public void Addview()
         {
-            AbrirVentanaAgregarProducto();
+            AddProduct ventanaAgregar = new AddProduct(_databaseService);
+            ventanaAgregar.ShowDialog();
         }
 
-        private void AbrirVentanaAgregarProducto()
+        public void Modifyview(Producto producto)
         {
-            ProductoAgregar ventanaAgregar = new ProductoAgregar(_databaseService);
-            ventanaAgregar.ShowDialog(); // Abre la ventana como modal
+            AddProduct ventanaModificar = new AddProduct(_databaseService, producto);
+            ventanaModificar.ShowDialog();
+        }
+        private void AddProduct_Click(object sender, RoutedEventArgs e)
+        {
+            _presenter.AgregarProducto(); 
+        }
+        private void ToggleProductState(object sender, RoutedEventArgs e)
+        {
+            _presenter.ToggleProductState();
+        }
+
+
+        // Método para modificar producto desde el botón en XAML
+        private void ModifyProduct_Click(object sender, RoutedEventArgs e) => OnModifyProduct?.Invoke();
+
+        // Método para volver al menú desde el botón en XAML
+        private void ReturnToMenu_Click(object sender, RoutedEventArgs e) => OnReturn?.Invoke();
+
+        // Método para mostrar productos en la lista
+        public void MostrarProductos(List<Producto> productos)
+        {
+            ProductList.ItemsSource = productos ?? new List<Producto>();
+        }
+
+        // Método para mostrar mensajes en la UI
+        public void MostrarMensaje(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        // Obtener el producto seleccionado en la lista
+        public Producto ObtenerProductoSeleccionado()
+        {
+            return ProductList.SelectedItem as Producto;
         }
     }
 }

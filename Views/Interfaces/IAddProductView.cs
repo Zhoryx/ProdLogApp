@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProdLogApp.Views
 {
-    public interface IProductoAgregarView
+    public interface IAddProductView
     {
         void MostrarCategorias(List<Categoria> categorias);
         Producto ObtenerDatosProducto();

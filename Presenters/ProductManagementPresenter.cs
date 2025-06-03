@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using ProdLogApp.Models;
+using ProdLogApp.Services;
 using ProdLogApp.Views;
 using ProdLogApp.Views.Interfaces;
-using ProdLogApp.Services;
+using System;
 
 namespace ProdLogApp.Presenters
 {
@@ -14,26 +14,58 @@ namespace ProdLogApp.Presenters
         public ProductManagementPresenter(IProductManagementView view, IDatabaseService databaseService)
         {
             _view = view;
-            _databaseService = databaseService;
+            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
 
-            // Subscribe events from the view
-            _view.OnDeleteProduct += DeleteProduct;
             _view.OnModifyProduct += ModifyProduct;
             _view.OnReturn += ReturnToMenu;
         }
 
-        // Método para abrir la ventana de agregar producto
-        public void AbrirVentanaAgregarProducto()
+        // Manejo de agregar producto
+        public void AgregarProducto()
         {
-            ProductoAgregar ventanaAgregar = new ProductoAgregar(_databaseService);
-            ventanaAgregar.ShowDialog(); // Se abre como modal
+            _view.Addview(); // ✅ Usa el método de la Vista para abrir la ventana
+            CargarProductos(); // ✅ Refresca la lista tras agregar
         }
 
-        // Manejo de eliminación de producto
-        private void DeleteProduct() => MessageBox.Show("Eliminar producto...");
-
         // Manejo de modificación de producto
-        private void ModifyProduct() => MessageBox.Show("Modificar producto...");
+        private void ModifyProduct()
+        {
+            Producto productoSeleccionado = _view.ObtenerProductoSeleccionado();
+
+            if (productoSeleccionado == null)
+            {
+                _view.MostrarMensaje("Seleccione un producto para modificar.");
+                return;
+            }
+
+            _view.Modifyview(productoSeleccionado); // ✅ Usa el método de la Vista para abrir la ventana
+            CargarProductos(); // ✅ Refresca la lista tras modificar
+        }
+
+        // Cargar la lista actualizada de productos desde la BD
+        public void CargarProductos()
+        {
+            var productos = _databaseService.ObtenerTodosLosProductos();
+            _view.MostrarProductos(productos);
+        }
+
+        public void ToggleProductState()
+        {
+            Producto productoSeleccionado = _view.ObtenerProductoSeleccionado();
+
+            if (productoSeleccionado == null)
+            {
+                _view.MostrarMensaje("Seleccione un producto para cambiar su estado.");
+                return;
+            }
+
+            _databaseService.ToggleProductState(productoSeleccionado.Id, productoSeleccionado.Activo); // ✅ Alterna el estado en la BD
+            CargarProductos(); // ✅ Refresca la lista
+
+            string mensaje = productoSeleccionado.Activo ? "Producto desactivado correctamente." : "Producto activado correctamente.";
+            _view.MostrarMensaje(mensaje);
+        }
+
 
         // Navega de regreso al menú
         private void ReturnToMenu() => _view.NavigateToMenu();
