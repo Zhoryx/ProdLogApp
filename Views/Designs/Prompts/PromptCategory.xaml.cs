@@ -21,7 +21,7 @@ namespace ProdLogApp.Views.Designs.Prompts
 
         public void MostrarCategorias(List<Categoria> categorias)
         {
-            ProductList.ItemsSource = categorias;
+            CategoryList.ItemsSource = categorias;
         }
 
         public void ObtenerSeleccion(out int categoriaId, out string descripcion)
@@ -30,11 +30,11 @@ namespace ProdLogApp.Views.Designs.Prompts
             descripcion = _categoriaSeleccionada?.Nombre ?? "Sin selección";
         }
 
+       
 
-
-        private void ProductList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ProductList.SelectedItem is Categoria seleccion)
+            if (CategoryList.SelectedItem is Categoria seleccion)
             {
                 _categoriaSeleccionada = seleccion;
                  

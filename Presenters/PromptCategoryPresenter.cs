@@ -18,7 +18,7 @@ public class PromptCategoryPresenter
 
     private async void CargarCategorias() 
     {
-        _categorias = await _databaseService.ObtenerCategoriasActivas();
+        _categorias = await _databaseService.CategoriesGet(true);
         _view.MostrarCategorias(_categorias);
     }
 

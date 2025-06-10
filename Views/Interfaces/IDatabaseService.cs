@@ -14,7 +14,8 @@ namespace ProdLogApp.Services
         bool SavePartProductions(List<Production> productions, int userId);
         List<Production> GetDailyProductions();
 
-        Task<List<Categoria>> ObtenerCategoriasActivas();
+        Task<List<Categoria>> CategoriesGet(bool soloActivas = false);
+        
 
         void AgregarProductoEnDB(Producto producto);
 

@@ -10,6 +10,7 @@ namespace ProdLogApp.Views
     public partial class CategoryManagement : Window, ICategoryManagementView
     {
         private readonly CategoryManagementPresenter _presenter;
+        private Categoria _categoriaSeleccionada;
         private readonly User _activeUser;
         private readonly IDatabaseService _databaseService;
         public event Action OnAddCategory;
@@ -24,6 +25,19 @@ namespace ProdLogApp.Views
             _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
             _presenter = new CategoryManagementPresenter(this);
         }
+
+        public void MostrarCategorias(List<Categoria> categorias)
+        {
+            CategoryList.ItemsSource = categorias;
+        }
+
+        public void ObtenerSeleccion(out int categoriaId, out string descripcion)
+        {
+            categoriaId = _categoriaSeleccionada?.Id ?? 0;
+            descripcion = _categoriaSeleccionada?.Nombre ?? "Sin selección";
+        }
+
+        
 
         // Event handlers for category management actions
         private void AddCategory(object sender, RoutedEventArgs e) => OnAddCategory?.Invoke();

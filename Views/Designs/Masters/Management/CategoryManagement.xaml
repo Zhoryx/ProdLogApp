@@ -39,7 +39,7 @@
 
         <!-- Left-side grid displaying category data -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="Productions">
+            <ListView x:Name="CategoryList">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="Auto" Header="Categoría" DisplayMemberBinding="{Binding Producto}" />

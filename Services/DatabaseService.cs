@@ -121,19 +121,23 @@ namespace ProdLogApp.Services
             }
         }
 
-        public async Task<List<Categoria>> ObtenerCategoriasActivas()
+        public async Task<List<Categoria>> CategoriesGet(bool soloActivas = false)
         {
             var categorias = new List<Categoria>();
 
             using (var connection = GetConnection())
             {
-                await connection.OpenAsync(); 
-                string query = "SELECT CategoriaId, CategoriaNombre FROM Categoria WHERE Activo = TRUE;";
+                await connection.OpenAsync();
+
+                // ✅ Construimos la consulta dinámicamente según el parámetro
+                string query = soloActivas
+                    ? "SELECT CategoriaId, CategoriaNombre FROM Categoria WHERE Activo = TRUE;"
+                    : "SELECT CategoriaId, CategoriaNombre FROM Categoria;";
 
                 using (var command = new MySqlCommand(query, connection))
-                using (var reader = await command.ExecuteReaderAsync()) 
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync()) 
+                    while (await reader.ReadAsync())
                     {
                         categorias.Add(new Categoria
                         {
@@ -146,6 +150,7 @@ namespace ProdLogApp.Services
 
             return categorias;
         }
+
 
 
 
@@ -173,7 +178,7 @@ namespace ProdLogApp.Services
                             Nombre = reader.GetString("ProductoNombre"),
                             CategoriaId = reader.GetInt32("CategoriaId"),
                             CategoriaNombre = reader.GetString("CategoriaNombre"),
-                            Activo = reader.GetBoolean("Activo") // Se muestra todo, incluso los inactivos
+                            Activo = reader.GetBoolean("Activo")
                         });
                     }
                 }
@@ -206,10 +211,11 @@ namespace ProdLogApp.Services
             {
                 connection.Open();
                 string query = "UPDATE Producto SET Activo = @Estado WHERE ProductoId = @ProductoId;";
+                Console.WriteLine($"Cambiando estado del producto {productoId} a {estado}");
 
                 using (var command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Estado", estado);
+                    command.Parameters.AddWithValue("@Estado", !estado);
                     command.Parameters.AddWithValue("@ProductoId", productoId);
                     command.ExecuteNonQuery();
                 }

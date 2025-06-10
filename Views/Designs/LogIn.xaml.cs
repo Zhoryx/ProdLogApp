@@ -3,7 +3,7 @@ using System.Windows;
 using ProdLogApp.Presenters;
 using ProdLogApp.Models;
 using ProdLogApp.Views.Interfaces;
-using ProdLogApp.Services; // ✅ Added missing namespace for UserSession
+using ProdLogApp.Services; 
 
 namespace ProdLogApp.Views
 {

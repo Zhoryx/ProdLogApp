@@ -1,13 +1,16 @@
-﻿using System;
-using System.Windows;
+﻿using ProdLogApp.Models;
+using ProdLogApp.Services;
 using ProdLogApp.Views.Interfaces;
+using System;
+using System.Windows;
 
 namespace ProdLogApp.Presenters
 {
     public class CategoryManagementPresenter
     {
         private readonly ICategoryManagementView _view;
-
+        private List<Categoria> _categorias;
+        private readonly IDatabaseService _databaseService;
         public CategoryManagementPresenter(ICategoryManagementView view)
         {
             _view = view;
@@ -17,7 +20,14 @@ namespace ProdLogApp.Presenters
             _view.OnDeleteCategory += DeleteCategory;
             _view.OnModifyCategory += ModifyCategory;
             _view.OnReturn += ReturnToMenu;
+            CategoriesGet();
         }
+
+             private async void CategoriesGet()
+             {
+            _categorias = await _databaseService.CategoriesGet();
+            _view.MostrarCategorias(_categorias);
+             }
 
         // Handles adding a new category
         private void AddCategory() => MessageBox.Show("Add category...");

@@ -23,8 +23,8 @@ namespace ProdLogApp.Presenters
         // Manejo de agregar producto
         public void AgregarProducto()
         {
-            _view.Addview(); // ✅ Usa el método de la Vista para abrir la ventana
-            CargarProductos(); // ✅ Refresca la lista tras agregar
+            _view.Addview(); 
+            CargarProductos();
         }
 
         // Manejo de modificación de producto
@@ -38,8 +38,8 @@ namespace ProdLogApp.Presenters
                 return;
             }
 
-            _view.Modifyview(productoSeleccionado); // ✅ Usa el método de la Vista para abrir la ventana
-            CargarProductos(); // ✅ Refresca la lista tras modificar
+            _view.Modifyview(productoSeleccionado); 
+            CargarProductos(); 
         }
 
         // Cargar la lista actualizada de productos desde la BD
@@ -59,8 +59,8 @@ namespace ProdLogApp.Presenters
                 return;
             }
 
-            _databaseService.ToggleProductState(productoSeleccionado.Id, productoSeleccionado.Activo); // ✅ Alterna el estado en la BD
-            CargarProductos(); // ✅ Refresca la lista
+            _databaseService.ToggleProductState(productoSeleccionado.Id, productoSeleccionado.Activo); 
+            CargarProductos();
 
             string mensaje = productoSeleccionado.Activo ? "Producto desactivado correctamente." : "Producto activado correctamente.";
             _view.MostrarMensaje(mensaje);

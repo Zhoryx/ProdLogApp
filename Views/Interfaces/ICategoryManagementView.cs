@@ -1,9 +1,12 @@
-﻿using System;
+﻿using ProdLogApp.Models;
+using System;
 
 namespace ProdLogApp.Views.Interfaces
 {
     public interface ICategoryManagementView
     {
+
+        void MostrarCategorias(List<Categoria> categorias);
         // Event triggered when the "Add Category" action is requested
         event Action OnAddCategory;
 
