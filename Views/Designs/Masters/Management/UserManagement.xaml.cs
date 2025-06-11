@@ -1,7 +1,8 @@
 ﻿using ProdLogApp.Models;
 using ProdLogApp.Presenters;
 using ProdLogApp.Services;
-using ProdLogApp.Views.Interfaces;
+using ProdLogApp.Views;
+using ProdLogApp.Interfaces;
 using System;
 using System.Windows;
 

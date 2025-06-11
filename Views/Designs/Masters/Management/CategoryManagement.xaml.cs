@@ -1,62 +1,65 @@
-﻿using ProdLogApp.Models;
-using ProdLogApp.Presenters;
+﻿using ProdLogApp.Interfaces;
 using ProdLogApp.Services;
-using ProdLogApp.Views.Interfaces;
-using System;
+using ProdLogApp.Views;
 using System.Windows;
+using System.Windows.Controls;
+
 
 namespace ProdLogApp.Views
 {
     public partial class CategoryManagement : Window, ICategoryManagementView
     {
         private readonly CategoryManagementPresenter _presenter;
-        private Categoria _categoriaSeleccionada;
-        private readonly User _activeUser;
         private readonly IDatabaseService _databaseService;
         public event Action OnAddCategory;
-        public event Action OnDeleteCategory;
         public event Action OnModifyCategory;
-        public event Action OnReturn;
+        public event Action OnToggleCategoryStatus;
 
-        public CategoryManagement(User activeUser, IDatabaseService databaseService)
+        public CategoryManagement(IDatabaseService databaseService)
         {
             InitializeComponent();
-            _activeUser = activeUser;
             _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
-            _presenter = new CategoryManagementPresenter(this);
+            _presenter = new CategoryManagementPresenter(this, _databaseService); // ✅ Ahora pasa ambos parámetros
         }
+
+
+
 
         public void MostrarCategorias(List<Categoria> categorias)
         {
-            CategoryList.ItemsSource = categorias;
+            CategoryList.ItemsSource = categorias ?? new List<Categoria>();
         }
 
-        public void ObtenerSeleccion(out int categoriaId, out string descripcion)
+        public Categoria ObtenerCategoriaSeleccionada()
         {
-            categoriaId = _categoriaSeleccionada?.Id ?? 0;
-            descripcion = _categoriaSeleccionada?.Nombre ?? "Sin selección";
+            return CategoryList.SelectedItem as Categoria;
         }
 
-        
-
-        // Event handlers for category management actions
-        private void AddCategory(object sender, RoutedEventArgs e) => OnAddCategory?.Invoke();
-        private void DeleteCategory(object sender, RoutedEventArgs e) => OnDeleteCategory?.Invoke();
-        private void ModifyCategory(object sender, RoutedEventArgs e) => OnModifyCategory?.Invoke();
-        private void ReturnToMenu(object sender, RoutedEventArgs e) => OnReturn?.Invoke();
-
-        // Method to close the current window
-        public void CloseWindow()
+        public void AbrirVentanaAgregarCategoria()
         {
-            this.Close();
+            AddCategory ventanaAgregar = new AddCategory(_databaseService);
+            ventanaAgregar.ShowDialog();
         }
 
-        // Method to navigate back to the main menu
-        public void NavigateToMenu()
+        public void AbrirVentanaModificarCategoria(Categoria categoria)
         {
-            ManagerMenu menu = new ManagerMenu(_activeUser);
-            menu.Show();
-            CloseWindow();
+            AddCategory ventanaModificar = new AddCategory(_databaseService, categoria);
+            ventanaModificar.ShowDialog();
         }
+
+        private void CategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var categoriaSeleccionada = CategoryList.SelectedItem as Categoria;
+            if (categoriaSeleccionada != null)
+            {
+                Console.WriteLine($"Categoría seleccionada: {categoriaSeleccionada.Nombre}");
+            }
+        }
+
+        private void ToggleCategoryStatus_Click(object sender, RoutedEventArgs e) => OnToggleCategoryStatus?.Invoke();
+
+        private void AddCategory_Click(object sender, RoutedEventArgs e) => OnAddCategory?.Invoke();
+        private void ModifyCategory_Click(object sender, RoutedEventArgs e) => OnModifyCategory?.Invoke();
+        private void ReturnToMenu_Click(object sender, RoutedEventArgs e) => Close();
     }
 }

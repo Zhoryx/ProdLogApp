@@ -4,7 +4,7 @@ using ProdLogApp.Views.Designs.Prompts;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-
+using ProdLogApp.Interfaces;
 
 
 namespace ProdLogApp.Views

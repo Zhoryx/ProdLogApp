@@ -4,7 +4,7 @@ using System.Windows;
 using ProdLogApp.Models;
 using ProdLogApp.Presenters;
 using ProdLogApp.Services;
-
+using ProdLogApp.Interfaces;
 namespace ProdLogApp.Views
 {
     public partial class OperatorMenu : Window, IOperatorMenuView

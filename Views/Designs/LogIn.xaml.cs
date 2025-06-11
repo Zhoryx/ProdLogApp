@@ -2,7 +2,7 @@
 using System.Windows;
 using ProdLogApp.Presenters;
 using ProdLogApp.Models;
-using ProdLogApp.Views.Interfaces;
+using ProdLogApp.Interfaces;
 using ProdLogApp.Services; 
 
 namespace ProdLogApp.Views

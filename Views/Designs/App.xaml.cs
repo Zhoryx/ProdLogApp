@@ -3,7 +3,9 @@ using System.Windows;
 using ProdLogApp.Services;
 using ProdLogApp.Views;
 using ProdLogApp.Models;
+using ProdLogApp.Interfaces;
 namespace ProdLogApp
+
 {
     public class Program
     {

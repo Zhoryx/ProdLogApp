@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
-
+using ProdLogApp.Interfaces;
 namespace ProdLogApp.Services
 {
     public class DatabaseService : IDatabaseService
@@ -124,30 +124,37 @@ namespace ProdLogApp.Services
         public async Task<List<Categoria>> CategoriesGet(bool soloActivas = false)
         {
             var categorias = new List<Categoria>();
-
-            using (var connection = GetConnection())
+            try
             {
-                await connection.OpenAsync();
 
-                // ✅ Construimos la consulta dinámicamente según el parámetro
-                string query = soloActivas
-                    ? "SELECT CategoriaId, CategoriaNombre FROM Categoria WHERE Activo = TRUE;"
-                    : "SELECT CategoriaId, CategoriaNombre FROM Categoria;";
 
-                using (var command = new MySqlCommand(query, connection))
-                using (var reader = await command.ExecuteReaderAsync())
+                using (var connection = GetConnection())
                 {
-                    while (await reader.ReadAsync())
+                    await connection.OpenAsync();
+
+
+                    string query = soloActivas
+                        ? "SELECT CategoriaId, CategoriaNombre FROM Categoria WHERE Activo = TRUE;"
+                        : "SELECT CategoriaId, CategoriaNombre FROM Categoria;";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        categorias.Add(new Categoria
+                        while (await reader.ReadAsync())
                         {
-                            Id = reader.GetInt32("CategoriaId"),
-                            Nombre = reader.GetString("CategoriaNombre")
-                        });
+                            categorias.Add(new Categoria
+                            {
+                                Id = reader.GetInt32("CategoriaId"),
+                                Nombre = reader.GetString("CategoriaNombre")
+                            });
+                        }
                     }
                 }
             }
-
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener categorías: {ex.Message}");
+            }
             return categorias;
         }
 
@@ -222,8 +229,38 @@ namespace ProdLogApp.Services
             }
         }
 
+        public async Task AgregarCategoria(Categoria categoria)
+        {
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+                string query = "INSERT INTO Categoria (CategoriaNombre) VALUES (@Nombre);";
 
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                    await command.ExecuteNonQueryAsync();
+                }
+
+
+            }
+        }
+
+        public async Task ActualizarCategoria(Categoria categoria)
+        {
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+                string query = "UPDATE Categoria SET CategoriaNombre = @Nombre WHERE CategoriaId = @Id;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                    command.Parameters.AddWithValue("@Id", categoria.Id);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
 
     }
 }
-

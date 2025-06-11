@@ -1,7 +1,8 @@
 ﻿using ProdLogApp.Models;
 using ProdLogApp.Presenters;
 using ProdLogApp.Services;
-using ProdLogApp.Views.Interfaces;
+using ProdLogApp.Views;
+using ProdLogApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -16,6 +17,7 @@ namespace ProdLogApp.Views
 
         public event Action OnModifyProduct;
         public event Action OnReturn;
+        public event Action OnAddProduct;
 
         public ProductManagement(User activeUser, IDatabaseService databaseService)
         {
@@ -25,8 +27,8 @@ namespace ProdLogApp.Views
 
             _presenter = new ProductManagementPresenter(this, _databaseService);
 
-            _presenter.CargarProductos(); // ✅ Carga los productos al iniciar
-        }
+            _presenter.CargarProductos();
+        } 
 
         // Método para navegar al menú principal
         public void NavigateToMenu()

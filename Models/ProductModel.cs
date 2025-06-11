@@ -7,5 +7,7 @@
         public int CategoriaId { get; set; }
         public string CategoriaNombre { get; set; }
         public bool Activo { get; set; }
+
+        public string EstadoActivo => Activo ? "Sí" : "No";
     }
 }

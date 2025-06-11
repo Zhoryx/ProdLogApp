@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ProdLogApp.Models;
 using ProdLogApp.Services;
+using ProdLogApp.Interfaces;
 
 namespace ProdLogApp.Views.Designs.Prompts
 {

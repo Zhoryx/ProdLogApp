@@ -2,7 +2,7 @@
 using System.Windows;
 using ProdLogApp.Models;
 using ProdLogApp.Presenters;
-using ProdLogApp.Views.Interfaces;
+using ProdLogApp.Interfaces;
 using ProdLogApp.Services; // Agregamos la referencia al servicio de base de datos
 
 namespace ProdLogApp.Views
