@@ -291,7 +291,7 @@
       "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.4": {
         "type": "package",
         "compile": {
-          "lib/net9.0/_._": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -310,7 +310,7 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.4"
         },
         "compile": {
-          "lib/net9.0/_._": {
+          "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -531,6 +531,23 @@
           "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
             "assetType": "runtime",
             "rid": "win"
+          }
+        }
+      },
+      "MySqlConnector/2.4.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2"
+        },
+        "compile": {
+          "lib/net9.0/MySqlConnector.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/MySqlConnector.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -1653,6 +1670,35 @@
         "version.txt"
       ]
     },
+    "MySqlConnector/2.4.0": {
+      "sha512": "78M+gVOjbdZEDIyXQqcA7EYlCGS3tpbUELHvn6638A2w0pkPI625ixnzsa5staAd3N9/xFmPJtkKDYwsXpFi/w==",
+      "type": "package",
+      "path": "mysqlconnector/2.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net462/MySqlConnector.dll",
+        "lib/net462/MySqlConnector.xml",
+        "lib/net471/MySqlConnector.dll",
+        "lib/net471/MySqlConnector.xml",
+        "lib/net48/MySqlConnector.dll",
+        "lib/net48/MySqlConnector.xml",
+        "lib/net6.0/MySqlConnector.dll",
+        "lib/net6.0/MySqlConnector.xml",
+        "lib/net8.0/MySqlConnector.dll",
+        "lib/net8.0/MySqlConnector.xml",
+        "lib/net9.0/MySqlConnector.dll",
+        "lib/net9.0/MySqlConnector.xml",
+        "lib/netstandard2.0/MySqlConnector.dll",
+        "lib/netstandard2.0/MySqlConnector.xml",
+        "lib/netstandard2.1/MySqlConnector.dll",
+        "lib/netstandard2.1/MySqlConnector.xml",
+        "logo.png",
+        "mysqlconnector.2.4.0.nupkg.sha512",
+        "mysqlconnector.nuspec"
+      ]
+    },
     "runtime.native.System.Data.SqlClient.sni/4.4.0": {
       "sha512": "A8v6PGmk+UGbfWo5Ixup0lPM4swuSwOiayJExZwKIOjTlFFQIsu3QnDXECosBEyrWSPryxBVrdqtJyhK3BaupQ==",
       "type": "package",
@@ -2305,6 +2351,7 @@
       "Devart.Data.MySql >= 9.4.235",
       "Extended.Wpf.Toolkit >= 4.7.25104.5739",
       "Microsoft.Data.SqlClient >= 6.1.0-preview1.25120.4",
+      "MySqlConnector >= 2.4.0",
       "System.Data.SqlClient >= 4.9.0"
     ]
   },
@@ -2370,6 +2417,10 @@
             "target": "Package",
             "version": "[6.1.0-preview1.25120.4, )"
           },
+          "MySqlConnector": {
+            "target": "Package",
+            "version": "[2.4.0, )"
+          },
           "System.Data.SqlClient": {
             "target": "Package",
             "version": "[4.9.0, )"
@@ -2394,7 +2445,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

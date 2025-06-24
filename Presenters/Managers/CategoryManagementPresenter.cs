@@ -5,7 +5,7 @@ public class CategoryManagementPresenter
     private readonly ICategoryManagementView _view;
     private readonly IDatabaseService _databaseService;
 
-    public CategoryManagementPresenter(ICategoryManagementView view, IDatabaseService databaseService)
+    public CategoryManagementPresenter(IDatabaseService databaseService, ICategoryManagementView view)
     {
         _view = view;
         _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
@@ -39,7 +39,7 @@ public class CategoryManagementPresenter
 
     private void ToggleCategoryStatus()
     {
-        Categoria categoriaSeleccionada = _view.ObtenerCategoriaSeleccionada(); // ✅ Corregido
+        Categoria categoriaSeleccionada = _view.ObtenerCategoriaSeleccionada();
 
         if (categoriaSeleccionada == null)
         {
@@ -47,8 +47,10 @@ public class CategoryManagementPresenter
         }
 
         categoriaSeleccionada.Activo = !categoriaSeleccionada.Activo;
-        _databaseService.ActualizarCategoria(categoriaSeleccionada);
+        _databaseService.ToggleCategoryStatus(categoriaSeleccionada.CategoryId, categoriaSeleccionada.Activo);
 
         CategoriesGet(); 
     }
+
+   
 }

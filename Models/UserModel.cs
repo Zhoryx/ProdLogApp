@@ -1,6 +1,7 @@
-using Devart.Data.MySql;
+﻿using MySqlConnector; // ✅ Conector open-source y sin licencia
 using ProdLogApp.Services;
 using System;
+using System.Data;
 
 namespace ProdLogApp.Models
 {
@@ -10,20 +11,23 @@ namespace ProdLogApp.Models
         private string Password { get; set; }
         public bool IsAdmin { get; set; }
         public int Id { get; set; }
+
         public static User GetByDni(string dni)
         {
             User activeUser = null;
 
             try
             {
-                DatabaseService dbService = new DatabaseService(); 
+                DatabaseService dbService = new DatabaseService();
                 using (var connection = dbService.GetConnection())
                 {
+                    connection.Open(); // ✅ IMPORTANTE: abrir conexión manualmente
+
                     string query = "SELECT UsDNI, UsGerente, UsPass, UsId FROM Usuario WHERE UsDNI = @dni";
 
                     using (var command = new MySqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@dni", dni); 
+                        command.Parameters.AddWithValue("@dni", dni);
 
                         using (var reader = command.ExecuteReader())
                         {
@@ -31,8 +35,8 @@ namespace ProdLogApp.Models
                             {
                                 activeUser = new User
                                 {
-                                    Dni = reader["UsDNI"].ToString(),
-                                    Password = reader["UsPass"].ToString(),
+                                    Dni = reader.GetString("UsDNI"),
+                                    Password = reader.IsDBNull("UsPass") ? null : reader.GetString("UsPass"),
                                     IsAdmin = reader.GetBoolean("UsGerente"),
                                     Id = reader.GetInt32("UsId")
                                 };
@@ -51,7 +55,7 @@ namespace ProdLogApp.Models
 
         public static bool PasswordValidate(User activeUser, string PasswordGet)
         {
-            return activeUser?.Password == PasswordGet; 
+            return activeUser?.Password == PasswordGet;
         }
     }
 }

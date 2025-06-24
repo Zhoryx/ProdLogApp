@@ -32,7 +32,7 @@ namespace ProdLogApp.Presenters
         // Métodos para navegación
         private void OpenDailyReports() => NavigateTo(new ManagerProduction(_activeUser, _databaseService));
         private void OpenProductManagement() => NavigateTo(new ProductManagement(_activeUser, _databaseService)); 
-        private void OpenCategoryManagement() => NavigateTo(new CategoryManagement( _databaseService));
+        private void OpenCategoryManagement() => NavigateTo(new CategoryManagement(_activeUser, _databaseService));
         private void OpenPositionManagement() => NavigateTo(new PositionManagement(_activeUser, _databaseService));
         private void OpenUserManagement() => NavigateTo(new UserManagement(_activeUser, _databaseService));
 

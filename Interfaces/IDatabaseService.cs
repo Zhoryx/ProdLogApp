@@ -1,4 +1,4 @@
-﻿using Devart.Data.MySql;
+﻿using MySqlConnector;
 using ProdLogApp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,6 +23,7 @@ namespace ProdLogApp.Interfaces
         void ToggleProductState(int productoId, bool estado);
 
         //categories
+        void ToggleCategoryStatus(int CategoryId, bool estado);
         Task AgregarCategoria(Categoria categoria);
         Task ActualizarCategoria(Categoria categoria); 
         Task<List<Categoria>> CategoriesGet(bool soloActivas = false);

@@ -29,7 +29,7 @@ public class PromptCategoryPresenter
     {
         var resultado = _categorias.Where(c =>
             (string.IsNullOrEmpty(filtroNombre) || c.Nombre.Contains(filtroNombre, StringComparison.OrdinalIgnoreCase)) &&
-            (string.IsNullOrEmpty(filtroCodigo) || c.Id.ToString().StartsWith(filtroCodigo))
+            (string.IsNullOrEmpty(filtroCodigo) || c.CategoryId.ToString().StartsWith(filtroCodigo))
         ).ToList();
 
         _view.MostrarCategorias(resultado);

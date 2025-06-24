@@ -1,4 +1,5 @@
 ﻿using ProdLogApp.Interfaces;
+using ProdLogApp.Models;
 using ProdLogApp.Services;
 using ProdLogApp.Views;
 using System.Windows;
@@ -11,15 +12,17 @@ namespace ProdLogApp.Views
     {
         private readonly CategoryManagementPresenter _presenter;
         private readonly IDatabaseService _databaseService;
+        private readonly User _activeUser;
         public event Action OnAddCategory;
         public event Action OnModifyCategory;
         public event Action OnToggleCategoryStatus;
 
-        public CategoryManagement(IDatabaseService databaseService)
+        public CategoryManagement( User activeUser, IDatabaseService databaseService)
         {
             InitializeComponent();
             _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
-            _presenter = new CategoryManagementPresenter(this, _databaseService); // ✅ Ahora pasa ambos parámetros
+            _presenter = new CategoryManagementPresenter(_databaseService,this);
+            _activeUser = activeUser ?? throw new ArgumentNullException(nameof(activeUser));
         }
 
 
@@ -55,11 +58,17 @@ namespace ProdLogApp.Views
                 Console.WriteLine($"Categoría seleccionada: {categoriaSeleccionada.Nombre}");
             }
         }
+            public void NavigateToMenu()
+            {
+            ManagerMenu menu = new ManagerMenu(_activeUser);
+            menu.Show();
+            Close();
+            }
 
         private void ToggleCategoryStatus_Click(object sender, RoutedEventArgs e) => OnToggleCategoryStatus?.Invoke();
 
         private void AddCategory_Click(object sender, RoutedEventArgs e) => OnAddCategory?.Invoke();
         private void ModifyCategory_Click(object sender, RoutedEventArgs e) => OnModifyCategory?.Invoke();
-        private void ReturnToMenu_Click(object sender, RoutedEventArgs e) => Close();
+        private void ReturnToMenu_Click(object sender, RoutedEventArgs e) => NavigateToMenu();
     }
 }

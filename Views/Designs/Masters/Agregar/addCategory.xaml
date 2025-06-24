@@ -38,7 +38,7 @@
 
         <!-- Botones Confirmar y Cancelar -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
-                    Grid.Row="1" Margin="0,78,0,-68" Grid.Column="1">
+                    Grid.Row="1" Margin="0,98,0,-88" Grid.Column="1">
             <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar" 
                     Margin="10" Click="Confirmar_Click"/>
             <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar" 

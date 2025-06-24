@@ -8,4 +8,5 @@
     Categoria ObtenerCategoriaSeleccionada();
     void AbrirVentanaAgregarCategoria();
     void AbrirVentanaModificarCategoria(Categoria categoria);
+
 }

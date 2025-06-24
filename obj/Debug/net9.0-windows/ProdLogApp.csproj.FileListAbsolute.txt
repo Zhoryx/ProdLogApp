@@ -62,6 +62,7 @@ C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdL
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\Microsoft.IdentityModel.Tokens.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\Microsoft.SqlServer.Server.dll
+C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\MySqlConnector.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.ClientModel.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.Configuration.ConfigurationManager.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.Data.SqlClient.dll

@@ -27,7 +27,7 @@ namespace ProdLogApp.Views.Designs.Prompts
 
         public void ObtenerSeleccion(out int categoriaId, out string descripcion)
         {
-            categoriaId = _categoriaSeleccionada?.Id ?? 0;
+            categoriaId = _categoriaSeleccionada?.CategoryId ?? 0;
             descripcion = _categoriaSeleccionada?.Nombre ?? "Sin selección";
         }
 

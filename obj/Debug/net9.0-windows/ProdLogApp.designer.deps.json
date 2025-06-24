@@ -421,6 +421,18 @@
           }
         }
       },
+      "MySqlConnector/2.4.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.4",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.4"
+        },
+        "runtime": {
+          "lib/net9.0/MySqlConnector.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.4.0.0"
+          }
+        }
+      },
       "runtime.native.System.Data.SqlClient.sni/4.4.0": {
         "dependencies": {
           "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
@@ -877,6 +889,13 @@
       "sha512": "sha512-+FWlwd//+Tt56316p00hVePBCouXyEzT86Jb3+AuRotTND0IYn0OO3obs1gnQEs/txEnt+rF2JBGLItTG+Be6A==",
       "path": "microsoft.win32.registry/4.5.0",
       "hashPath": "microsoft.win32.registry.4.5.0.nupkg.sha512"
+    },
+    "MySqlConnector/2.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-78M+gVOjbdZEDIyXQqcA7EYlCGS3tpbUELHvn6638A2w0pkPI625ixnzsa5staAd3N9/xFmPJtkKDYwsXpFi/w==",
+      "path": "mysqlconnector/2.4.0",
+      "hashPath": "mysqlconnector.2.4.0.nupkg.sha512"
     },
     "runtime.native.System.Data.SqlClient.sni/4.4.0": {
       "type": "package",

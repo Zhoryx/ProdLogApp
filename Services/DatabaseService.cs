@@ -1,11 +1,12 @@
-﻿using Devart.Data.MySql;
+﻿using MySqlConnector;
 using ProdLogApp.Models;
+using ProdLogApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
-using ProdLogApp.Interfaces;
+
 namespace ProdLogApp.Services
 {
     public class DatabaseService : IDatabaseService
@@ -16,9 +17,7 @@ namespace ProdLogApp.Services
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection(ConnectionString);
-                connection.Open();
-                return connection;
+                return new MySqlConnection(ConnectionString);
             }
             catch (Exception ex)
             {
@@ -30,7 +29,8 @@ namespace ProdLogApp.Services
         {
             using (var connection = GetConnection())
             {
-                return connection != null;
+                connection.Open();
+                return connection.State == ConnectionState.Open;
             }
         }
 
@@ -64,7 +64,7 @@ namespace ProdLogApp.Services
                         partId);
                 }
 
-                query.Length--;
+                query.Length--; // quitar última coma
 
                 using (var command = new MySqlCommand(query.ToString(), connection))
                 {
@@ -124,42 +124,32 @@ namespace ProdLogApp.Services
         public async Task<List<Categoria>> CategoriesGet(bool soloActivas = false)
         {
             var categorias = new List<Categoria>();
-            try
+
+            using (var connection = GetConnection())
             {
+                await connection.OpenAsync();
 
+                string query = soloActivas
+                    ? "SELECT CategoriaId, CategoriaNombre, Activo FROM Categoria WHERE Activo = TRUE;"
+                    : "SELECT CategoriaId, CategoriaNombre, Activo FROM Categoria;";
 
-                using (var connection = GetConnection())
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    await connection.OpenAsync();
-
-
-                    string query = soloActivas
-                        ? "SELECT CategoriaId, CategoriaNombre FROM Categoria WHERE Activo = TRUE;"
-                        : "SELECT CategoriaId, CategoriaNombre FROM Categoria;";
-
-                    using (var command = new MySqlCommand(query, connection))
-                    using (var reader = await command.ExecuteReaderAsync())
+                    while (await reader.ReadAsync())
                     {
-                        while (await reader.ReadAsync())
+                        categorias.Add(new Categoria
                         {
-                            categorias.Add(new Categoria
-                            {
-                                Id = reader.GetInt32("CategoriaId"),
-                                Nombre = reader.GetString("CategoriaNombre")
-                            });
-                        }
+                            CategoryId = reader.GetInt32("CategoriaId"),
+                            Nombre = reader.GetString("CategoriaNombre"),
+                            Activo = reader.GetBoolean("Activo")
+                        });
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al obtener categorías: {ex.Message}");
-            }
+
             return categorias;
         }
-
-
-
 
         public List<Producto> ObtenerTodosLosProductos()
         {
@@ -169,10 +159,9 @@ namespace ProdLogApp.Services
             {
                 connection.Open();
                 string query = @"
-            SELECT p.ProductoId, p.ProductoNombre, p.CategoriaId, c.CategoriaNombre, p.Activo 
-            FROM Producto p
-            INNER JOIN Categoria c ON p.CategoriaId = c.CategoriaId;
-        ";
+                    SELECT p.ProductoId, p.ProductoNombre, p.CategoriaId, c.CategoriaNombre, p.Activo 
+                    FROM Producto p
+                    INNER JOIN Categoria c ON p.CategoriaId = c.CategoriaId;";
 
                 using (var command = new MySqlCommand(query, connection))
                 using (var reader = command.ExecuteReader())
@@ -193,7 +182,6 @@ namespace ProdLogApp.Services
 
             return productos;
         }
-
 
         public void ModificarProductoEnDB(Producto producto)
         {
@@ -218,12 +206,27 @@ namespace ProdLogApp.Services
             {
                 connection.Open();
                 string query = "UPDATE Producto SET Activo = @Estado WHERE ProductoId = @ProductoId;";
-                Console.WriteLine($"Cambiando estado del producto {productoId} a {estado}");
 
                 using (var command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Estado", !estado);
                     command.Parameters.AddWithValue("@ProductoId", productoId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void ToggleCategoryStatus(int CategoryId, bool estado)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Categoria SET Activo = @Estado WHERE CategoriaId = @CategoryId;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Estado", estado);
+                    command.Parameters.AddWithValue("@CategoryId", CategoryId);
                     command.ExecuteNonQuery();
                 }
             }
@@ -241,8 +244,6 @@ namespace ProdLogApp.Services
                     command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
                     await command.ExecuteNonQueryAsync();
                 }
-
-
             }
         }
 
@@ -256,11 +257,10 @@ namespace ProdLogApp.Services
                 using (var command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
-                    command.Parameters.AddWithValue("@Id", categoria.Id);
+                    command.Parameters.AddWithValue("@Id", categoria.CategoryId);
                     await command.ExecuteNonQueryAsync();
                 }
             }
         }
-
     }
 }
