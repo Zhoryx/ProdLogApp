@@ -1,35 +1,40 @@
-﻿using System;
-using System.Windows;
-using ProdLogApp.Models;
+﻿using ProdLogApp.Models;
 using ProdLogApp.Presenters;
-using ProdLogApp.Views.Interfaces;
+using ProdLogApp.Services;
+using ProdLogApp.Views;
+using ProdLogApp.Interfaces;
+using System;
+using System.Windows;
 
 namespace ProdLogApp.Views
 {
     public partial class UserManagement : Window, IUserManagementView
     {
-        private UserManagementPresenter _presenter;
+        private readonly UserManagementPresenter _presenter;
         private readonly User _activeUser;
-        public event Action OnAgregarUsuario;
-        public event Action OnEliminarUsuario;
-        public event Action OnModificarUsuario;
-        public event Action OnVolver;
+        private readonly IDatabaseService _databaseService;
+        public event Action OnAddUser;
+        public event Action OnDeleteUser;
+        public event Action OnModifyUser;
+        public event Action OnReturn;
 
-        public UserManagement(User activeUser)
+        public UserManagement(User activeUser, IDatabaseService databaseService)
         {
             InitializeComponent();
             _activeUser = activeUser;
+            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
+
             _presenter = new UserManagementPresenter(this);
         }
 
-        private void UsuarioAgregar(object sender, RoutedEventArgs e) => OnAgregarUsuario?.Invoke();
-        private void EliminarUsuario(object sender, RoutedEventArgs e) => OnEliminarUsuario?.Invoke();
-        private void ModificarUsuario(object sender, RoutedEventArgs e) => OnModificarUsuario?.Invoke();
-        private void Volver(object sender, RoutedEventArgs e) => OnVolver?.Invoke();
+        // Event handlers for user management actions
+        private void AddUser(object sender, RoutedEventArgs e) => OnAddUser?.Invoke();
+        private void DeleteUser(object sender, RoutedEventArgs e) => OnDeleteUser?.Invoke();
+        private void ModifyUser(object sender, RoutedEventArgs e) => OnModifyUser?.Invoke();
+        private void ReturnToMenu(object sender, RoutedEventArgs e) => OnReturn?.Invoke();
 
-        
-
-        public void NavegarAMenu()
+        // Method to navigate back to the main menu
+        public void NavigateToMenu()
         {
             ManagerMenu menu = new ManagerMenu(_activeUser);
             menu.Show();

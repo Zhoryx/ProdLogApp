@@ -13,7 +13,7 @@
         <!-- Referencia al archivo Styles.xaml -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Views/Style.xaml"/>
+                <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

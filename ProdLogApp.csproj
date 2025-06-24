@@ -16,6 +16,7 @@
     <PackageReference Include="Devart.Data.MySql" Version="9.4.235" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.0-preview1.25120.4" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
@@ -32,13 +33,13 @@
     <Compile Update="Views\Designs\Masters\Management\UserManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Management\GestionPuesto.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Management\PositionManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Management\GestionCategoria.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Management\CategoryManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\CategoriaAgregar.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\AddCategory.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Masters\Agregar\PuestoAgregar.xaml.cs">
@@ -47,13 +48,13 @@
     <Compile Update="Views\Designs\Masters\Agregar\UsuarioAgregar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\ProductoAgregar.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\Designs\Menus\ProduccionAgregarGerente.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Prompts\PromptOperario.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Designs\Prompts\PromptCategory.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -1,0 +1,70 @@
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using ProdLogApp.Models;
+using ProdLogApp.Services;
+using ProdLogApp.Interfaces;
+
+namespace ProdLogApp.Views.Designs.Prompts
+{
+    public partial class PromptCategory : Window, IPromptCategoryView
+    {
+        private readonly PromptCategoryPresenter _presenter;
+        private Categoria _categoriaSeleccionada;
+
+        public PromptCategory(IDatabaseService databaseService)
+        {
+            InitializeComponent();
+            _presenter = new PromptCategoryPresenter(this, databaseService);
+
+            SearchBox.TextChanged += (s, e) => _presenter.FiltrarCategorias(SearchBox.Text, SearchBoxID.Text);
+        }
+
+        public void MostrarCategorias(List<Categoria> categorias)
+        {
+            CategoryList.ItemsSource = categorias;
+        }
+
+        public void ObtenerSeleccion(out int categoriaId, out string descripcion)
+        {
+            categoriaId = _categoriaSeleccionada?.CategoryId ?? 0;
+            descripcion = _categoriaSeleccionada?.Nombre ?? "Sin selección";
+        }
+
+       
+
+        private void CategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CategoryList.SelectedItem is Categoria seleccion)
+            {
+                _categoriaSeleccionada = seleccion;
+                 
+            }
+        }
+
+
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            ObtenerSeleccion(out int id, out string descripcion);
+            DialogResult = true; 
+            Close();
+        }
+
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
+        }
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _presenter.FiltrarCategorias(SearchBox.Text, SearchBoxID.Text);
+        }
+
+        private void SearchBoxID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _presenter.FiltrarCategorias(SearchBox.Text, SearchBoxID.Text);
+        }
+
+    }
+}

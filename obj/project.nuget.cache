@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fIJvbgLSwGA=",
+  "dgSpecHash": "JgwmdOiRYgY=",
   "success": true,
   "projectFilePath": "C:\\Users\\engle\\OneDrive\\DS Itec\\Proyecto Programa Madersa\\Desarrollo\\Codes\\ProdLogApp\\ProdLogApp\\ProdLogApp.csproj",
   "expectedPackageFiles": [
@@ -30,6 +30,7 @@
     "C:\\Users\\engle\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
+    "C:\\Users\\engle\\.nuget\\packages\\mysqlconnector\\2.4.0\\mysqlconnector.2.4.0.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
@@ -53,5 +54,15 @@
     "C:\\Users\\engle\\.nuget\\packages\\system.text.json\\6.0.10\\system.text.json.6.0.10.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problema al leer el archivo de caché C:\\Users\\engle\\OneDrive\\DS Itec\\Proyecto Programa Madersa\\Desarrollo\\Codes\\ProdLogApp\\ProdLogApp\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "projectPath": "C:\\Users\\engle\\OneDrive\\DS Itec\\Proyecto Programa Madersa\\Desarrollo\\Codes\\ProdLogApp\\ProdLogApp\\ProdLogApp.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\engle\\OneDrive\\DS Itec\\Proyecto Programa Madersa\\Desarrollo\\Codes\\ProdLogApp\\ProdLogApp\\ProdLogApp.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

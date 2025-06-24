@@ -1,7 +1,11 @@
-﻿using System;
-using System.Text;
-using Devart.Data.MySql;
+﻿using MySqlConnector;
 using ProdLogApp.Models;
+using ProdLogApp.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ProdLogApp.Services
 {
@@ -13,30 +17,28 @@ namespace ProdLogApp.Services
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection(ConnectionString);
-                connection.Open();
-                return connection;
+                return new MySqlConnection(ConnectionString);
             }
             catch (Exception ex)
             {
                 throw new Exception($"Database connection failed: {ex.Message}");
             }
         }
-                         
+
         public bool TestConnection()
         {
             using (var connection = GetConnection())
             {
-                return connection != null;
+                connection.Open();
+                return connection.State == ConnectionState.Open;
             }
         }
 
-        public void SavePartProductions(List<Production> productionList, int userId)
+        public bool SavePartProductions(List<Production> productionList, int userId)
         {
             using (var connection = GetConnection())
             {
                 connection.Open();
-
 
                 string insertPartQuery = "INSERT INTO Parte (Parte_Fecha, Usuario_Id) VALUES (@Fecha, @UsuarioId); SELECT LAST_INSERT_ID();";
                 int partId;
@@ -47,7 +49,6 @@ namespace ProdLogApp.Services
                     command.Parameters.AddWithValue("@UsuarioId", userId);
                     partId = Convert.ToInt32(command.ExecuteScalar());
                 }
-
 
                 StringBuilder query = new StringBuilder();
                 query.Append("INSERT INTO Producciones (Produccion_HoraInicio, Produccion_HoraFin, Produccion_Cantidad, Producto_Id, Puesto_Id, Parte_Id) VALUES ");
@@ -63,12 +64,14 @@ namespace ProdLogApp.Services
                         partId);
                 }
 
-                query.Length--;
+                query.Length--; // quitar última coma
 
                 using (var command = new MySqlCommand(query.ToString(), connection))
                 {
                     command.ExecuteNonQuery();
                 }
+
+                return true;
             }
         }
 
@@ -76,35 +79,188 @@ namespace ProdLogApp.Services
         {
             List<Production> productions = new List<Production>();
 
-        //    using (var connection = GetConnection())
-        //    {
-        //        connection.Open();
-        //        string query = "SELECT * FROM Producciones WHERE DATE(Produccion_HoraInicio) = CURDATE();";
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "SELECT * FROM Producciones WHERE DATE(Produccion_HoraInicio) = CURDATE();";
 
-        //        using (var command = new MySqlCommand(query, connection))
-        //        using (var reader = command.ExecuteReader())
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                productions.Add(new Production
-        //                {
-        //                    ProductionId = reader.GetInt32("Produccion_Id"),
-        //                    HInicio = reader.GetTimeSpan("Produccion_HoraInicio"),
-        //                    HFin = reader.GetTimeSpan("Produccion_HoraFin"),
-        //                    Cantidad = reader.GetInt32("Produccion_Cantidad"),
-        //                    ProductoId = reader.GetInt32("Producto_Id"),
-        //                    PuestoId = reader.GetInt32("Puesto_Id")
-        //                });
-        //            }
-        //        }
-        //    }
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        productions.Add(new Production
+                        {
+                            ProductionId = reader.GetInt32("Produccion_Id"),
+                            HInicio = reader.GetTimeSpan("Produccion_HoraInicio"),
+                            HFin = reader.GetTimeSpan("Produccion_HoraFin"),
+                            Cantidad = reader.GetInt32("Produccion_Cantidad"),
+                            ProductoId = reader.GetInt32("Producto_Id"),
+                            PuestoId = reader.GetInt32("Puesto_Id")
+                        });
+                    }
+                }
+            }
 
-           return productions;
+            return productions;
         }
 
-        bool IDatabaseService.SavePartProductions(List<Production> productions, int userId)
+        public void AgregarProductoEnDB(Producto producto)
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "INSERT INTO Producto (ProductoNombre, CategoriaId) VALUES (@Nombre, @CategoriaId);";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", producto.Nombre);
+                    command.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public async Task<List<Categoria>> CategoriesGet(bool soloActivas = false)
+        {
+            var categorias = new List<Categoria>();
+
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+
+                string query = soloActivas
+                    ? "SELECT CategoriaId, CategoriaNombre, Activo FROM Categoria WHERE Activo = TRUE;"
+                    : "SELECT CategoriaId, CategoriaNombre, Activo FROM Categoria;";
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        categorias.Add(new Categoria
+                        {
+                            CategoryId = reader.GetInt32("CategoriaId"),
+                            Nombre = reader.GetString("CategoriaNombre"),
+                            Activo = reader.GetBoolean("Activo")
+                        });
+                    }
+                }
+            }
+
+            return categorias;
+        }
+
+        public List<Producto> ObtenerTodosLosProductos()
+        {
+            var productos = new List<Producto>();
+
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = @"
+                    SELECT p.ProductoId, p.ProductoNombre, p.CategoriaId, c.CategoriaNombre, p.Activo 
+                    FROM Producto p
+                    INNER JOIN Categoria c ON p.CategoriaId = c.CategoriaId;";
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        productos.Add(new Producto
+                        {
+                            Id = reader.GetInt32("ProductoId"),
+                            Nombre = reader.GetString("ProductoNombre"),
+                            CategoriaId = reader.GetInt32("CategoriaId"),
+                            CategoriaNombre = reader.GetString("CategoriaNombre"),
+                            Activo = reader.GetBoolean("Activo")
+                        });
+                    }
+                }
+            }
+
+            return productos;
+        }
+
+        public void ModificarProductoEnDB(Producto producto)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Producto SET ProductoNombre = @Nombre, CategoriaId = @CategoriaId WHERE ProductoId = @Id;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", producto.Nombre);
+                    command.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
+                    command.Parameters.AddWithValue("@Id", producto.Id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void ToggleProductState(int productoId, bool estado)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Producto SET Activo = @Estado WHERE ProductoId = @ProductoId;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Estado", !estado);
+                    command.Parameters.AddWithValue("@ProductoId", productoId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void ToggleCategoryStatus(int CategoryId, bool estado)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Categoria SET Activo = @Estado WHERE CategoriaId = @CategoryId;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Estado", estado);
+                    command.Parameters.AddWithValue("@CategoryId", CategoryId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public async Task AgregarCategoria(Categoria categoria)
+        {
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+                string query = "INSERT INTO Categoria (CategoriaNombre) VALUES (@Nombre);";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        public async Task ActualizarCategoria(Categoria categoria)
+        {
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+                string query = "UPDATE Categoria SET CategoriaNombre = @Nombre WHERE CategoriaId = @Id;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                    command.Parameters.AddWithValue("@Id", categoria.CategoryId);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
         }
     }
 }

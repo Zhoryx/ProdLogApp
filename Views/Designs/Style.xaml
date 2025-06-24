@@ -109,17 +109,23 @@
         <Setter Property="BorderBrush" Value="#0864ac"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Foreground" Value="#333333"/>
+        <!-- Agrega un MinHeight para asegurar que el TextBox tenga suficiente espacio -->
+        <Setter Property="MinHeight" Value="30"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="8" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                    <Border Background="{TemplateBinding Background}" 
+                CornerRadius="8" 
+                BorderThickness="{TemplateBinding BorderThickness}" 
+                BorderBrush="{TemplateBinding BorderBrush}"
+                MinHeight="{TemplateBinding MinHeight}">
                         <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
+   
 
     <Style x:Key="ShadowBorderStyle" TargetType="Border">
         <Setter Property="Effect">
@@ -146,14 +152,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <Border Background="{TemplateBinding Background}" 
-                        BorderBrush="{TemplateBinding BorderBrush}" 
-                        BorderThickness="{TemplateBinding BorderThickness}" 
-                        CornerRadius="12">
+                        <!-- Parte principal del ComboBox -->
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="12">
                             <DockPanel LastChildFill="True">
                                 <ContentPresenter Margin="6,0,0,0" VerticalAlignment="Center"/>
-
-                                <!-- Flecha correctamente alineada -->
+                                <!-- Botón de flecha -->
                                 <ToggleButton DockPanel.Dock="Right"
                                           Width="25" Height="25"
                                           Background="Transparent"
@@ -168,13 +174,28 @@
                                 </ToggleButton>
                             </DockPanel>
                         </Border>
+
+                        <!-- Popup que muestra la lista del ComboBox -->
+                        <Popup x:Name="PART_Popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                            <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12">
+                                <ScrollViewer MaxHeight="300" CanContentScroll="True">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
-
 
 
 
