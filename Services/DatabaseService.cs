@@ -143,6 +143,7 @@ namespace ProdLogApp.Services
                             CategoryId = reader.GetInt32("CategoriaId"),
                             Nombre = reader.GetString("CategoriaNombre"),
                             Activo = reader.GetBoolean("Activo")
+
                         });
                     }
                 }
@@ -262,5 +263,108 @@ namespace ProdLogApp.Services
                 }
             }
         }
+
+        public void AgregarPuesto(Position puesto)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "INSERT INTO Puesto (Nombre) VALUES (@Nombre);";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", puesto.Nombre);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void ActualizarPuesto(Position puesto)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Puesto SET Nombre = @Nombre WHERE PuestoId = @Id;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", puesto.Nombre);
+                    command.Parameters.AddWithValue("@Id", puesto.PuestoId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public List<Position> ObtenerTodosLosPuestos()
+        {
+            var puestos = new List<Position>();
+
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "SELECT PuestoId, Nombre, Activo FROM Puesto;";
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        puestos.Add(new Position
+                        {
+                            PuestoId = reader.GetInt32("PuestoId"),
+                            Nombre = reader.GetString("Nombre"),
+                            Activo = reader.GetBoolean("Activo")
+                        });
+                    }
+                }
+            }
+
+            return puestos;
+        }
+
+        public List<Position> ObtenerPuestosActivos()
+        {
+            var puestos = new List<Position>();
+
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "SELECT PuestoId, Nombre, Activo FROM Puesto WHERE Activo = TRUE;";
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        puestos.Add(new Position
+                        {
+                            PuestoId = reader.GetInt32("PuestoId"),
+                            Nombre = reader.GetString("Nombre"),
+                            Activo = reader.GetBoolean("Activo")
+                        });
+                    }
+                }
+            }
+
+            return puestos;
+        }
+        public void TogglePositionState(int puestoId, bool estado)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Puesto SET Activo = @NuevoEstado WHERE PuestoId = @Id;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@NuevoEstado", !estado);
+                    command.Parameters.AddWithValue("@Id", puestoId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
     }
 }

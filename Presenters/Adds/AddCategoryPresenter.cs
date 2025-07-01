@@ -24,7 +24,7 @@ namespace ProdLogApp.Presenters
             }
         }
 
-        // ✅ Método para agregar o modificar una categoría
+        
         public void GuardarCategoria(string nombre)
         {
             if (string.IsNullOrWhiteSpace(nombre))

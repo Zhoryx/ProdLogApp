@@ -70,7 +70,7 @@ namespace ProdLogApp.Views
                 return;
             }
 
-            if (_producto == null) // ✅ Si no hay producto, es una creación nueva
+            if (_producto == null) 
             {
                 Producto nuevoProducto = new Producto
                 {
@@ -80,7 +80,7 @@ namespace ProdLogApp.Views
 
                 _databaseService.AgregarProductoEnDB(nuevoProducto);
             }
-            else // ✅ Si estamos editando, modificar el producto existente
+            else 
             {
                 _producto.Nombre = NombreProducto.Text;
                 _producto.CategoriaId = _categoriaIdSeleccionada;

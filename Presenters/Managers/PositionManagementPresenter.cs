@@ -1,35 +1,66 @@
-﻿using System;
-using System.Windows;
-using ProdLogApp.Views;
-using ProdLogApp.Interfaces;
+﻿using ProdLogApp.Interfaces;
+using ProdLogApp.Models;
+using ProdLogApp.Services;
+using System;
 
 namespace ProdLogApp.Presenters
 {
     public class PositionManagementPresenter
     {
         private readonly IPositionManagementView _view;
+        private readonly IDatabaseService _databaseService;
 
-        public PositionManagementPresenter(IPositionManagementView view)
+        public PositionManagementPresenter(IPositionManagementView view, IDatabaseService databaseService)
         {
-            _view = view;
+            _view = view ?? throw new ArgumentNullException(nameof(view));
+            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
 
-            // Subscribe events from the view
-            _view.OnAddPosition += AddPosition;
-            _view.OnDeletePosition += DeletePosition;
-            _view.OnModifyPosition += ModifyPosition;
-            _view.OnReturn += ReturnToMenu;
+            // Suscribirse a eventos de la vista
+            _view.OnAddPosition += AgregarPuesto;
+            _view.OnModifyPosition += ModificarPuesto;
+            _view.OnReturn += () => _view.NavigateToMenu();
+            _view.OnDeletePosition += CambiarEstadoPuesto;
+
         }
 
-        // Handles adding a new position
-        private void AddPosition() => MessageBox.Show("Add position...");
+        public void AgregarPuesto()
+        {
+            _view.AbrirVentanaAgregar();
+            CargarPuestos(); // Recargar después de agregar
+        }
 
-        // Handles deleting a position
-        private void DeletePosition() => MessageBox.Show("Delete position...");
+        public void ModificarPuesto()
+        {
+            var puesto = _view.ObtenerPuestoSeleccionado();
+            if (puesto == null)
+            {
+                _view.MostrarMensaje("Seleccione un puesto para modificar.");
+                return;
+            }
 
-        // Handles modifying an existing position
-        private void ModifyPosition() => MessageBox.Show("Modify position...");
+            _view.AbrirVentanaModificar(puesto);
+            CargarPuestos(); // Recargar después de modificar
+        }
 
-        // Navigates back to the main menu
-        private void ReturnToMenu() => _view.NavigateToMenu();
+        public void CargarPuestos()
+        {
+            var puestos = _databaseService.ObtenerTodosLosPuestos();
+            _view.MostrarPuestos(puestos);
+        }
+
+        public void CambiarEstadoPuesto()
+        {
+            var puesto = _view.ObtenerPuestoSeleccionado();
+            if (puesto == null)
+            {
+                _view.MostrarMensaje("Seleccioná un puesto para cambiar su estado.");
+                return;
+            }
+
+            _databaseService.TogglePositionState(puesto.PuestoId, puesto.Activo);
+            _view.MostrarMensaje(puesto.Activo ? "Puesto desactivado correctamente." : "Puesto activado correctamente.");
+            CargarPuestos();
+        }
+
     }
 }

@@ -37,14 +37,24 @@
 
         <!-- Lista de categorías -->
         <Border Style="{StaticResource ShadowBorderStyle}" Padding="10" Margin="303,0,0,70" HorizontalAlignment="Left" Width="530">
-            <ListView x:Name="CategoryList" Height="320" SelectionMode="Single" SelectionChanged="CategoryList_SelectionChanged">
+            <ListView x:Name="CategoryList" Height="320" SelectionMode="Single" SelectionChanged="CategoryList_SelectionChanged" Margin="0,17,21,17">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Codigo" DisplayMemberBinding="{Binding Id}" Width="80"/>
-                        <GridViewColumn Header="Nombre de Categoría" DisplayMemberBinding="{Binding Nombre}" Width="400"/>
+                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding CategoryId}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Código" Click="GridViewColumnHeader_Click" Tag="CategoryId"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="400" DisplayMemberBinding="{Binding Nombre}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Nombre de Categoría" Click="GridViewColumnHeader_Click" Tag="Nombre"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
+
         </Border>
 
         <!-- Botones de acción -->

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
+﻿using ProdLogApp.Interfaces;
 using ProdLogApp.Models;
 using ProdLogApp.Services;
-using ProdLogApp.Interfaces;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ProdLogApp.Views.Designs.Prompts
 {
@@ -11,7 +13,8 @@ namespace ProdLogApp.Views.Designs.Prompts
     {
         private readonly PromptCategoryPresenter _presenter;
         private Categoria _categoriaSeleccionada;
-
+        private GridViewColumnHeader _lastHeaderClicked = null;
+        private ListSortDirection _lastDirection = ListSortDirection.Ascending;
         public PromptCategory(IDatabaseService databaseService)
         {
             InitializeComponent();
@@ -66,5 +69,39 @@ namespace ProdLogApp.Views.Designs.Prompts
             _presenter.FiltrarCategorias(SearchBox.Text, SearchBoxID.Text);
         }
 
+
+        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            var headerClicked = sender as GridViewColumnHeader;
+            var sortBy = headerClicked?.Tag?.ToString();
+            if (string.IsNullOrEmpty(sortBy)) return;
+
+            ListSortDirection direction;
+
+            if (headerClicked != _lastHeaderClicked)
+            {
+                direction = ListSortDirection.Ascending;
+            }
+            else
+            {
+                direction = _lastDirection == ListSortDirection.Ascending
+                    ? ListSortDirection.Descending
+                    : ListSortDirection.Ascending;
+            }
+
+            Sort(sortBy, direction);
+            _lastHeaderClicked = headerClicked;
+            _lastDirection = direction;
+        }
+
+        private void Sort(string sortBy, ListSortDirection direction)
+        {
+            ICollectionView dataView = CollectionViewSource.GetDefaultView(CategoryList.ItemsSource);
+            if (dataView == null) return;
+
+            dataView.SortDescriptions.Clear();
+            dataView.SortDescriptions.Add(new SortDescription(sortBy, direction));
+            dataView.Refresh();
+        }
     }
 }
