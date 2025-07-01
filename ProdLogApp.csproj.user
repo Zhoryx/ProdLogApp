@@ -20,7 +20,7 @@
     <Compile Update="Views\Designs\Prompts\PasswordRequest.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Menus\ProductionForm.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\ProductionForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Prompts\PromptProduct.xaml.cs">

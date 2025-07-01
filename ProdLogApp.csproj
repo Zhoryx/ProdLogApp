@@ -27,28 +27,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Designs\Masters\Management\ProductManagement.xaml.cs">
+    <Compile Update="Views\Designs\Management\ProductManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Management\UserManagement.xaml.cs">
+    <Compile Update="Views\Designs\Management\UserManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Management\PositionManagement.xaml.cs">
+    <Compile Update="Views\Designs\Management\PositionManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Management\CategoryManagement.xaml.cs">
+    <Compile Update="Views\Designs\Management\CategoryManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Masters\Agregar\AddCategory.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\PuestoAgregar.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\PositionAdd.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Masters\Agregar\UsuarioAgregar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Menus\ProduccionAgregarGerente.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\ProduccionAgregarGerente.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Prompts\PromptOperario.xaml.cs">

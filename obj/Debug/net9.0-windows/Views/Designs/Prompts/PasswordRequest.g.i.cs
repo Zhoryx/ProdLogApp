@@ -61,7 +61,7 @@ namespace ProdLogApp.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ProdLogApp;component/views/designs/prompts/passwordrequest.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ProdLogApp;V1.0.0.0;component/views/designs/prompts/passwordrequest.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Views\Designs\Prompts\PasswordRequest.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

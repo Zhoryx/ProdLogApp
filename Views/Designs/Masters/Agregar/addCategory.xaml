@@ -32,13 +32,13 @@
         <!-- Nombre Categoría -->
         <Label Content="Nombre Categoría" FontSize="14" Foreground="#FFFFFF" 
                VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" 
-               Margin="18,38,418,0" Grid.ColumnSpan="2"/>
+               Margin="55,38,360,0" Grid.ColumnSpan="2"/>
         <TextBox x:Name="NombreCategoriaTextBox" Style="{StaticResource ModernTextBoxStyle}" 
-                 Width="300" Height="30" Grid.Row="1" Grid.Column="1" Margin="164,37,96,8"/>
+                 Width="280" Height="37" Grid.Row="1" Grid.Column="1" Margin="200,37,60,8"/>
 
         <!-- Botones Confirmar y Cancelar -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
-                    Grid.Row="1" Margin="0,98,0,-88" Grid.Column="1">
+                    Grid.Row="1" Margin="0,78,0,-68" Grid.Column="1">
             <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar" 
                     Margin="10" Click="Confirmar_Click"/>
             <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar" 

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProdLogApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+915b1f2ec5517c9b9e59779aa5af943dfa1ade32")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1b9dd20a95315e29c705d1be1f33cc8af8991943")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProdLogApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProdLogApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

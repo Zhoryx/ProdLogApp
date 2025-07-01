@@ -28,6 +28,15 @@ namespace ProdLogApp.Interfaces
         Task ActualizarCategoria(Categoria categoria); 
         Task<List<Categoria>> CategoriesGet(bool soloActivas = false);
 
+        //Puestos
+        void TogglePositionState(int puestoId, bool estado);
+        void AgregarPuesto(Position puesto);
+        void ActualizarPuesto(Position puesto);
+        List<Position> ObtenerTodosLosPuestos();
+        List<Position> ObtenerPuestosActivos();
+
+
+
 
     }
 

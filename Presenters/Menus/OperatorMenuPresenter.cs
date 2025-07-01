@@ -9,6 +9,7 @@ namespace ProdLogApp.Presenters
     public class OperatorMenuPresenter
     {
         private readonly IOperatorMenuView _view;
+        private readonly User _activeuser = UserSession.GetInstance().ActiveUser;
         private readonly IDatabaseService _databaseService;
         private List<Production> _productionList = new List<Production>();
 
@@ -34,7 +35,7 @@ namespace ProdLogApp.Presenters
         // Opens the production form to add or modify production details
         public void OpenProductionForm(List<Production> productionList, int productionIndex)
         {
-            var productionWindow = new ProductionForm(productionList, productionIndex);
+            var productionWindow = new ProductionForm(productionList, productionIndex, _activeuser,_databaseService);
             if (productionWindow.ShowDialog() == true)
             {
                 _view.UpdateProductionList(_productionList);
