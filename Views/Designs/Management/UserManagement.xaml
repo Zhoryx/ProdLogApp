@@ -39,24 +39,44 @@
 
         <!-- Left-side grid displaying user data -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="Users">
+            <ListView x:Name="Users_list" SelectionMode="Single" SelectionChanged="Users_list_SelectionChanged">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="Auto" Header="Nombre" DisplayMemberBinding="{Binding Nombre}" />
-                        <GridViewColumn Width="Auto" Header="DNI" DisplayMemberBinding="{Binding DNI}" />
-                        <GridViewColumn Width="Auto" Header="Cargo" DisplayMemberBinding="{Binding Cargo}" />
-                        <GridViewColumn Width="Auto" Header="Fecha Ingreso" DisplayMemberBinding="{Binding FIngreso}" />
+                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Name}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Nombre" Click="GridViewColumnHeader_Click" Tag="Nombre"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Dni}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="DNI" Click="GridViewColumnHeader_Click" Tag="DNI"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding ManagementStatus}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Es Gerente" Click="GridViewColumnHeader_Click" Tag="Gerente"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding FIngreso}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Fecha Ingreso" Click="GridViewColumnHeader_Click" Tag="FIngreso"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
+
         </Border>
 
         <!-- CRUD Buttons -->
         <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="6,195,14,0" Height="405">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AddUser"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250" Click="DeleteUser"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="ModifyUser"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Margin="10" Click="ReturnToMenu"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AddUser_Click"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="ModifyUser_Click"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Activar/Desactivar" Margin="0,5,0,50" Height="50" Width="250" Click="ToggleUserStatus_Click"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Margin="10" Click="ReturnToMenu_Click"/>
         </StackPanel>
     </Grid>
 </Window>

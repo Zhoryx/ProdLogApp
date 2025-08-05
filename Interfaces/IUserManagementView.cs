@@ -1,22 +1,21 @@
-﻿using System;
+﻿using ProdLogApp.Models;
+using System;
 
 namespace ProdLogApp.Interfaces
 {
     public interface IUserManagementView
     {
-        // Event triggered when the "Add User" action is requested
         event Action OnAddUser;
-
-        // Event triggered when the "Delete User" action is requested
-        event Action OnDeleteUser;
-
-        // Event triggered when the "Modify User" action is requested
         event Action OnModifyUser;
+        event Action OnToggleUserStatus;
 
-        // Event triggered when returning to the previous menu
-        event Action OnReturn;
+        void ShowUsers(List<User> Users);
+        User SelectedUser();
+        bool NewUser();
+        void ModifyUser(User user);
 
-        // Method to navigate back to the main menu
+        void ShowMessage(string msg);
+
         void NavigateToMenu();
     }
 }

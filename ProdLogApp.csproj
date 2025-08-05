@@ -45,7 +45,7 @@
     <Compile Update="Views\Designs\Masters\Agregar\PositionAdd.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\UsuarioAgregar.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\AddUser.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Masters\Agregar\ProduccionAgregarGerente.xaml.cs">

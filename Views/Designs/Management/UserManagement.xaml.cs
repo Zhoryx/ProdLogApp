@@ -1,10 +1,13 @@
-﻿using ProdLogApp.Models;
+﻿using ProdLogApp.Interfaces;
+using ProdLogApp.Models;
 using ProdLogApp.Presenters;
 using ProdLogApp.Services;
 using ProdLogApp.Views;
-using ProdLogApp.Interfaces;
 using System;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ProdLogApp.Views
 {
@@ -14,9 +17,14 @@ namespace ProdLogApp.Views
         private readonly User _activeUser;
         private readonly IDatabaseService _databaseService;
         public event Action OnAddUser;
-        public event Action OnDeleteUser;
+        public event Action OnToggleUserStatus;
         public event Action OnModifyUser;
         public event Action OnReturn;
+        private GridViewColumnHeader _lastHeaderClicked = null;
+        private ListSortDirection _lastDirection = ListSortDirection.Ascending;
+
+        
+
 
         public UserManagement(User activeUser, IDatabaseService databaseService)
         {
@@ -24,14 +32,45 @@ namespace ProdLogApp.Views
             _activeUser = activeUser;
             _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
 
-            _presenter = new UserManagementPresenter(this);
+            _presenter = new UserManagementPresenter(_databaseService,this);
         }
 
-        // Event handlers for user management actions
-        private void AddUser(object sender, RoutedEventArgs e) => OnAddUser?.Invoke();
-        private void DeleteUser(object sender, RoutedEventArgs e) => OnDeleteUser?.Invoke();
-        private void ModifyUser(object sender, RoutedEventArgs e) => OnModifyUser?.Invoke();
-        private void ReturnToMenu(object sender, RoutedEventArgs e) => OnReturn?.Invoke();
+        public void ShowMessage(string msg)
+        {
+            MessageBox.Show(msg, "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void ShowUsers(List<User> users)
+        {
+            Users_list.ItemsSource = users ?? new List<User>();
+        }
+
+        public User SelectedUser()
+        {
+            return Users_list.SelectedItem as User;
+        }
+
+        public bool NewUser()
+        {
+            AddUser addWindow = new AddUser(_databaseService);
+            return addWindow.ShowDialog() == true;
+        }
+
+        public void ModifyUser(User user)
+        {
+            AddUser modifyWindow = new AddUser(_databaseService, user);
+            modifyWindow.ShowDialog();
+        }
+
+        private void Users_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected_user = Users_list.SelectedItem as User;
+            if (selected_user != null)
+            {
+                Console.WriteLine($"Usuario seleccionado: {selected_user.Name}");
+            }
+        }
+
 
         // Method to navigate back to the main menu
         public void NavigateToMenu()
@@ -40,5 +79,51 @@ namespace ProdLogApp.Views
             menu.Show();
             this.Close();
         }
+
+        private void Sort(string sortBy, ListSortDirection direction)
+        {
+            ICollectionView dataView = CollectionViewSource.GetDefaultView(Users_list.ItemsSource);
+            if (dataView == null) return;
+
+            dataView.SortDescriptions.Clear();
+            dataView.SortDescriptions.Add(new SortDescription(sortBy, direction));
+            dataView.Refresh();
+        }
+
+        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            var headerClicked = sender as GridViewColumnHeader;
+            var sortBy = headerClicked?.Tag?.ToString();
+            if (string.IsNullOrEmpty(sortBy)) return;
+
+            ListSortDirection direction;
+
+            if (headerClicked != _lastHeaderClicked)
+            {
+                direction = ListSortDirection.Ascending;
+            }
+            else
+            {
+                direction = _lastDirection == ListSortDirection.Ascending
+                    ? ListSortDirection.Descending
+                    : ListSortDirection.Ascending;
+            }
+
+            Sort(sortBy, direction);
+            _lastHeaderClicked = headerClicked;
+            _lastDirection = direction;
+        }
+
+        
+        private void ReturnToMenu_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateToMenu();
+        }
+
+        private void ToggleUserStatus_Click(object sender, RoutedEventArgs e) => OnToggleUserStatus?.Invoke();
+        private void AddUser_Click(object sender, RoutedEventArgs e) => OnAddUser?.Invoke();
+        private void ModifyUser_Click(object sender, RoutedEventArgs e) => OnModifyUser?.Invoke();
+        
     }
 }
+

@@ -52,7 +52,7 @@ namespace ProdLogApp.Views
             _presenter.GuardarCategoria(nombreCategoria);
         }
 
-        // ✅ Botón para cancelar sin cambios
+     
         private void Cancelar_Click(object sender, RoutedEventArgs e)
         {
             CerrarVentana();

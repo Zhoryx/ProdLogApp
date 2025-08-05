@@ -60,7 +60,7 @@
         <!-- Botones de acción -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
             <Button x:Name="ConfirmButton" Content="Confirmar" Style="{StaticResource ConfirmButtonStyle}" Width="150" Margin="10" Click="ConfirmButton_Click"/>
-            <Button x:Name="CancelButton" Content="Cancelar" Style="{StaticResource CancelButtonStyle}" Width="150"/>
+            <Button x:Name="CancelButton" Content="Cancelar" Style="{StaticResource CancelButtonStyle}" Width="150" Click="CancelButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

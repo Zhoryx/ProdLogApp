@@ -39,7 +39,7 @@ namespace ProdLogApp.Presenters
             }
 
             _view.AbrirVentanaModificar(puesto);
-            CargarPuestos(); // Recargar después de modificar
+            CargarPuestos();
         }
 
         public void CargarPuestos()
@@ -58,7 +58,7 @@ namespace ProdLogApp.Presenters
             }
 
             _databaseService.TogglePositionState(puesto.PuestoId, puesto.Activo);
-            _view.MostrarMensaje(puesto.Activo ? "Puesto desactivado correctamente." : "Puesto activado correctamente.");
+            _view.MostrarMensaje(puesto.Activo ? "Puesto activado correctamente." : "Puesto desactivado correctamente.");
             CargarPuestos();
         }
 

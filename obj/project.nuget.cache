@@ -54,15 +54,5 @@
     "C:\\Users\\engle\\.nuget\\packages\\system.text.json\\6.0.10\\system.text.json.6.0.10.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "message": "Problema al leer el archivo de caché C:\\Users\\engle\\OneDrive\\DS Itec\\Proyecto Programa Madersa\\Desarrollo\\Codes\\ProdLogApp\\ProdLogApp\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
-      "projectPath": "C:\\Users\\engle\\OneDrive\\DS Itec\\Proyecto Programa Madersa\\Desarrollo\\Codes\\ProdLogApp\\ProdLogApp\\ProdLogApp.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\engle\\OneDrive\\DS Itec\\Proyecto Programa Madersa\\Desarrollo\\Codes\\ProdLogApp\\ProdLogApp\\ProdLogApp.csproj",
-      "targetGraphs": []
-    }
-  ]
+  "logs": []
 }

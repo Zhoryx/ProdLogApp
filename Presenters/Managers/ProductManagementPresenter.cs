@@ -63,8 +63,8 @@ namespace ProdLogApp.Presenters
             _databaseService.ToggleProductState(productoSeleccionado.Id, productoSeleccionado.Activo); 
             CargarProductos();
 
-            string mensaje = productoSeleccionado.Activo ? "Producto desactivado correctamente." : "Producto activado correctamente.";
-            _view.MostrarMensaje(mensaje);
+            _view.MostrarMensaje(productoSeleccionado.Activo ? "Puesto activado correctamente." : "Puesto desactivado correctamente.");
+            
         }
 
 

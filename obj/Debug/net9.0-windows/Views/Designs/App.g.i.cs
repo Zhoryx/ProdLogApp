@@ -58,7 +58,7 @@ namespace ProdLogApp {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ProdLogApp;V1.0.0.0;component/views/designs/app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ProdLogApp;component/views/designs/app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Views\Designs\App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

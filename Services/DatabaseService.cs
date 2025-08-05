@@ -74,7 +74,7 @@ namespace ProdLogApp.Services
                 return true;
             }
         }
-
+        //productos
         public List<Production> GetDailyProductions()
         {
             List<Production> productions = new List<Production>();
@@ -104,7 +104,6 @@ namespace ProdLogApp.Services
 
             return productions;
         }
-
         public void AgregarProductoEnDB(Producto producto)
         {
             using (var connection = GetConnection())
@@ -119,37 +118,6 @@ namespace ProdLogApp.Services
                     command.ExecuteNonQuery();
                 }
             }
-        }
-
-        public async Task<List<Categoria>> CategoriesGet(bool soloActivas = false)
-        {
-            var categorias = new List<Categoria>();
-
-            using (var connection = GetConnection())
-            {
-                await connection.OpenAsync();
-
-                string query = soloActivas
-                    ? "SELECT CategoriaId, CategoriaNombre, Activo FROM Categoria WHERE Activo = TRUE;"
-                    : "SELECT CategoriaId, CategoriaNombre, Activo FROM Categoria;";
-
-                using (var command = new MySqlCommand(query, connection))
-                using (var reader = await command.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        categorias.Add(new Categoria
-                        {
-                            CategoryId = reader.GetInt32("CategoriaId"),
-                            Nombre = reader.GetString("CategoriaNombre"),
-                            Activo = reader.GetBoolean("Activo")
-
-                        });
-                    }
-                }
-            }
-
-            return categorias;
         }
 
         public List<Producto> ObtenerTodosLosProductos()
@@ -217,6 +185,41 @@ namespace ProdLogApp.Services
             }
         }
 
+
+
+        //Categorias
+        public async Task<List<Categoria>> CategoriesGet(bool soloActivas = false)
+        {
+            var categorias = new List<Categoria>();
+
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+
+                string query = soloActivas
+                    ? "SELECT CategoriaId, CategoriaNombre, Activo FROM Categoria WHERE Activo = TRUE;"
+                    : "SELECT CategoriaId, CategoriaNombre, Activo FROM Categoria;";
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        categorias.Add(new Categoria
+                        {
+                            CategoryId = reader.GetInt32("CategoriaId"),
+                            Nombre = reader.GetString("CategoriaNombre"),
+                            Activo = reader.GetBoolean("Activo")
+
+                        });
+                    }
+                }
+            }
+
+            return categorias;
+        }
+
+
         public void ToggleCategoryStatus(int CategoryId, bool estado)
         {
             using (var connection = GetConnection())
@@ -263,7 +266,7 @@ namespace ProdLogApp.Services
                 }
             }
         }
-
+        //Puesto
         public void AgregarPuesto(Position puesto)
         {
             using (var connection = GetConnection())
@@ -364,7 +367,46 @@ namespace ProdLogApp.Services
             }
         }
 
+        //Usuarios
+
+        public async Task<List<User>> UsersGet(bool soloActivas = false)
+        {
+            var users = new List<User>();
+
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+
+                string query = "SELECT UsId, UsNombre, UsDNI, UsGerente, UsFechaIngreso, UsActivo FROM Usuario";
+                if (soloActivas)
+                    query += " WHERE UsActivo = TRUE;";
 
 
+
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        users.Add(new User
+                        {
+                            Id = reader.GetInt32("UsId"),
+                            Name = reader.GetString("UsNombre"),   
+                            Dni = reader.GetString("UsDNI"),      
+                            IsAdmin = reader.GetBoolean("UsGerente"),
+                            Fingreso = reader.GetDateOnly("UsFechaIngreso"),
+                            Active = reader.GetBoolean("UsActivo")
+                        });
+
+                    }
+                }
+            }
+
+            return users;
+        }
+        public async Task AddUser(User user) { }
+
+        public async Task UpdateUser(User user) { }
+        
     }
 }

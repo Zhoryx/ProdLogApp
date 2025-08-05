@@ -7,10 +7,17 @@ namespace ProdLogApp.Models
 {
     public class User
     {
-        public string Dni { get; set; }
-        private string Password { get; set; }
-        public bool IsAdmin { get; set; }
         public int Id { get; set; }
+        public string Name { get; set; }
+        public string Dni { get; set; }
+        public bool IsAdmin { get; set; }
+        public DateOnly Fingreso { get; set; }
+        public bool Active { get; set; }
+        private string Password { get; set; }
+
+        
+        public string ManagementStatus => IsAdmin ? "Sí" : "No";
+        public string FIngreso => Fingreso.ToString("dd/MM/yyyy");
 
         public static User GetByDni(string dni)
         {
@@ -21,7 +28,7 @@ namespace ProdLogApp.Models
                 DatabaseService dbService = new DatabaseService();
                 using (var connection = dbService.GetConnection())
                 {
-                    connection.Open(); // ✅ IMPORTANTE: abrir conexión manualmente
+                    connection.Open(); 
 
                     string query = "SELECT UsDNI, UsGerente, UsPass, UsId FROM Usuario WHERE UsDNI = @dni";
 

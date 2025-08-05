@@ -29,8 +29,10 @@ namespace ProdLogApp.Views
             _activeUser = activeUser ?? throw new ArgumentNullException(nameof(activeUser));
         }
 
-
-
+        public void MostrarMensaje(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
 
         public void MostrarCategorias(List<Categoria> categorias)
         {

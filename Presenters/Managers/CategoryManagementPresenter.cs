@@ -31,7 +31,11 @@ public class CategoryManagementPresenter
     private void ModifyCategory()
     {
         Categoria categoriaSeleccionada = _view.ObtenerCategoriaSeleccionada();
-        if (categoriaSeleccionada == null) return;
+        if (categoriaSeleccionada == null)
+        {
+            _view.MostrarMensaje("Seleccione una categoría para modificar.");
+            return;
+        }
 
         _view.AbrirVentanaModificarCategoria(categoriaSeleccionada);
         CategoriesGet();
@@ -43,11 +47,13 @@ public class CategoryManagementPresenter
 
         if (categoriaSeleccionada == null)
         {
+            _view.MostrarMensaje("Seleccione una categoría para cambiar su estado.");
             return;
         }
 
         categoriaSeleccionada.Activo = !categoriaSeleccionada.Activo;
         _databaseService.ToggleCategoryStatus(categoriaSeleccionada.CategoryId, categoriaSeleccionada.Activo);
+        _view.MostrarMensaje(categoriaSeleccionada.Activo ? "Puesto desactivado correctamente." : "Puesto activado correctamente.");
 
         CategoriesGet(); 
     }

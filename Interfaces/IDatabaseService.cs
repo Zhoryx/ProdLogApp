@@ -35,7 +35,10 @@ namespace ProdLogApp.Interfaces
         List<Position> ObtenerTodosLosPuestos();
         List<Position> ObtenerPuestosActivos();
 
-
+        //Users
+        Task<List<User>> UsersGet(bool soloActivos = false);
+        Task AddUser(User user);
+        Task UpdateUser(User user);
 
 
     }
