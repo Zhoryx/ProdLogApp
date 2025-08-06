@@ -1,5 +1,6 @@
 ﻿using ProdLogApp.Interfaces;
 using ProdLogApp.Models;
+using ProdLogApp.Services;
 using ProdLogApp.Views.Designs.Prompts;
 using System;
 using System.Windows;
@@ -39,8 +40,21 @@ namespace ProdLogApp.Views
 
         private void SeleccionarProducto_Click(object sender, RoutedEventArgs e)
         {
-            PromptProduct ventanaProducto = new PromptProduct(_activeUser, _databaseService); // 🔹 Crear instancia
-            ventanaProducto.ShowDialog(); // 🔹 Abrir como ventana modal
+
+
+            var prompt = new PromptProduct( _activeUser, _databaseService);
+            bool? resultado = prompt.ShowDialog();
+
+            if (resultado == true)
+            {
+                var producto = prompt.ObtenerProductoSeleccionado();
+                ProductoTextBox.Text = producto.Nombre;
+            }
+            else
+            {
+                // El usuario canceló
+            }
+
         }
 
     }

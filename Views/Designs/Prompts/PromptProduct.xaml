@@ -23,12 +23,27 @@
     <Grid Margin="20">
         <!-- Filtros -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,0,0,10">
+
+            <Label Content="Buscar por Código:" FontSize="14" Foreground="White"/>
+            <TextBox x:Name="SearchBoxID" Width="250" Height="40" Style="{StaticResource ModernTextBoxStyle}" 
+                TextChanged="SearchBox_TextChanged"
+            />
+
             <Label Content="Buscar por nombre:" FontSize="14" Foreground="White" Margin="0,0,0,5"/>
             <TextBox x:Name="NombreTextBox"
                      Width="250"
                      Height="40"
                      Style="{StaticResource ModernTextBoxStyle}"
-                     Margin="0,0,0,10" />
+                     Margin="0,0,0,10" 
+                     TextChanged="SearchBox_TextChanged"
+            />
+            <Label Content="Buscar por Categoria:" FontSize="14" Foreground="White" Margin="0,0,0,5"/>
+            <TextBox x:Name="CategoriaTextBox"
+                Width="250"
+                Height="40"
+                Style="{StaticResource ModernTextBoxStyle}" 
+                TextChanged="SearchBox_TextChanged"
+            />
         </StackPanel>
 
         <!-- Lista de productos -->
@@ -40,13 +55,20 @@
             <ListView x:Name="ProductList">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding Nombre}">
+
+                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Id}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Nombre" Click="GridViewColumnHeader_Click" Tag="Nombre"/>
+                                <GridViewColumnHeader Content="Codigo" Click="GridViewColumnHeader_Click" Tag="Codigo"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding CategoriaNombre}">
+                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Nombre}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Producto" Click="GridViewColumnHeader_Click" Tag="Nombre"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding CategoriaNombre}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Content="Categoría" Click="GridViewColumnHeader_Click" Tag="CategoriaNombre"/>
                             </GridViewColumn.Header>
@@ -62,14 +84,18 @@
                     VerticalAlignment="Bottom"
                     Margin="0,0,0,20">
             <Button x:Name="ConfirmButton"
-                    Content="Confirmar"
-                    Style="{StaticResource ConfirmButtonStyle}"
-                    Width="120"/>
+        Content="Confirmar"
+        Style="{StaticResource ConfirmButtonStyle}"
+        Width="120"
+        Click="ConfirmButton_Click"/>
+
             <Button x:Name="CancelButton"
-                    Content="Cancelar"
-                    Style="{StaticResource CancelButtonStyle}"
-                    Width="120"
-                    Margin="10,0,0,0"/>
+        Content="Cancelar"
+        Style="{StaticResource CancelButtonStyle}"
+        Width="120"
+        Margin="10,0,0,0"
+        Click="CancelButton_Click"/>
+
         </StackPanel>
     </Grid>
 </Window>

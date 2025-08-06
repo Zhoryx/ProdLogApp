@@ -5,7 +5,6 @@ using ProdLogApp.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,7 +16,6 @@ namespace ProdLogApp.Views.Designs.Prompts
         private readonly PromptProductPresenter _presenter;
         private readonly User _activeUser;
         private readonly IDatabaseService _databaseService;
-        private List<Producto> _todosLosProductos;
         private GridViewColumnHeader _lastHeaderClicked = null;
         private ListSortDirection _lastDirection = ListSortDirection.Ascending;
 
@@ -30,17 +28,16 @@ namespace ProdLogApp.Views.Designs.Prompts
             _presenter = new PromptProductPresenter(this, _databaseService);
 
             _presenter.CargarProductos();
-            _presenter.CargarCategorias();
 
             // Hook de eventos para el filtrado en vivo
-            NombreTextBox.TextChanged += (s, e) => AplicarFiltros();
-           
+            NombreTextBox.TextChanged += SearchBox_TextChanged;
+            SearchBoxID.TextChanged += SearchBox_TextChanged;
+            CategoriaTextBox.TextChanged += SearchBox_TextChanged;
         }
 
         public void MostrarProductos(List<Producto> productos)
         {
-            _todosLosProductos = productos ?? new List<Producto>();
-            ProductList.ItemsSource = _todosLosProductos;
+            ProductList.ItemsSource = productos ?? new List<Producto>();
         }
 
         public Producto ObtenerProductoSeleccionado()
@@ -53,44 +50,20 @@ namespace ProdLogApp.Views.Designs.Prompts
             MessageBox.Show(mensaje, "Información", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        public void MostrarCategorias(List<Categoria> categorias)
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (categorias == null) return;
-
-            // Opción "Todos"
-            categorias.Insert(0, new Categoria { CategoryId = 0, Nombre = "Todos" });
+            _presenter.FiltrarProductos(NombreTextBox.Text, SearchBoxID.Text, CategoriaTextBox.Text);
         }
 
-        private void AplicarFiltros()
-        {
-            if (_todosLosProductos == null) return;
-
-            string texto = NombreTextBox.Text.Trim().ToLower();
-
-            var filtrados = _todosLosProductos
-                .Where(p =>
-                    (string.IsNullOrWhiteSpace(texto) || p.Nombre.ToLower().Contains(texto)));
-
-            ProductList.ItemsSource = filtrados;
-        }
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
             var headerClicked = sender as GridViewColumnHeader;
             var sortBy = headerClicked?.Tag?.ToString();
             if (string.IsNullOrEmpty(sortBy)) return;
 
-            ListSortDirection direction;
-
-            if (headerClicked != _lastHeaderClicked)
-            {
-                direction = ListSortDirection.Ascending;
-            }
-            else
-            {
-                direction = _lastDirection == ListSortDirection.Ascending
-                    ? ListSortDirection.Descending
-                    : ListSortDirection.Ascending;
-            }
+            ListSortDirection direction = headerClicked != _lastHeaderClicked
+                ? ListSortDirection.Ascending
+                : (_lastDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending);
 
             Sort(sortBy, direction);
             _lastHeaderClicked = headerClicked;
@@ -105,6 +78,27 @@ namespace ProdLogApp.Views.Designs.Prompts
             dataView.SortDescriptions.Clear();
             dataView.SortDescriptions.Add(new SortDescription(sortBy, direction));
             dataView.Refresh();
+        }
+
+
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            var productoSeleccionado = ObtenerProductoSeleccionado();
+
+            if (productoSeleccionado == null)
+            {
+                MostrarMensaje("Por favor, seleccioná un producto antes de confirmar.");
+                return;
+            }
+
+            DialogResult = true; 
+            Close(); 
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
         }
 
     }

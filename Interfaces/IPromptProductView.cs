@@ -9,9 +9,9 @@ namespace ProdLogApp.Interfaces
 {
     public interface IPromptProductView
     {
-        //event Action OnReturn;
+        
         void MostrarProductos(List<Producto> productos);
-        void MostrarCategorias(List<Categoria> categorias);
+        void MostrarMensaje(string mensaje);
 
     }
 }

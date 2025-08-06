@@ -32,13 +32,9 @@ C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdL
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\Microsoft.SqlServer.Server.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\MySqlConnector.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.ClientModel.dll
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.Configuration.ConfigurationManager.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.Data.SqlClient.dll
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.Diagnostics.EventLog.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.Memory.Data.dll
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.Security.Cryptography.Pkcs.dll
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\System.Security.Cryptography.ProtectedData.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\de\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\es\Xceed.Wpf.AvalonDock.resources.dll
@@ -74,8 +70,6 @@ C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdL
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\runtimes\win-x86\native\sni.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\runtimes\unix\lib\net8.0\System.Data.SqlClient.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\runtimes\win\lib\net8.0\System.Data.SqlClient.dll
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\runtimes\win\lib\net9.0\System.Diagnostics.EventLog.dll
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\bin\Debug\net9.0-windows\runtimes\win\lib\net9.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\ProdLogApp.csproj.AssemblyReference.cache
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\App.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\LogIn.baml

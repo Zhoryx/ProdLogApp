@@ -1,9 +1,8 @@
 ﻿using ProdLogApp.Interfaces;
+using ProdLogApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProdLogApp.Presenters.Prompts_PopUps
 {
@@ -11,25 +10,35 @@ namespace ProdLogApp.Presenters.Prompts_PopUps
     {
         private readonly IPromptProductView _view;
         private readonly IDatabaseService _databaseService;
+        private List<Producto> _productos;
 
         public PromptProductPresenter(IPromptProductView view, IDatabaseService databaseService)
         {
             _view = view;
             _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
-         
-            //_view.OnReturn += ReturnToMenu;
         }
+
         public void CargarProductos()
         {
-            var productos = _databaseService.ObtenerTodosLosProductos();
-            _view.MostrarProductos(productos);
+            _productos = _databaseService.ObtenerTodosLosProductos();
+            _view.MostrarProductos(_productos);
         }
 
-        public async Task CargarCategorias()
+        public void FiltrarProductos(string filtroNombre, string filtroCodigo, string filtroCategoria)
         {
-            var categorias = await _databaseService.CategoriesGet(true); // solo activas si querés
-            _view.MostrarCategorias(categorias);
-        }
+            if (_productos == null)
+            {
+                _view.MostrarProductos(new List<Producto>());
+                return;
+            }
 
+            var resultado = _productos.Where(p =>
+                (string.IsNullOrWhiteSpace(filtroNombre) || p.Nombre.Contains(filtroNombre, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(filtroCodigo) || p.Id.ToString().StartsWith(filtroCodigo)) &&
+                (string.IsNullOrWhiteSpace(filtroCategoria) || p.CategoriaNombre.Contains(filtroCategoria, StringComparison.OrdinalIgnoreCase))
+            ).ToList();
+
+            _view.MostrarProductos(resultado);
+        }
     }
 }
