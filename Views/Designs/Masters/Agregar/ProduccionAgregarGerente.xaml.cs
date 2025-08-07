@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+
+
 
 namespace ProdLogApp.Views
 {
@@ -40,5 +44,6 @@ namespace ProdLogApp.Views
             TimeSpan time;
             return TimeSpan.TryParseExact(timeInput, "hh\\:mm", null, out time);
         }
+
     }
 }
