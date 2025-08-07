@@ -1,4 +1,4 @@
-﻿using MySqlConnector; // ✅ Conector open-source y sin licencia
+﻿using MySqlConnector; 
 using ProdLogApp.Services;
 using System;
 using System.Data;
@@ -28,7 +28,7 @@ namespace ProdLogApp.Models
                 DatabaseService dbService = new DatabaseService();
                 using (var connection = dbService.GetConnection())
                 {
-                    connection.Open(); 
+                    connection.Open();
 
                     string query = "SELECT UsDNI, UsGerente, UsPass, UsId FROM Usuario WHERE UsDNI = @dni";
 

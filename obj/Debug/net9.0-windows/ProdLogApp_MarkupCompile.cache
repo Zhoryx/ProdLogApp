@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 
-201647627362
+21-741737078
 
-58679837126
+59-1613342293
 228811484086
-Views\Designs\App.xaml;Views\Designs\LogIn.xaml;Views\Designs\Management\CategoryManagement.xaml;Views\Designs\Management\PositionManagement.xaml;Views\Designs\Management\ProductManagement.xaml;Views\Designs\Management\UserManagement.xaml;Views\Designs\Masters\Agregar\addCategory.xaml;Views\Designs\Masters\Agregar\AddProduct.xaml;Views\Designs\Masters\Agregar\AddUser.xaml;Views\Designs\Masters\Agregar\PositionAdd.xaml;Views\Designs\Masters\Agregar\ProduccionAgregarGerente.xaml;Views\Designs\Masters\Agregar\ProductionForm.xaml;Views\Designs\Menus\ManagerMenu.xaml;Views\Designs\Menus\ManagerProduction.xaml;Views\Designs\Menus\OperatorMenu.xaml;Views\Designs\Prompts\PasswordRequest.xaml;Views\Designs\Prompts\PromptCategory.xaml;Views\Designs\Prompts\PromptOperario.xaml;Views\Designs\Prompts\PromptProduct.xaml;Views\Designs\Style.xaml;
+Views\Designs\App.xaml;Views\Designs\LogIn.xaml;Views\Designs\Management\CategoryManagement.xaml;Views\Designs\Management\PositionManagement.xaml;Views\Designs\Management\ProductManagement.xaml;Views\Designs\Management\UserManagement.xaml;Views\Designs\Masters\Agregar\addCategory.xaml;Views\Designs\Masters\Agregar\AddProduct.xaml;Views\Designs\Masters\Agregar\AddUser.xaml;Views\Designs\Masters\Agregar\PositionAdd.xaml;Views\Designs\Masters\Agregar\ProduccionAgregarGerente.xaml;Views\Designs\Masters\Agregar\ProductionForm.xaml;Views\Designs\Menus\ManagerMenu.xaml;Views\Designs\Menus\ManagerProduction.xaml;Views\Designs\Menus\OperatorMenu.xaml;Views\Designs\Prompts\PasswordRequest.xaml;Views\Designs\Prompts\PromptCategory.xaml;Views\Designs\Prompts\PromptOperario.xaml;Views\Designs\Prompts\PromptPosition.xaml;Views\Designs\Prompts\PromptProduct.xaml;Views\Designs\Style.xaml;
 
 False
 

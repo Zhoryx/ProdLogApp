@@ -11,6 +11,7 @@ namespace ProdLogApp.Services
 {
     public class DatabaseService : IDatabaseService
     {
+        //conexion
         private const string ConnectionString = "Server=127.0.0.1;Port=3307;Database=ProdLog_BD;User Id=root;Password=Madersa;";
 
         public MySqlConnection GetConnection()
@@ -33,6 +34,8 @@ namespace ProdLogApp.Services
                 return connection.State == ConnectionState.Open;
             }
         }
+        
+
 
         public bool SavePartProductions(List<Production> productionList, int userId)
         {

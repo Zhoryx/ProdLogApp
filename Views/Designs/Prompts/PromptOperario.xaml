@@ -37,7 +37,7 @@
         </StackPanel>
         <Label Margin="571,46,121,359" FontSize="14" Foreground="Black" Content="Buscar Operario"/>
         <xctk:AutoSelectTextBox x:Name="OperarioAutoComplete"
-        Margin="525,75,75,329"/>
+        Margin="525,75,75,329" Style="{StaticResource BaseTextBoxStyle}"/>
     </Grid>
 
 </Window>

@@ -22,12 +22,12 @@
         <!-- Filtros -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="10,10,0,322">
             <Label Content="Buscar por nombre:" FontSize="14" Foreground="White" Margin="0,0,0,5"/>
-            <TextBox x:Name="SearchBox" Width="250" Height="40" Style="{StaticResource ModernTextBoxStyle}" 
+            <TextBox x:Name="SearchBox" Width="250" Height="40" Style="{StaticResource BaseTextBoxStyle}" 
             TextChanged="SearchBox_TextChanged"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="10,127,0,222">
             <Label Content="Buscar por Código:" FontSize="14" Foreground="White" Margin="0,0,0,5"/>
-            <TextBox x:Name="SearchBoxID" Width="250" Height="40" Style="{StaticResource ModernTextBoxStyle}" 
+            <TextBox x:Name="SearchBoxID" Width="250" Height="40" Style="{StaticResource BaseTextBoxStyle}" 
             TextChanged="SearchBoxID_TextChanged"/>
         </StackPanel>
         

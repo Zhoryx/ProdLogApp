@@ -23,6 +23,9 @@
     <Compile Update="Views\Designs\Masters\Agregar\ProductionForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Designs\Prompts\PromptPosition.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Designs\Prompts\PromptProduct.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

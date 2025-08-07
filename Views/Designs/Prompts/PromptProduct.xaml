@@ -25,7 +25,7 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,0,0,10">
 
             <Label Content="Buscar por Código:" FontSize="14" Foreground="White"/>
-            <TextBox x:Name="SearchBoxID" Width="250" Height="40" Style="{StaticResource ModernTextBoxStyle}" 
+            <TextBox x:Name="SearchBoxID" Width="250" Height="40" Style="{StaticResource BaseTextBoxStyle}" 
                 TextChanged="SearchBox_TextChanged"
             />
 
@@ -33,7 +33,7 @@
             <TextBox x:Name="NombreTextBox"
                      Width="250"
                      Height="40"
-                     Style="{StaticResource ModernTextBoxStyle}"
+                     Style="{StaticResource BaseTextBoxStyle}"
                      Margin="0,0,0,10" 
                      TextChanged="SearchBox_TextChanged"
             />
@@ -41,7 +41,7 @@
             <TextBox x:Name="CategoriaTextBox"
                 Width="250"
                 Height="40"
-                Style="{StaticResource ModernTextBoxStyle}" 
+                Style="{StaticResource BaseTextBoxStyle}" 
                 TextChanged="SearchBox_TextChanged"
             />
         </StackPanel>

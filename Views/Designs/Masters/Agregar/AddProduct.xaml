@@ -51,7 +51,7 @@
 
         <!-- TextBox para ingresar el nombre -->
         <TextBox x:Name="NombreProducto" 
-                 Style="{StaticResource ModernTextBoxStyle}" 
+                 Style="{StaticResource BaseTextBoxStyle}" 
                  Width="346" MinHeight="35"
                  Grid.Row="1" HorizontalAlignment="Left" Margin="48,35,0,197"/>
 

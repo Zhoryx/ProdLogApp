@@ -45,7 +45,7 @@
                VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" 
                Margin="0,39,10,0"/>
 
-        <TextBox x:Name="ProductoTextBox" Style="{StaticResource ModernTextBoxStyle}" 
+        <TextBox x:Name="ProductoTextBox" Style="{StaticResource BaseTextBoxStyle}" 
          Width="300" Height="30" Grid.Row="1" Grid.Column="1" 
          Margin="0,10,0,10"/>
 
@@ -57,16 +57,16 @@
         <Label Content="Hora Inicio:" FontSize="14" Foreground="#FFFFFF" 
                VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" 
                Margin="0,10,10,10"/>
-        <TextBox x:Name="HoraInicioTextBox" Style="{StaticResource ModernTextBoxStyle}" Width="300" Height="30" 
+        <TextBox x:Name="HoraInicioTextBox" Style="{StaticResource BaseTextBoxStyle}" Width="300" Height="30" 
                  Margin="57,40,58,19" Grid.Column="1"/>
 
         <!-- Hora Fin -->
         <Label Content="Hora Fin:" FontSize="14" Foreground="#FFFFFF" 
                VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" 
                Margin="0,10,10,10"/>
-        
-        
-        <TextBox x:Name="HoraFinTextBox" Style="{StaticResource ModernTextBoxStyle}" 
+
+
+        <TextBox x:Name="HoraFinTextBox" Style="{StaticResource BaseTextBoxStyle}" 
           Width="300" Height="30" Grid.Row="2" Grid.Column="1" 
           Margin="0,10,0,10"/>
 
@@ -75,7 +75,7 @@
                VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" 
                Margin="0,10,10,10"/>
 
-        <TextBox x:Name="CantidadTextBox" Style="{StaticResource ModernTextBoxStyle}" 
+        <TextBox x:Name="CantidadTextBox" Style="{StaticResource BaseTextBoxStyle}" 
                  Width="300" Height="30" Grid.Row="3" Grid.Column="1" 
                  Margin="0,10,0,10"/>
 
@@ -95,7 +95,7 @@
             <Button Style="{StaticResource CancelButtonStyle}" Height="35" Content="Cancelar" 
                     Margin="10" Click="Cancelar_Click"/>
         </StackPanel>
-        <TextBox x:Name="OperarioTextBox" Style="{StaticResource ModernTextBoxStyle}" 
+        <TextBox x:Name="OperarioTextBox" Style="{StaticResource BaseTextBoxStyle}" 
          Width="300" Height="30" Grid.Row="4" Grid.Column="1" 
          Margin="55,21,60,34"/>
     </Grid>

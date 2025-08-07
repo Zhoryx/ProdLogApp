@@ -61,7 +61,6 @@
         <!-- Confirm and Cancel Buttons -->
         <StackPanel Grid.Column="1" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,396,0,0" RenderTransformOrigin="0.48,-2.151">
             <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar" Click="Confirm_Click"/>
-            <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar" Margin="10"/>
         </StackPanel>
 
         <!-- Disconnect Button -->

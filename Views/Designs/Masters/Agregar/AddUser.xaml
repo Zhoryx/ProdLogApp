@@ -43,7 +43,7 @@
         <Label Content="Nombre" FontSize="14" Foreground="#FFFFFF" 
                VerticalAlignment="Top" Grid.Row="4" Grid.Column="0" 
                Margin="25,23,414,0" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="NombreTextBox" Style="{StaticResource ModernTextBoxStyle}"
+        <TextBox x:Name="NombreTextBox" Style="{StaticResource BaseTextBoxStyle}"
                  Width="300" Height="30" Grid.Row="4" Grid.Column="1" 
                  Margin="130,23,130,205"/>
 
@@ -51,7 +51,7 @@
         <Label Content="DNI:" FontSize="14" Foreground="#FFFFFF" 
                VerticalAlignment="Top" Grid.Row="4" Grid.Column="0" 
                Margin="26,82,414,0" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="TextBox" Style="{StaticResource ModernTextBoxStyle}"
+        <TextBox x:Name="TextBox" Style="{StaticResource BaseTextBoxStyle}"
                  Width="300" Height="30" Grid.Row="4" Grid.Column="1" 
                  Margin="130,82,130,146"/>
 
@@ -59,13 +59,13 @@
             VerticalAlignment="Top" Grid.Row="4" Grid.Column="0" 
             Margin="25,143,414,0" Grid.ColumnSpan="2"/>
 
-        <TextBox x:Name="TextBoxDNI" Style="{StaticResource ModernTextBoxStyle}"
+        <TextBox x:Name="TextBoxDNI" Style="{StaticResource BaseTextBoxStyle}"
         Width="300" Height="30" Grid.Row="4" Grid.Column="1" 
         Margin="130,82,130,146"/>
         
         <CheckBox x:Name="CheckBox" Content="Si" Margin="280,149,232,91" Grid.Row="4" Grid.Column="1" FontSize="14" Foreground="#FFFFFF" />
-        
-        <TextBox x:Name="TextBoxPasswordGerente" Style="{StaticResource ModernTextBoxStyle}"
+
+        <TextBox x:Name="TextBoxPasswordGerente" Style="{StaticResource BaseTextBoxStyle}"
         Width="300" Height="30" Grid.Row="4" Grid.Column="1" 
         Margin="130,205,130,23"/>
         
