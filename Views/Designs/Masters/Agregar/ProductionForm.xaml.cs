@@ -13,7 +13,7 @@ namespace ProdLogApp.Views
         private readonly AddProductionUserPresenter _presenter;
         private readonly User _activeUser; 
         private readonly IDatabaseService _databaseService;
-        public ProductionForm(List<Production> productionList, int productionIndex, User activeuser, IDatabaseService databaseService)
+        public ProductionForm( User activeuser, IDatabaseService databaseService)
         {
             InitializeComponent(); // Esto primero
             _activeUser = activeuser; 
@@ -72,11 +72,39 @@ namespace ProdLogApp.Views
             }
         }
 
+        private void SeleccionarPuesto_Click(object sender, RoutedEventArgs e)
+        {
+            var prompt = new PromptPosition(_activeUser, _databaseService);
+            bool? resultado = prompt.ShowDialog();
+
+            if (resultado == true)
+            {
+                int puestoId;
+                string descripcion;
+                prompt.ObtenerPuestoSeleccionado(out puestoId, out descripcion);
+                PuestoTextBox.Text = descripcion;
+            }
+            else
+            {
+                // El usuario canceló
+            }
+        }
+
+
+
+
+
+
         // Evento para el botón "Confirmar"
         private void Confirmar_Click(object sender, RoutedEventArgs e) { 
         } 
         // Evento para el botón "Cancelar"
         private void Cancelar_Click(object sender, RoutedEventArgs e) 
         {   this.Close(); }
+
+        private void PuestoTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

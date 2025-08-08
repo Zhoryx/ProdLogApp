@@ -54,8 +54,8 @@
         <GroupBox Header="Puesto" Foreground="White" Margin="0,0,0,20" BorderThickness ="0.5" >
             <StackPanel>
                 <Button Content="Seleccionar Puesto" Style="{StaticResource ModernButtonStyle}"
-                        Width="150" Margin="0,0,0,5" />
-                <TextBox x:Name="PuestoTextBox" Style="{StaticResource BaseTextBoxStyle}" IsReadOnly="True"/>
+                        Width="150" Margin="0,0,0,5" Click="SeleccionarPuesto_Click"/>
+                <TextBox x:Name="PuestoTextBox" Style="{StaticResource BaseTextBoxStyle}" IsReadOnly="True" TextChanged="PuestoTextBox_TextChanged"/>
             </StackPanel>
         </GroupBox>
 

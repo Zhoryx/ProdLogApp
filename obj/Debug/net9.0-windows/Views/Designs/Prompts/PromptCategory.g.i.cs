@@ -93,7 +93,7 @@ namespace ProdLogApp.Views.Designs.Prompts {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ProdLogApp;V1.0.0.0;component/views/designs/prompts/promptcategory.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ProdLogApp;component/views/designs/prompts/promptcategory.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Views\Designs\Prompts\PromptCategory.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

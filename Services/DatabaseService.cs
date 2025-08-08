@@ -269,7 +269,7 @@ namespace ProdLogApp.Services
                 }
             }
         }
-        //Puesto
+        // Puestos
         public void AgregarPuesto(Position puesto)
         {
             using (var connection = GetConnection())
@@ -354,6 +354,15 @@ namespace ProdLogApp.Services
 
             return puestos;
         }
+
+        public List<Position> ObtenerPuestos()
+        {
+            // Delegamos en ObtenerPuestosActivos y ordenamos por nombre
+            return ObtenerPuestosActivos()
+                .OrderBy(p => p.Nombre)
+                .ToList();
+        }
+
         public void TogglePositionState(int puestoId, bool estado)
         {
             using (var connection = GetConnection())

@@ -34,6 +34,8 @@ namespace ProdLogApp.Interfaces
         void ActualizarPuesto(Position puesto);
         List<Position> ObtenerTodosLosPuestos();
         List<Position> ObtenerPuestosActivos();
+        List<Position> ObtenerPuestos();
+
 
         //Users
         Task<List<User>> UsersGet(bool soloActivos = false);

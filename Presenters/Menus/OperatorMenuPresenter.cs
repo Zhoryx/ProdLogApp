@@ -35,7 +35,7 @@ namespace ProdLogApp.Presenters
         // Opens the production form to add or modify production details
         public void OpenProductionForm(List<Production> productionList, int productionIndex)
         {
-            var productionWindow = new ProductionForm(productionList, productionIndex, _activeuser,_databaseService);
+            var productionWindow = new ProductionForm( _activeuser,_databaseService);
             if (productionWindow.ShowDialog() == true)
             {
                 _view.UpdateProductionList(_productionList);

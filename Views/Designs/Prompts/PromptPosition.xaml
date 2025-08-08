@@ -1,19 +1,17 @@
 ﻿<Window x:Class="ProdLogApp.Views.Designs.Prompts.PromptPosition"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:ProdLogApp.Views.Designs.Prompts"
-       mc:Ignorable="d"
-  
-       Height="500"
-       Width="850"
-       WindowStartupLocation="CenterScreen"
-       ResizeMode="NoResize"
-       Background="#0864AC"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:ProdLogApp.Views.Designs.Prompts"
+        mc:Ignorable="d"
+        Height="500"
+        Width="850"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#0864AC"
         Title="PromptPosition">
-    </Window>
-    <!--
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,50 +21,51 @@
     </Window.Resources>
 
     <Grid Margin="20">
-        --><!-- Filtros --><!--
+
+        <!-- 🔍 Buscar por nombre -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="10,10,0,322">
             <Label Content="Buscar por nombre:" FontSize="14" Foreground="White" Margin="0,0,0,5"/>
-            <TextBox x:Name="SearchBox" Width="250" Height="40" Style="{StaticResource BaseTextBoxStyle}" 
-            TextChanged="SearchBox_TextChanged"/>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="10,127,0,222">
-            <Label Content="Buscar por Código:" FontSize="14" Foreground="White" Margin="0,0,0,5"/>
-            <TextBox x:Name="SearchBoxID" Width="250" Height="40" Style="{StaticResource BaseTextBoxStyle}" 
-            TextChanged="SearchBoxID_TextChanged"/>
+            <TextBox x:Name="searchbox" Width="250" Height="40" Style="{StaticResource BaseTextBoxStyle}" 
+                     TextChanged="searchbox_TextChanged"/>
         </StackPanel>
 
+        <!-- 🔍 Buscar por código -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="10,98,0,251">
+            <Label Content="Buscar por código:" FontSize="14" Foreground="White" Margin="0,0,0,5"/>
+            <TextBox x:Name="searchboxid" Width="250" Height="40" Style="{StaticResource BaseTextBoxStyle}" 
+                     TextChanged="searchboxid_TextChanged"/>
+        </StackPanel>
+
+        <!-- 🪄 Mensaje si la lista está vacía -->
+        <TextBlock x:Name="EmptyMessage" Text="No se encontraron puestos disponibles."
+                   Visibility="Collapsed" Foreground="Gray" FontStyle="Italic"
+                   HorizontalAlignment="Center" Margin="0,5,0,10"/>
+
+        <!-- 📋 Lista de puestos -->
+        <ListView x:Name="PositionList" SelectionMode="Single"
+                  SelectionChanged="PositionList_SelectionChanged" Margin="358,10,0,18">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="80" DisplayMemberBinding="{Binding PuestoId}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Código" Click="GridViewColumnHeader_Click" Tag="PuestoId"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="400" DisplayMemberBinding="{Binding Nombre}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Nombre del Puesto" Click="GridViewColumnHeader_Click" Tag="Nombre"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
 
-
-
-        --><!-- Lista de categorías --><!--
-        <Border Style="{StaticResource ShadowBorderStyle}" Padding="10" Margin="303,0,0,70" HorizontalAlignment="Left" Width="530">
-            <ListView x:Name="CategoryList" Height="320" SelectionMode="Single" SelectionChanged="CategoryList_SelectionChanged" Margin="0,17,21,17">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding PuestoId}">
-                            <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Código" Click="GridViewColumnHeader_Click" Tag="CategoryId"/>
-                            </GridViewColumn.Header>
-                        </GridViewColumn>
-
-                        <GridViewColumn Width="400" DisplayMemberBinding="{Binding Nombre}">
-                            <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Nombre del Puesto" Click="GridViewColumnHeader_Click" Tag="Nombre"/>
-                            </GridViewColumn.Header>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-
-        </Border>
-
-        --><!-- Botones de acción --><!--
+        <!-- ✅ Botones de acción -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
             <Button x:Name="ConfirmButton" Content="Confirmar" Style="{StaticResource ConfirmButtonStyle}" Width="150" Margin="10" Click="ConfirmButton_Click"/>
             <Button x:Name="CancelButton" Content="Cancelar" Style="{StaticResource CancelButtonStyle}" Width="150" Click="CancelButton_Click"/>
         </StackPanel>
     </Grid>
-    </Window>-->
-
-
+</Window>

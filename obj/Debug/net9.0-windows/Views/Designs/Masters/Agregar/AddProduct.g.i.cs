@@ -68,7 +68,7 @@ namespace ProdLogApp.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ProdLogApp;V1.0.0.0;component/views/designs/masters/agregar/addproduct.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ProdLogApp;component/views/designs/masters/agregar/addproduct.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\..\Views\Designs\Masters\Agregar\AddProduct.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
