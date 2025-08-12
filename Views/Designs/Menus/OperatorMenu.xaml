@@ -13,17 +13,18 @@
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <!-- Reference to Styles.xaml -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Soft shadow effect for panels -->
             <Style x:Key="ShadowBorderStyle" TargetType="Border">
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                        <DropShadowEffect Color="Black"
+                                          BlurRadius="10"
+                                          ShadowDepth="2"
+                                          Opacity="0.2"/>
                     </Setter.Value>
                 </Setter>
                 <Setter Property="CornerRadius" Value="10"/>
@@ -31,39 +32,116 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid HorizontalAlignment="Center" Width="1080" Height="712" VerticalAlignment="Top">
+    <Grid HorizontalAlignment="Center"
+          Width="1080"
+          Height="712"
+          VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Left-side grid displaying production data -->
-        <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="16,10,4,0" VerticalAlignment="Top" Height="625">
-            <ListView x:Name="Productions" Height="526" VerticalAlignment="Top">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="Auto" Header="Producto" DisplayMemberBinding="{Binding Producto}" />
-                        <GridViewColumn Width="Auto" Header="Cantidad" DisplayMemberBinding="{Binding Cantidad}" />
-                        <GridViewColumn Width="Auto" Header="⏰ Hora Inicio" DisplayMemberBinding="{Binding HInicio, StringFormat='HH:mm'}" />
-                        <GridViewColumn Width="Auto" Header="⏳ Hora Fin" DisplayMemberBinding="{Binding HFin, StringFormat='HH:mm'}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+        <Border Background="#E6F0FA"
+                Style="{StaticResource ShadowBorderStyle}"
+                Padding="30"
+                Margin="16,10,4,0"
+                VerticalAlignment="Top"
+                Height="625">
+            <DockPanel LastChildFill="True">
+
+                <!-- Encabezado contextual -->
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Producciones de hoy"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               Margin="0,0,12,12"/>
+                    <TextBlock Grid.Column="1"
+                               x:Name="txtFechaHoy"
+                               Foreground="#555"
+                               Margin="0,0,0,12"
+                               HorizontalAlignment="Right"/>
+                </Grid>
+
+                <ListView x:Name="Productions_list"
+                          Height="526"
+                          VerticalAlignment="Top"
+                          SelectionMode="Single">
+                    <ListView.View>
+                        <GridView>
+                            <!-- Cambiado: Nombre -> ProductoNombre -->
+                            <GridViewColumn Header="Producto"
+                                            DisplayMemberBinding="{Binding ProductoNombre}" />
+                            <GridViewColumn Header="Cantidad"
+                                            DisplayMemberBinding="{Binding Cantidad}" />
+                            <GridViewColumn Header="Puesto"
+                                            DisplayMemberBinding="{Binding PuestoDescripcion}" />
+                            <GridViewColumn Header="⏰ Hora Inicio"
+                                            DisplayMemberBinding="{Binding HInicio, StringFormat=hh\\:mm}" />
+                            <GridViewColumn Header="⏳ Hora Fin"
+                                            DisplayMemberBinding="{Binding HFin, StringFormat=hh\\:mm}" />
+                           
+                            
+                            
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
         </Border>
 
         <!-- CRUD Buttons -->
-        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,81,10,0" Height="286">
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="Add_Click"/>
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Eliminar" Margin="0,5,0,50" Height="50" Width="250" />
-            <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="Modify_Click"/>
+        <StackPanel Grid.Column="1"
+                    VerticalAlignment="Top"
+                    Margin="10,81,10,0"
+                    Height="286">
+            <Button x:Name="btnAdd"
+                    Style="{StaticResource ModernButtonStyle}"
+                    Content="Agregar"
+                    Margin="0,5,0,50"
+                    Height="50"
+                    Width="250"
+                    Click="Add_Click"/>
+            <Button x:Name="btnDelete"
+                    Style="{StaticResource ModernButtonStyle}"
+                    Content="Eliminar"
+                    Margin="0,5,0,50"
+                    Height="50"
+                    Width="250"
+                    Click="Delete_Click"/>
+            <Button x:Name="btnModify"
+                    Style="{StaticResource ModernButtonStyle}"
+                    Content="Modificar"
+                    Margin="0,5,0,50"
+                    Height="50"
+                    Width="250"
+                    Click="Modify_Click"/>
         </StackPanel>
 
-        <!-- Confirm and Cancel Buttons -->
-        <StackPanel Grid.Column="1" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,396,0,0" RenderTransformOrigin="0.48,-2.151">
-            <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar" Click="Confirm_Click"/>
+        <!-- Confirm Button -->
+        <StackPanel Grid.Column="1"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,396,0,0"
+                    RenderTransformOrigin="0.48,-2.151">
+            <Button x:Name="btnConfirm"
+                    Style="{StaticResource ConfirmButtonStyle}"
+                    Content="Confirmar"
+                    Click="Confirm_Click"/>
         </StackPanel>
 
         <!-- Disconnect Button -->
-        <Button Style="{StaticResource CancelButtonStyle}" Content="Desconectar" Height="50" Width="250" Click="Disconnect_Click" HorizontalAlignment="Left" Margin="16,652,0,10"/>
+        <Button Style="{StaticResource CancelButtonStyle}"
+                Content="Desconectar"
+                Height="50"
+                Width="250"
+                Click="Disconnect_Click"
+                HorizontalAlignment="Left"
+                Margin="16,652,0,10"/>
     </Grid>
 </Window>

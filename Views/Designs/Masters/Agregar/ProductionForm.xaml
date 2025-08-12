@@ -61,7 +61,7 @@
 
         <!-- Botones -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Confirmar" Style="{StaticResource ConfirmButtonStyle}"
+            <Button x:Name="btnConfirmar" Content="Confirmar" Style="{StaticResource ConfirmButtonStyle}"
                     Width="120" Margin="10" Click="Confirmar_Click"/>
             <Button Content="Cancelar" Style="{StaticResource CancelButtonStyle}"
                     Width="120" Margin="10" Click="Cancelar_Click"/>

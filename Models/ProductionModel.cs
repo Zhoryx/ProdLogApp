@@ -8,14 +8,17 @@ namespace ProdLogApp.Models
 {
     public class Production
     {
-        public int ProductionId { get; set; }  // Clave primaria
-        public TimeSpan HInicio { get; set; }  // Hora de inicio
-        public TimeSpan HFin { get; set; }  // Hora de fin
-        public int Cantidad { get; set; }  // Cantidad producida
-        public int ProductoId { get; set; }  // Relación con Producto
-        public int PuestoId { get; set; }  // Relación con Puesto
+      
+            public int ProductionId { get; set; }      // Clave primaria (puede omitirse si solo usás este modelo para carga)
+            public TimeSpan HInicio { get; set; }      // Hora de inicio
+            public TimeSpan HFin { get; set; }         // Hora de fin
+            public int Cantidad { get; set; }          // Cantidad producida
+            public int ProductoId { get; set; }        // Relación con Producto
+            public int PuestoId { get; set; }          // Relación con Puesto
+            public int ParteId { get; set; }
 
-        Production todayProduction = new Production();
+            public string ProductoNombre { get; set; }
+            public string PuestoDescripcion { get; set; }
 
     }
 }

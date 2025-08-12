@@ -45,7 +45,7 @@
           }
         }
       },
-      "Devart.Data/6.0.235": {
+      "Devart.Data/6.0.290": {
         "type": "package",
         "dependencies": {
           "Microsoft.Win32.Registry": "4.5.0"
@@ -57,10 +57,10 @@
           "lib/netstandard2.0/Devart.Data.dll": {}
         }
       },
-      "Devart.Data.MySql/9.4.235": {
+      "Devart.Data.MySql/9.4.290": {
         "type": "package",
         "dependencies": {
-          "Devart.Data": "6.0.235",
+          "Devart.Data": "6.0.290",
           "System.Diagnostics.PerformanceCounter": "4.5.0"
         },
         "compile": {
@@ -154,7 +154,7 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "Microsoft.Data.SqlClient/6.1.0-preview1.25120.4": {
+      "Microsoft.Data.SqlClient/6.1.0-preview2.25178.5": {
         "type": "package",
         "dependencies": {
           "Azure.Identity": "1.13.2",
@@ -165,7 +165,8 @@
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "7.7.1",
           "Microsoft.SqlServer.Server": "1.0.0",
           "System.Configuration.ConfigurationManager": "9.0.4",
-          "System.Security.Cryptography.Pkcs": "9.0.4"
+          "System.Security.Cryptography.Pkcs": "9.0.4",
+          "System.Text.Json": "9.0.5"
         },
         "compile": {
           "ref/net9.0/Microsoft.Data.SqlClient.dll": {
@@ -898,24 +899,20 @@
           }
         }
       },
-      "System.Text.Json/6.0.10": {
+      "System.Text.Json/9.0.5": {
         "type": "package",
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
-          "System.Text.Encodings.Web": "6.0.0"
-        },
         "compile": {
-          "lib/net6.0/System.Text.Json.dll": {
+          "lib/net9.0/System.Text.Json.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net6.0/System.Text.Json.dll": {
+          "lib/net9.0/System.Text.Json.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "buildTransitive/netcoreapp3.1/System.Text.Json.targets": {}
+          "buildTransitive/net8.0/System.Text.Json.targets": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.5.4": {
@@ -970,30 +967,31 @@
         "lib/netstandard2.0/Azure.Identity.xml"
       ]
     },
-    "Devart.Data/6.0.235": {
-      "sha512": "d48aMGW/Qazz0xB9M41D7tVE6l7qHYssfg+KZzOCeDrze2D5Ue97kPBT4FRfZ/E7u+kyJEIVnCv163pSMWEGvA==",
+    "Devart.Data/6.0.290": {
+      "sha512": "nsbaLrEyrdZFIYOsSURE2ZH2FMbOfWWuAQBj4xTngYbyOgLf/0QKiB+kOYV/BgZk33GXfOP6pOgxUii4pKvoCQ==",
       "type": "package",
-      "path": "devart.data/6.0.235",
+      "path": "devart.data/6.0.290",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "License.txt",
         "dc.png",
-        "devart.data.6.0.235.nupkg.sha512",
+        "devart.data.6.0.290.nupkg.sha512",
         "devart.data.nuspec",
         "docs/README.md",
         "lib/netstandard1.3/Devart.Data.dll",
         "lib/netstandard2.0/Devart.Data.dll"
       ]
     },
-    "Devart.Data.MySql/9.4.235": {
-      "sha512": "p/CPFmSwA7xSMqqZN0pR2u/cPOWlL/IKe32gh/vEEkIwFK8X/BH40uVEyCgAw298Mactewpb2zAGkA//Jm1zow==",
+    "Devart.Data.MySql/9.4.290": {
+      "sha512": "GXYUk2yPEKfeINFRr9fNXsbeMUGLkODwrA3kpoawzqKNHBtA7TvR1OHVK3TDzmi+NC58mfJt9J4nTiAF5mho9w==",
       "type": "package",
-      "path": "devart.data.mysql/9.4.235",
+      "path": "devart.data.mysql/9.4.290",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "License.txt",
-        "devart.data.mysql.9.4.235.nupkg.sha512",
+        "devart.data.mysql.9.4.290.nupkg.sha512",
         "devart.data.mysql.nuspec",
         "docs/README.md",
         "lib/net5.0/Devart.Data.MySql.dll",
@@ -1101,10 +1099,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Data.SqlClient/6.1.0-preview1.25120.4": {
-      "sha512": "NQFXyYfepat7dK72e5ys0g6gsZXzhO+zWppSlTlE9kq1x7NpwPH73ZlmKRZGmkzZajDh/zWvQ5OxpUcjbWC2Hg==",
+    "Microsoft.Data.SqlClient/6.1.0-preview2.25178.5": {
+      "sha512": "2HRzEBhKgUP/NaDQOXsA1BjjzIXzw8wmxKZRW2bhiF4fJf7ATp9PranoalwPpqoizhSX2Q8ZZj2eReiCxqRziw==",
       "type": "package",
-      "path": "microsoft.data.sqlclient/6.1.0-preview1.25120.4",
+      "path": "microsoft.data.sqlclient/6.1.0-preview2.25178.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1155,7 +1153,9 @@
         "lib/net9.0/tr/Microsoft.Data.SqlClient.resources.dll",
         "lib/net9.0/zh-Hans/Microsoft.Data.SqlClient.resources.dll",
         "lib/net9.0/zh-Hant/Microsoft.Data.SqlClient.resources.dll",
-        "microsoft.data.sqlclient.6.1.0-preview1.25120.4.nupkg.sha512",
+        "lib/netstandard2.0/Microsoft.Data.SqlClient.dll",
+        "lib/netstandard2.0/Microsoft.Data.SqlClient.xml",
+        "microsoft.data.sqlclient.6.1.0-preview2.25178.5.nupkg.sha512",
         "microsoft.data.sqlclient.nuspec",
         "ref/net462/Microsoft.Data.SqlClient.dll",
         "ref/net462/Microsoft.Data.SqlClient.xml",
@@ -1163,6 +1163,8 @@
         "ref/net8.0/Microsoft.Data.SqlClient.xml",
         "ref/net9.0/Microsoft.Data.SqlClient.dll",
         "ref/net9.0/Microsoft.Data.SqlClient.xml",
+        "ref/netstandard2.0/Microsoft.Data.SqlClient.dll",
+        "ref/netstandard2.0/Microsoft.Data.SqlClient.xml",
         "runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll",
         "runtimes/unix/lib/net9.0/Microsoft.Data.SqlClient.dll",
         "runtimes/win/lib/net462/Microsoft.Data.SqlClient.dll",
@@ -2254,15 +2256,16 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Text.Json/6.0.10": {
-      "sha512": "NSB0kDipxn2ychp88NXWfFRFlmi1bst/xynOutbnpEfRCT9JZkZ7KOmF/I/hNKo2dILiMGnqblm+j1sggdLB9g==",
+    "System.Text.Json/9.0.5": {
+      "sha512": "rnP61ZfloTgPQPe7ecr36loNiGX3g1PocxlKHdY/FUpDSsExKkTxpMAlB4X35wNEPr1X7mkYZuQvW3Lhxmu7KA==",
       "type": "package",
-      "path": "system.text.json/6.0.10",
+      "path": "system.text.json/9.0.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "LICENSE.TXT",
+        "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "analyzers/dotnet/roslyn3.11/cs/System.Text.Json.SourceGeneration.dll",
         "analyzers/dotnet/roslyn3.11/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
@@ -2292,18 +2295,34 @@
         "analyzers/dotnet/roslyn4.0/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
         "analyzers/dotnet/roslyn4.0/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
         "analyzers/dotnet/roslyn4.0/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/System.Text.Json.SourceGeneration.dll",
+        "analyzers/dotnet/roslyn4.4/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/de/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/es/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/fr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/it/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ja/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ko/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/pl/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/pt-BR/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ru/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "buildTransitive/net461/System.Text.Json.targets",
+        "buildTransitive/net462/System.Text.Json.targets",
+        "buildTransitive/net8.0/System.Text.Json.targets",
         "buildTransitive/netcoreapp2.0/System.Text.Json.targets",
-        "buildTransitive/netcoreapp3.1/System.Text.Json.targets",
         "buildTransitive/netstandard2.0/System.Text.Json.targets",
-        "lib/net461/System.Text.Json.dll",
-        "lib/net461/System.Text.Json.xml",
-        "lib/net6.0/System.Text.Json.dll",
-        "lib/net6.0/System.Text.Json.xml",
-        "lib/netcoreapp3.1/System.Text.Json.dll",
-        "lib/netcoreapp3.1/System.Text.Json.xml",
+        "lib/net462/System.Text.Json.dll",
+        "lib/net462/System.Text.Json.xml",
+        "lib/net8.0/System.Text.Json.dll",
+        "lib/net8.0/System.Text.Json.xml",
+        "lib/net9.0/System.Text.Json.dll",
+        "lib/net9.0/System.Text.Json.xml",
         "lib/netstandard2.0/System.Text.Json.dll",
         "lib/netstandard2.0/System.Text.Json.xml",
-        "system.text.json.6.0.10.nupkg.sha512",
+        "system.text.json.9.0.5.nupkg.sha512",
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -2348,9 +2367,9 @@
   },
   "projectFileDependencyGroups": {
     "net9.0-windows7.0": [
-      "Devart.Data.MySql >= 9.4.235",
+      "Devart.Data.MySql >= 9.4.290",
       "Extended.Wpf.Toolkit >= 4.7.25104.5739",
-      "Microsoft.Data.SqlClient >= 6.1.0-preview1.25120.4",
+      "Microsoft.Data.SqlClient >= 6.1.0-preview2.25178.5",
       "MySqlConnector >= 2.4.0",
       "System.Data.SqlClient >= 4.9.0"
     ]
@@ -2407,7 +2426,7 @@
         "dependencies": {
           "Devart.Data.MySql": {
             "target": "Package",
-            "version": "[9.4.235, )"
+            "version": "[9.4.290, )"
           },
           "Extended.Wpf.Toolkit": {
             "target": "Package",
@@ -2415,7 +2434,7 @@
           },
           "Microsoft.Data.SqlClient": {
             "target": "Package",
-            "version": "[6.1.0-preview1.25120.4, )"
+            "version": "[6.1.0-preview2.25178.5, )"
           },
           "MySqlConnector": {
             "target": "Package",

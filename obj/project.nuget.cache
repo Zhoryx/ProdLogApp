@@ -1,17 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "SU6f8dnp41c=",
+  "dgSpecHash": "S+larycHgcQ=",
   "success": true,
   "projectFilePath": "C:\\Users\\engle\\OneDrive\\DS Itec\\Proyecto Programa Madersa\\Desarrollo\\Codes\\ProdLogApp\\ProdLogApp\\ProdLogApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\engle\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\azure.identity\\1.13.2\\azure.identity.1.13.2.nupkg.sha512",
-    "C:\\Users\\engle\\.nuget\\packages\\devart.data\\6.0.235\\devart.data.6.0.235.nupkg.sha512",
-    "C:\\Users\\engle\\.nuget\\packages\\devart.data.mysql\\9.4.235\\devart.data.mysql.9.4.235.nupkg.sha512",
+    "C:\\Users\\engle\\.nuget\\packages\\devart.data\\6.0.290\\devart.data.6.0.290.nupkg.sha512",
+    "C:\\Users\\engle\\.nuget\\packages\\devart.data.mysql\\9.4.290\\devart.data.mysql.9.4.290.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\extended.wpf.toolkit\\4.7.25104.5739\\extended.wpf.toolkit.4.7.25104.5739.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\microsoft.bcl.cryptography\\9.0.4\\microsoft.bcl.cryptography.9.0.4.nupkg.sha512",
-    "C:\\Users\\engle\\.nuget\\packages\\microsoft.data.sqlclient\\6.1.0-preview1.25120.4\\microsoft.data.sqlclient.6.1.0-preview1.25120.4.nupkg.sha512",
+    "C:\\Users\\engle\\.nuget\\packages\\microsoft.data.sqlclient\\6.1.0-preview2.25178.5\\microsoft.data.sqlclient.6.1.0-preview2.25178.5.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\6.0.2\\microsoft.data.sqlclient.sni.runtime.6.0.2.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.4\\microsoft.extensions.caching.abstractions.9.0.4.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\microsoft.extensions.caching.memory\\9.0.4\\microsoft.extensions.caching.memory.9.0.4.nupkg.sha512",
@@ -51,7 +51,7 @@
     "C:\\Users\\engle\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
-    "C:\\Users\\engle\\.nuget\\packages\\system.text.json\\6.0.10\\system.text.json.6.0.10.nupkg.sha512",
+    "C:\\Users\\engle\\.nuget\\packages\\system.text.json\\9.0.5\\system.text.json.9.0.5.nupkg.sha512",
     "C:\\Users\\engle\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
   ],
   "logs": []
