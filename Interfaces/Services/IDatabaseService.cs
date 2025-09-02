@@ -11,9 +11,9 @@ namespace ProdLogApp.Interfaces
         MySqlConnection GetConnection();
         bool TestConnection();
 
-        // Batch (sync existente + async recomendado)
+
         bool SavePartProductions(List<Production> productions, int userId);
-        Task<bool> SavePartProductionsAsync(List<Production> productions, int userId, CancellationToken ct = default);
+        
 
         // Lecturas
         List<Production> GetDailyProductions();
@@ -51,6 +51,13 @@ namespace ProdLogApp.Interfaces
         Task<List<Production>> GetProductionsAsync(int operarioId, DateTime day);
         Task<int> EnsureParteAsync(int usuarioId, DateTime fecha);
         Task<int> InsertProduccionAsync(Production produccion);
+        Task<Production?> GetProductionByIdAsync(int productionId);
+        Task UpdateProduccionAsync(Production produccion);
+        Task<Producto?> GetProductoByIdAsync(int productoId);
+        Task<Position?> GetPuestoByIdAsync(int puestoId);
+        Task DeleteProduccionAsync(int produccionId);
+        Task<bool> SavePartProductionsAsync(List<Production> productions, int userId, DateTime fecha, CancellationToken ct = default);
+
 
     }
 }

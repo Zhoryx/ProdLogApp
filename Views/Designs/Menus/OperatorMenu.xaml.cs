@@ -75,16 +75,33 @@ namespace ProdLogApp.Views
             }
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             if (Productions_list.SelectedItem is Production selected)
             {
-                var confirm = MessageBox.Show("¿Eliminar la producción seleccionada?", "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var confirm = MessageBox.Show(
+                    "¿Eliminar la producción seleccionada?",
+                    "Confirmar",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
                 if (confirm == MessageBoxResult.Yes)
                 {
-                    _presenter.RemoveFromCurrentList(selected);
-                    // Refresca binding
-                    Productions_list.Items.Refresh();
+                    try
+                    {
+                        SetUiEnabled(false);
+                        await _presenter.DeleteProductionAsync(selected);
+                        // Opcional: recargar todo desde DB para asegurar consistencia
+                        await _presenter.LoadDailyProductionsForActiveUserAsync(DateTime.Today);
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowMessage($"Error al eliminar: {ex.Message}");
+                    }
+                    finally
+                    {
+                        SetUiEnabled(true);
+                    }
                 }
             }
             else
@@ -93,17 +110,52 @@ namespace ProdLogApp.Views
             }
         }
 
-        private void Confirm_Click(object sender, RoutedEventArgs e)
-        {
-            _presenter.SavePartProductionsForActiveUser();
-        }
 
-        private void Disconnect_Click(object sender, RoutedEventArgs e)
+        private void ReturnToLogin()
         {
             var login = new Login(_databaseService);
+            Application.Current.MainWindow = login; 
             login.Show();
             Close();
         }
+
+        private void Confirm_Click(object sender, RoutedEventArgs e)
+        {
+            var ask = MessageBox.Show(
+                "¿Desea confirmar la producción del día y volver al Login?",
+                "Confirmar",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question,
+                MessageBoxResult.No);
+
+            if (ask != MessageBoxResult.Yes)
+            {
+                ShowMessage("Operación cancelada. Podés seguir cargando producciones.");
+                return;
+            }
+
+            try
+            {
+                SetUiEnabled(false);
+                ReturnToLogin();
+            }
+            catch (Exception ex)
+            {
+                ShowMessage($"Error al confirmar: {ex.Message}");
+            }
+            finally
+            {
+                SetUiEnabled(true);
+            }
+        }
+
+
+
+        private void Disconnect_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToLogin();
+        }
+
 
         public void ShowMessage(string message)
         {
@@ -134,23 +186,19 @@ namespace ProdLogApp.Views
 
         public Production GetProductionInput()
         {
-            // Aquí decidís de dónde tomar los datos:
-            // Si estás abriendo un ProductionForm para que el usuario los cargue,
-            // podés devolver el resultado de ese diálogo.
             var form = new ProductionForm(
                 UserSession.GetInstance().ActiveUser,
-                new DatabaseService()
+                _databaseService // reutilizar!
             );
 
             if (form.ShowDialog() == true)
-            {
-                return form.ProduccionCreada; // asumiendo que tu form expone esto
-            }
+                return form.ProduccionCreada;
 
-            return null; // si cancela
+            return null;
         }
 
-        
+
+
 
     }
 }

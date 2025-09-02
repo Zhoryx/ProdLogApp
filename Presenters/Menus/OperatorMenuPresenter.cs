@@ -4,7 +4,6 @@ using ProdLogApp.Services;
 using ProdLogApp.Views;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProdLogApp.Presenters
@@ -14,8 +13,11 @@ namespace ProdLogApp.Presenters
         private readonly IOperatorMenuView _view;
         private readonly IDatabaseService _databaseService;
         private readonly User _activeUser = UserSession.GetInstance().ActiveUser;
+
+        // Cache del parte actual (usuario + fecha)
         private int _currentParteId;
-  
+        private DateTime _currentParteDate;
+
         private List<Production> _productionList = new();
 
         public OperatorMenuPresenter(IOperatorMenuView view, IDatabaseService databaseService)
@@ -23,23 +25,59 @@ namespace ProdLogApp.Presenters
             _view = view;
             _databaseService = databaseService;
         }
+
+        // Carga para usuario arbitrario (si lo necesitás)
         public async Task LoadDailyProductionsAsync(int usuarioId, DateTime fecha)
         {
-            // Asegurar parte (aunque sea solo para prevenir inserciones huérfanas luego)
-            _currentParteId = await _databaseService.EnsureParteAsync(usuarioId, fecha);
+            _currentParteDate = fecha.Date;
 
-            var producciones = await _databaseService.GetProductionsAsync(usuarioId, fecha);
-            _view.UpdateProductionList(producciones);
+            // Si es el usuario activo, cacheamos también el Parte_Id
+            if (usuarioId == _activeUser.Id)
+                _currentParteId = await _databaseService.EnsureParteAsync(usuarioId, _currentParteDate);
+
+            _productionList = await _databaseService.GetProductionsAsync(usuarioId, _currentParteDate)
+                             ?? new List<Production>();
+
+            _view.UpdateProductionList(_productionList);
         }
 
+        // Carga para el usuario activo (principal)
+        public async Task LoadDailyProductionsForActiveUserAsync(DateTime day)
+        {
+            _currentParteDate = day.Date;
 
+            //  Garantiza un único Parte por (usuario, fecha) y lo cachea
+            _currentParteId = await _databaseService.EnsureParteAsync(_activeUser.Id, _currentParteDate);
 
+            _productionList = await _databaseService.GetProductionsAsync(_activeUser.Id, _currentParteDate)
+                             ?? new List<Production>();
+
+            _view.UpdateProductionList(_productionList);
+        }
+
+        // Abrir formulario para crear/editar
+        public bool OpenProductionFormForActiveUser(Production? toEdit = null)
+        {
+            if (toEdit == null)
+            {
+                // CREATE: pasamos el Parte_Id actual para que el form inserte ligado al mismo Parte
+                var form = new ProductionForm(_activeUser, _databaseService, isEdit: false, editId: null, parteId: _currentParteId);
+                return form.ShowDialog() == true;
+            }
+            else
+            {
+                // EDIT: el form recarga por Id y hace UPDATE
+                var form = new ProductionForm(_activeUser, _databaseService, isEdit: true, editId: toEdit.ProductionId);
+                return form.ShowDialog() == true;
+            }
+        }
+
+        // (Alternativa) Alta hecha por el presenter en vez del form (opcional, por si la usás)
         public async Task SaveProductionAsync(int usuarioId, DateTime fecha)
         {
-            // 1) Obtener datos de la vista
             var produccion = _view.GetProductionInput();
+            if (produccion == null) return;
 
-            // 2) Validaciones (horas, cantidad, etc.)
             if (produccion.HInicio >= produccion.HFin)
             {
                 _view.ShowMessage("La hora de inicio debe ser menor que la hora de fin.");
@@ -51,61 +89,37 @@ namespace ProdLogApp.Presenters
                 return;
             }
 
-            // 3) Asegurar Parte_Id
-            int parteId = await _databaseService.EnsureParteAsync(usuarioId, fecha);
-            produccion.ParteId = parteId;
+            // 🔑 Usar el Parte cacheado si corresponde; si no, asegurar uno
+            if (usuarioId == _activeUser.Id && fecha.Date == _currentParteDate)
+                produccion.ParteId = _currentParteId;
+            else
+                produccion.ParteId = await _databaseService.EnsureParteAsync(usuarioId, fecha.Date);
 
-            // 4) Guardar producción
             produccion.ProductionId = await _databaseService.InsertProduccionAsync(produccion);
 
-            // 5) Actualizar vista
-            _view.AddProductionToList(produccion);
+            _productionList.Add(produccion);
+            _view.UpdateProductionList(_productionList);
             _view.ShowMessage("Producción registrada correctamente.");
         }
 
-
-
-
-        public async Task LoadDailyProductionsForActiveUserAsync(DateTime day)
-        {
-            try
-            {
-                // Firma recomendada en el servicio: filtrar en la consulta
-                _productionList = await _databaseService.GetProductionsAsync(_activeUser.Id, day)
-                                  ?? new List<Production>();
-
-                // Si tu servicio aún no tiene ese método, como alternativa temporal:
-                // var all = await _databaseService.GetProductionsByDateAsync(day) ?? new List<Production>();
-                // _productionList = all.Where(p => p.OperarioId == _activeUser.Id).ToList();
-
-                _view.UpdateProductionList(_productionList);
-            }
-            catch (Exception ex)
-            {
-                _view.ShowMessage($"Error al cargar producciones: {ex.Message}");
-            }
-        }
-
-        public bool OpenProductionFormForActiveUser(Production? toEdit = null)
-        {
-            // El ProductionForm debería aceptar user/operario para asegurar ownership
-            var form = new ProductionForm(_activeUser, _databaseService);
-            bool result = form.ShowDialog() == true;
-            return result;
-        }
-
-        public void RemoveFromCurrentList(Production production)
+        // Eliminar producción (DB + memoria)
+        public async Task DeleteProductionAsync(Production production)
         {
             if (production == null) return;
+
+            await _databaseService.DeleteProduccionAsync(production.ProductionId);
+
             _productionList.Remove(production);
             _view.UpdateProductionList(_productionList);
         }
 
-        public void SavePartProductionsForActiveUser()
+        // Guardar "parte + producciones" del usuario activo en la fecha actual (async)
+        public async Task SavePartProductionsForActiveUserAsync()
         {
             try
             {
-                _databaseService.SavePartProductions(_productionList, _activeUser.Id);
+                // Versión async con FECHA para que todas queden bajo el mismo Parte_Id
+                await _databaseService.SavePartProductionsAsync(_productionList, _activeUser.Id, _currentParteDate);
                 _view.ShowMessage("Parte y producciones guardados correctamente.");
             }
             catch (Exception ex)

@@ -4,7 +4,9 @@ using ProdLogApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;              // NECESARIO por .OrderBy
 using System.Text;
+using System.Threading;        // NECESARIO por CancellationToken
 using System.Threading.Tasks;
 
 namespace ProdLogApp.Services
@@ -35,6 +37,9 @@ namespace ProdLogApp.Services
             }
         }
 
+        // =========================
+        // Productos
+        // =========================
         public void AgregarProductoEnDB(Producto producto)
         {
             using (var connection = GetConnection())
@@ -116,9 +121,9 @@ namespace ProdLogApp.Services
             }
         }
 
-
-
-        //Categorias
+        // =========================
+        // Categorías
+        // =========================
         public async Task<List<Categoria>> CategoriesGet(bool soloActivas = false)
         {
             var categorias = new List<Categoria>();
@@ -141,7 +146,6 @@ namespace ProdLogApp.Services
                             CategoryId = reader.GetInt32("CategoriaId"),
                             Nombre = reader.GetString("CategoriaNombre"),
                             Activo = reader.GetBoolean("Activo")
-
                         });
                     }
                 }
@@ -149,7 +153,6 @@ namespace ProdLogApp.Services
 
             return categorias;
         }
-
 
         public void ToggleCategoryStatus(int CategoryId, bool estado)
         {
@@ -197,7 +200,10 @@ namespace ProdLogApp.Services
                 }
             }
         }
+
+        // =========================
         // Puestos
+        // =========================
         public void AgregarPuesto(Position puesto)
         {
             using (var connection = GetConnection())
@@ -307,8 +313,9 @@ namespace ProdLogApp.Services
             }
         }
 
-        //Usuarios
-
+        // =========================
+        // Usuarios
+        // =========================
         public async Task<List<User>> UsersGet(bool soloActivas = false)
         {
             var users = new List<User>();
@@ -321,8 +328,6 @@ namespace ProdLogApp.Services
                 if (soloActivas)
                     query += " WHERE UsActivo = TRUE;";
 
-
-
                 using (var command = new MySqlCommand(query, connection))
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -331,26 +336,25 @@ namespace ProdLogApp.Services
                         users.Add(new User
                         {
                             Id = reader.GetInt32("UsId"),
-                            Name = reader.GetString("UsNombre"),   
-                            Dni = reader.GetString("UsDNI"),      
+                            Name = reader.GetString("UsNombre"),
+                            Dni = reader.GetString("UsDNI"),
                             IsAdmin = reader.GetBoolean("UsGerente"),
                             Fingreso = reader.GetDateOnly("UsFechaIngreso"),
                             Active = reader.GetBoolean("UsActivo")
                         });
-
                     }
                 }
             }
 
             return users;
         }
-        public async Task AddUser(User user) { }
 
+        public async Task AddUser(User user) { }
         public async Task UpdateUser(User user) { }
 
-        // ===========================================
-        // PRODUCTIONS
-        // ===========================================
+        // =========================
+        // Parte & Producciones
+        // =========================
         public async Task<int> EnsureParteAsync(int usuarioId, DateTime fecha)
         {
             const string sql = @"
@@ -370,12 +374,16 @@ namespace ProdLogApp.Services
 
         public async Task<int> InsertProduccionAsync(Production prod)
         {
+            // Doble red: si no te pasaron ParteId, asegurá uno (ideal es pasarlo desde el presenter)
+            if (prod.ParteId <= 0)
+                prod.ParteId = await EnsureParteAsync(UserSession.GetInstance().ActiveUser.Id, DateTime.Today);
+
             const string sql = @"
-        INSERT INTO Producciones
-        (Produccion_HoraInicio, Produccion_HoraFin, Produccion_Cantidad,
-         Producto_Id, Puesto_Id, Parte_Id)
-        VALUES (@HInicio, @HFin, @Cantidad, @ProductoId, @PuestoId, @ParteId);
-        SELECT LAST_INSERT_ID();";
+            INSERT INTO Producciones
+            (Produccion_HoraInicio, Produccion_HoraFin, Produccion_Cantidad,
+             Producto_Id, Puesto_Id, Parte_Id)
+            VALUES (@HInicio, @HFin, @Cantidad, @ProductoId, @PuestoId, @ParteId);
+            SELECT LAST_INSERT_ID();";
 
             await using var conn = GetConnection();
             await conn.OpenAsync();
@@ -395,23 +403,22 @@ namespace ProdLogApp.Services
             var list = new List<Production>();
 
             const string sql = @"
-                        SELECT p.Produccion_Id,
+                SELECT p.Produccion_Id,
                        p.Produccion_HoraInicio,
                        p.Produccion_HoraFin,
                        p.Produccion_Cantidad,
                        p.Producto_Id,
                        pr.ProductoNombre      AS ProductoNombre,
                        p.Puesto_Id,
-                       pu.Nombre   AS PuestoDescripcion,
+                       pu.Nombre              AS PuestoDescripcion,
                        p.Parte_Id
-                       FROM Producciones p
-                INNER JOIN Parte pa     ON p.Parte_Id   = pa.Parte_Id
-                INNER JOIN Producto pr ON p.Producto_Id = pr.ProductoId
-                INNER JOIN Puesto pu   ON p.Puesto_Id   = pu.PuestoId
-                WHERE pa.Usuario_Id = @UsuarioId
-                  AND pa.Parte_Fecha = @Fecha
-                ORDER BY p.Produccion_HoraInicio;"
-;
+                  FROM Producciones p
+            INNER JOIN Parte pa   ON p.Parte_Id   = pa.Parte_Id
+            INNER JOIN Producto pr ON p.Producto_Id = pr.ProductoId
+            INNER JOIN Puesto   pu ON p.Puesto_Id   = pu.PuestoId
+                 WHERE pa.Usuario_Id = @UsuarioId
+                   AND pa.Parte_Fecha = @Fecha
+              ORDER BY p.Produccion_HoraInicio;";
 
             await using var conn = GetConnection();
             await conn.OpenAsync();
@@ -433,17 +440,18 @@ namespace ProdLogApp.Services
                     ParteId = rd.GetInt32("Parte_Id"),
                     ProductoNombre = rd.GetString("ProductoNombre"),
                     PuestoDescripcion = rd.GetString("PuestoDescripcion")
-
                 });
             }
 
             return list;
         }
 
-
-        public async Task<bool> SavePartProductionsAsync(List<Production> productions, int userId, CancellationToken ct = default)
+        // Async recomendado con FECHA: liga todas las filas al mismo Parte_Id
+        public async Task<bool> SavePartProductionsAsync(List<Production> productions, int userId, DateTime fecha, CancellationToken ct = default)
         {
             if (productions is null || productions.Count == 0) return true;
+
+            int parteId = await EnsureParteAsync(userId, fecha.Date);
 
             await using var conn = GetConnection();
             await conn.OpenAsync(ct);
@@ -451,30 +459,29 @@ namespace ProdLogApp.Services
 
             const string sql = @"
                 INSERT INTO Producciones
-                    (ProductoId, PuestoId, HInicio, HFin, Cantidad, UsuarioId, FechaCarga)
+                    (Produccion_HoraInicio, Produccion_HoraFin, Produccion_Cantidad,
+                     Producto_Id, Puesto_Id, Parte_Id)
                 VALUES
-                    (@ProductoId, @PuestoId, @HInicio, @HFin, @Cantidad, @UsuarioId, @FechaCarga);";
+                    (@HInicio, @HFin, @Cantidad, @ProductoId, @PuestoId, @ParteId);";
 
             try
             {
                 await using var cmd = new MySqlCommand(sql, conn, (MySqlTransaction)tx);
-                cmd.Parameters.Add("@ProductoId", MySqlDbType.Int32);
-                cmd.Parameters.Add("@PuestoId", MySqlDbType.Int32);
                 cmd.Parameters.Add("@HInicio", MySqlDbType.Time);
                 cmd.Parameters.Add("@HFin", MySqlDbType.Time);
                 cmd.Parameters.Add("@Cantidad", MySqlDbType.Int32);
-                cmd.Parameters.Add("@UsuarioId", MySqlDbType.Int32);
-                cmd.Parameters.Add("@FechaCarga", MySqlDbType.DateTime);
+                cmd.Parameters.Add("@ProductoId", MySqlDbType.Int32);
+                cmd.Parameters.Add("@PuestoId", MySqlDbType.Int32);
+                cmd.Parameters.Add("@ParteId", MySqlDbType.Int32);
 
                 foreach (var p in productions)
                 {
+                    cmd.Parameters["@HInicio"].Value = p.HInicio;
+                    cmd.Parameters["@HFin"].Value = p.HFin;
+                    cmd.Parameters["@Cantidad"].Value = p.Cantidad;
                     cmd.Parameters["@ProductoId"].Value = p.ProductoId;
                     cmd.Parameters["@PuestoId"].Value = p.PuestoId;
-                    cmd.Parameters["@HInicio"].Value = p.HInicio; // TimeSpan
-                    cmd.Parameters["@HFin"].Value = p.HFin;       // TimeSpan
-                    cmd.Parameters["@Cantidad"].Value = p.Cantidad;
-                    cmd.Parameters["@UsuarioId"].Value = userId;
-                    cmd.Parameters["@FechaCarga"].Value = DateTime.UtcNow;
+                    cmd.Parameters["@ParteId"].Value = parteId;
 
                     await cmd.ExecuteNonQueryAsync(ct);
                 }
@@ -489,13 +496,19 @@ namespace ProdLogApp.Services
             }
         }
 
-        // Versión sync para compatibilidad con tu firma existente:
-        public bool SavePartProductions(List<Production> productions, int userId)
+        // Overload async sin fecha (compatibilidad, usa Today)
+        public async Task<bool> SavePartProductionsAsync(List<Production> productions, int userId, CancellationToken ct = default)
         {
-            return SavePartProductionsAsync(productions, userId).GetAwaiter().GetResult();
+            return await SavePartProductionsAsync(productions, userId, DateTime.Today, ct);
         }
 
-        // Opcional: lectura diaria async
+        // Wrapper SINCRÓNICO requerido por la interfaz (y usado por tu presenter actual)
+        public bool SavePartProductions(List<Production> productions, int userId)
+        {
+            return SavePartProductionsAsync(productions, userId, DateTime.Today).GetAwaiter().GetResult();
+        }
+
+        // Lecturas varias
         public async Task<List<Production>> GetDailyProductionsAsync(CancellationToken ct = default)
         {
             var list = new List<Production>();
@@ -526,7 +539,6 @@ namespace ProdLogApp.Services
             return list;
         }
 
-        // Tu firma sync existente:
         public List<Production> GetDailyProductions()
         {
             return GetDailyProductionsAsync().GetAwaiter().GetResult();
@@ -539,9 +551,9 @@ namespace ProdLogApp.Services
             await conn.OpenAsync(ct);
 
             const string sql = @"
-        INSERT INTO Producciones
+            INSERT INTO Producciones
             (Producto_Id, Puesto_Id, Produccion_HoraInicio, Produccion_HoraFin, Produccion_Cantidad)
-        VALUES
+            VALUES
             (@ProductoId, @PuestoId, @HInicio, @HFin, @Cantidad);";
 
             await using var cmd = new MySqlCommand(sql, conn);
@@ -550,10 +562,141 @@ namespace ProdLogApp.Services
             cmd.Parameters.AddWithValue("@HInicio", production.HInicio);
             cmd.Parameters.AddWithValue("@HFin", production.HFin);
             cmd.Parameters.AddWithValue("@Cantidad", production.Cantidad);
-          
 
             await cmd.ExecuteNonQueryAsync(ct);
             return (int)cmd.LastInsertedId;
+        }
+
+        public async Task<Production?> GetProductionByIdAsync(int productionId)
+        {
+            const string sql = @"
+        SELECT p.Produccion_Id,
+               p.Produccion_HoraInicio,
+               p.Produccion_HoraFin,
+               p.Produccion_Cantidad,
+               p.Producto_Id,
+               pr.ProductoNombre      AS ProductoNombre,
+               p.Puesto_Id,
+               pu.Nombre              AS PuestoDescripcion,
+               p.Parte_Id
+          FROM Producciones p
+          LEFT JOIN Producto pr ON p.Producto_Id = pr.ProductoId
+          LEFT JOIN Puesto   pu ON p.Puesto_Id   = pu.PuestoId
+         WHERE p.Produccion_Id = @Id;";
+
+            await using var conn = GetConnection();
+            await conn.OpenAsync();
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = productionId;
+
+            await using var rd = await cmd.ExecuteReaderAsync();
+            if (await rd.ReadAsync())
+            {
+                return new Production
+                {
+                    ProductionId = rd.GetInt32("Produccion_Id"),
+                    HInicio = rd.GetTimeSpan("Produccion_HoraInicio"),
+                    HFin = rd.GetTimeSpan("Produccion_HoraFin"),
+                    Cantidad = rd.GetInt32("Produccion_Cantidad"),
+                    ProductoId = rd.GetInt32("Producto_Id"),
+                    PuestoId = rd.GetInt32("Puesto_Id"),
+                    ParteId = rd.GetInt32("Parte_Id"),
+                    ProductoNombre = rd["ProductoNombre"] is DBNull ? null : rd.GetString("ProductoNombre"),
+                    PuestoDescripcion = rd["PuestoDescripcion"] is DBNull ? null : rd.GetString("PuestoDescripcion"),
+                };
+            }
+
+            return null;
+        }
+
+        public async Task UpdateProduccionAsync(Production prod)
+        {
+            const string sql = @"
+        UPDATE Producciones
+           SET Produccion_HoraInicio = @HInicio,
+               Produccion_HoraFin    = @HFin,
+               Produccion_Cantidad   = @Cantidad,
+               Producto_Id           = @ProductoId,
+               Puesto_Id             = @PuestoId
+         WHERE Produccion_Id         = @Id;";
+
+            await using var conn = GetConnection();
+            await conn.OpenAsync();
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@HInicio", MySqlDbType.Time).Value = prod.HInicio;
+            cmd.Parameters.Add("@HFin", MySqlDbType.Time).Value = prod.HFin;
+            cmd.Parameters.Add("@Cantidad", MySqlDbType.Int32).Value = prod.Cantidad;
+            cmd.Parameters.Add("@ProductoId", MySqlDbType.Int32).Value = prod.ProductoId;
+            cmd.Parameters.Add("@PuestoId", MySqlDbType.Int32).Value = prod.PuestoId;
+            cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = prod.ProductionId;
+
+            var rows = await cmd.ExecuteNonQueryAsync();
+            if (rows == 0)
+                throw new InvalidOperationException("No se encontró la producción a actualizar.");
+        }
+
+        public async Task<Producto?> GetProductoByIdAsync(int productoId)
+        {
+            const string sql = @"
+        SELECT ProductoId, ProductoNombre, CategoriaId, Activo
+          FROM Producto
+         WHERE ProductoId = @Id;";
+
+            await using var conn = GetConnection();
+            await conn.OpenAsync();
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = productoId;
+
+            await using var rd = await cmd.ExecuteReaderAsync();
+            if (await rd.ReadAsync())
+            {
+                return new Producto
+                {
+                    Id = rd.GetInt32("ProductoId"),
+                    Nombre = rd.GetString("ProductoNombre"),
+                    CategoriaId = rd.GetInt32("CategoriaId"),
+                    Activo = rd.GetBoolean("Activo")
+                };
+            }
+            return null;
+        }
+
+        public async Task<Position?> GetPuestoByIdAsync(int puestoId)
+        {
+            const string sql = @"
+        SELECT PuestoId, Nombre, Activo
+          FROM Puesto
+         WHERE PuestoId = @Id;";
+
+            await using var conn = GetConnection();
+            await conn.OpenAsync();
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = puestoId;
+
+            await using var rd = await cmd.ExecuteReaderAsync();
+            if (await rd.ReadAsync())
+            {
+                return new Position
+                {
+                    PuestoId = rd.GetInt32("PuestoId"),
+                    Nombre = rd.GetString("Nombre"),
+                    Activo = rd.GetBoolean("Activo")
+                };
+            }
+            return null;
+        }
+
+        public async Task DeleteProduccionAsync(int produccionId)
+        {
+            const string sql = @"DELETE FROM Producciones WHERE Produccion_Id = @Id;";
+            await using var conn = GetConnection();
+            await conn.OpenAsync();
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = produccionId;
+
+            var rows = await cmd.ExecuteNonQueryAsync();
+            if (rows == 0)
+                throw new InvalidOperationException("No se encontró la producción a eliminar.");
         }
     }
 }
