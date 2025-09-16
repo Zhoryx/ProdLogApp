@@ -1,10 +1,9 @@
-﻿using ProdLogApp.Models;
-using ProdLogApp.Views;
-using ProdLogApp.Views;
-using ProdLogApp.Interfaces;
-using ProdLogApp.Services;
-using System;
+﻿using System;
 using System.Windows;
+using ProdLogApp.Interfaces;
+using ProdLogApp.Models;
+using ProdLogApp.Services;
+using ProdLogApp.Views;
 
 namespace ProdLogApp.Presenters
 {
@@ -12,15 +11,15 @@ namespace ProdLogApp.Presenters
     {
         private readonly IManagerMenuView _view;
         private readonly User _activeUser;
-        private readonly IDatabaseService _databaseService; // Nuevo campo
+        private readonly IDatabaseService _databaseService;
 
         public ManagerMenuPresenter(IManagerMenuView view, User activeUser, IDatabaseService databaseService)
         {
-            _view = view;
-            _activeUser = activeUser;
-            _databaseService = databaseService; 
+            _view = view ?? throw new ArgumentNullException(nameof(view));
+            _activeUser = activeUser ?? throw new ArgumentNullException(nameof(activeUser));
+            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
 
-            // Suscripción a los eventos de la vista
+            // Suscripción a eventos
             _view.OnOpenDailyReports += OpenDailyReports;
             _view.OnManageProducts += OpenProductManagement;
             _view.OnManageCategories += OpenCategoryManagement;
@@ -29,14 +28,34 @@ namespace ProdLogApp.Presenters
             _view.OnDisconnect += CloseMenu;
         }
 
-        // Métodos para navegación
-        private void OpenDailyReports() => NavigateTo(new ManagerProduction(_activeUser, _databaseService));
-        private void OpenProductManagement() => NavigateTo(new ProductManagement(_activeUser, _databaseService)); 
-        private void OpenCategoryManagement() => NavigateTo(new CategoryManagement(_activeUser, _databaseService));
-        private void OpenPositionManagement() => NavigateTo(new PositionManagement(_activeUser, _databaseService));
-        private void OpenUserManagement() => NavigateTo(new UserManagement(_activeUser, _databaseService));
+        // --- Navegación ---
 
-        // Cierra el menú y navega al login
+        // Abrir Partes Diarios como MODAL (no cerramos el menú; “Volver” funciona perfecto)
+        private void OpenDailyReports()
+        {
+            try
+            {
+                var owner = _view as Window; // ManagerMenu implementa IManagerMenuView y es Window
+                var win = new ManagerProduction(_activeUser, _databaseService)
+                {
+                    Owner = owner,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+                win.ShowDialog(); // modal: al cerrar, se vuelve al menú
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir Partes Diarios: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // Estos módulos pueden seguir reemplazando el menú (no modales)
+        private void OpenProductManagement() => NavigateToAndClose(new ProductManagement(_activeUser, _databaseService));
+        private void OpenCategoryManagement() => NavigateToAndClose(new CategoryManagement(_activeUser, _databaseService));
+        private void OpenPositionManagement() => NavigateToAndClose(new PositionManagement(_activeUser, _databaseService));
+        private void OpenUserManagement() => NavigateToAndClose(new UserManagement(_activeUser, _databaseService));
+
+        // Cerrar sesión → vuelve a Login usando el IDatabaseService ya inicializado en ManagerMenu
         private void CloseMenu()
         {
             try
@@ -45,12 +64,12 @@ namespace ProdLogApp.Presenters
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cerrar sesión: {ex.Message}");
+                MessageBox.Show($"Error al cerrar sesión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // Maneja la navegación a otra ventana y cierra la actual
-        private void NavigateTo(Window window)
+        // Helper para pantallas no modales (reemplazan el menú)
+        private void NavigateToAndClose(Window window)
         {
             try
             {
@@ -59,10 +78,8 @@ namespace ProdLogApp.Presenters
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir la ventana: {ex.Message}");
+                MessageBox.Show($"Error al abrir la ventana: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-
     }
 }

@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows;
-using ProdLogApp.Interfaces;
+﻿using ProdLogApp.Interfaces;
 using ProdLogApp.Models;
 using ProdLogApp.Presenters;
 using ProdLogApp.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ProdLogApp.Views
 {
@@ -14,13 +16,34 @@ namespace ProdLogApp.Views
         private readonly OperatorMenuPresenter _presenter;
         private readonly IDatabaseService _databaseService;
 
+        private readonly bool _isManagerModal = false;
+        private readonly int? _usuarioOverride = null;
+        private readonly DateTime? _fechaOverride = null;
+        private readonly string _operarioNombre = null;
 
+        // >>> Implementación de la interfaz (evento requerido)
+        public event Action<Production> OnProductionDoubleClick;
+
+        // Modo operario (como ya lo tenías)
         public OperatorMenu()
         {
             InitializeComponent();
-
-            _databaseService = new DatabaseService(); // Reemplaza si usás DI
+            _databaseService = new DatabaseService();
             _presenter = new OperatorMenuPresenter(this, _databaseService);
+            Loaded += async (_, __) => await SafeLoadAsync();
+        }
+
+        // Modo gerente (popup)
+        public OperatorMenu(IDatabaseService databaseService, int usuarioId, DateTime fecha, string operarioNombre = null, bool asManagerModal = true)
+        {
+            InitializeComponent();
+            _databaseService = databaseService ?? new DatabaseService();
+            _presenter = new OperatorMenuPresenter(this, _databaseService);
+
+            _isManagerModal = asManagerModal;
+            _usuarioOverride = usuarioId;
+            _fechaOverride = fecha.Date;
+            _operarioNombre = operarioNombre;
 
             Loaded += async (_, __) => await SafeLoadAsync();
         }
@@ -29,10 +52,44 @@ namespace ProdLogApp.Views
         {
             try
             {
-                txtFechaHoy.Text = $"Hoy: {DateTime.Today:dd/MM/yyyy}";
-
                 SetUiEnabled(false);
-                await _presenter.LoadDailyProductionsForActiveUserAsync(DateTime.Today);
+
+                if (_usuarioOverride.HasValue && _fechaOverride.HasValue)
+                {
+                    // --- Popup gerente ---
+                    await _presenter.LoadDailyProductionsAsync(_usuarioOverride.Value, _fechaOverride.Value);
+                    this.Title = "Detalle de Parte (Gerencia)";
+                    txtFechaHoy.Text = $"Operario: {_operarioNombre ?? _usuarioOverride.ToString()}  |  Fecha: {_fechaOverride.Value:dd/MM/yyyy}";
+
+                    if (btnDisconnect != null)
+                    {
+                        btnDisconnect.Content = "Volver";
+                        btnDisconnect.ToolTip = "Cerrar y volver a la lista de partes";
+                    }
+
+                    if (btnConfirm != null)
+                    {
+                        btnConfirm.Content = "Guardar y cerrar";
+                        btnConfirm.ToolTip = "Guardar cambios y volver a la lista";
+                    }
+                }
+                else
+                {
+                    // --- Uso normal del operario ---
+                    txtFechaHoy.Text = $"Hoy: {DateTime.Today:dd/MM/yyyy}";
+                    await _presenter.LoadDailyProductionsForActiveUserAsync(DateTime.Today);
+
+                    if (btnDisconnect != null)
+                    {
+                        btnDisconnect.Content = "Desconectar";
+                        btnDisconnect.ToolTip = "Cerrar sesión y volver al login";
+                    }
+                    if (btnConfirm != null)
+                    {
+                        btnConfirm.Content = "Confirmar";
+                        btnConfirm.ToolTip = "Confirmar la producción del día";
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -42,6 +99,14 @@ namespace ProdLogApp.Views
             {
                 SetUiEnabled(true);
             }
+        }
+
+        private async Task ReloadContextAsync()
+        {
+            if (_usuarioOverride.HasValue && _fechaOverride.HasValue)
+                await _presenter.LoadDailyProductionsAsync(_usuarioOverride.Value, _fechaOverride.Value);
+            else
+                await _presenter.LoadDailyProductionsForActiveUserAsync(DateTime.Today);
         }
 
         private void SetUiEnabled(bool enabled)
@@ -55,9 +120,7 @@ namespace ProdLogApp.Views
         private async void Add_Click(object sender, RoutedEventArgs e)
         {
             if (_presenter.OpenProductionFormForActiveUser())
-            {
-                await _presenter.LoadDailyProductionsForActiveUserAsync(DateTime.Today);
-            }
+                await ReloadContextAsync();
         }
 
         private async void Modify_Click(object sender, RoutedEventArgs e)
@@ -65,9 +128,7 @@ namespace ProdLogApp.Views
             if (Productions_list.SelectedItem is Production selected)
             {
                 if (_presenter.OpenProductionFormForActiveUser(selected))
-                {
-                    await _presenter.LoadDailyProductionsForActiveUserAsync(DateTime.Today);
-                }
+                    await ReloadContextAsync();
             }
             else
             {
@@ -91,8 +152,7 @@ namespace ProdLogApp.Views
                     {
                         SetUiEnabled(false);
                         await _presenter.DeleteProductionAsync(selected);
-                        // Opcional: recargar todo desde DB para asegurar consistencia
-                        await _presenter.LoadDailyProductionsForActiveUserAsync(DateTime.Today);
+                        await ReloadContextAsync(); // asegura consistencia
                     }
                     catch (Exception ex)
                     {
@@ -110,19 +170,21 @@ namespace ProdLogApp.Views
             }
         }
 
-
         private void ReturnToLogin()
         {
             var login = new Login(_databaseService);
-            Application.Current.MainWindow = login; 
+            Application.Current.MainWindow = login;
             login.Show();
             Close();
         }
 
-        private void Confirm_Click(object sender, RoutedEventArgs e)
+        // >>> Ahora async + await al guardar
+        private async void Confirm_Click(object sender, RoutedEventArgs e)
         {
             var ask = MessageBox.Show(
-                "¿Desea confirmar la producción del día y volver al Login?",
+                _isManagerModal
+                    ? "¿Desea guardar/confirmar los cambios de este parte y cerrar?"
+                    : "¿Desea confirmar la producción del día y volver al Login?",
                 "Confirmar",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question,
@@ -130,14 +192,25 @@ namespace ProdLogApp.Views
 
             if (ask != MessageBoxResult.Yes)
             {
-                ShowMessage("Operación cancelada. Podés seguir cargando producciones.");
+                ShowMessage("Operación cancelada. Podés seguir trabajando.");
                 return;
             }
 
             try
             {
                 SetUiEnabled(false);
-                ReturnToLogin();
+
+                await _presenter.SavePartProductionsForCurrentContextAsync();
+
+                if (_isManagerModal)
+                {
+                    this.DialogResult = true;
+                    this.Close();
+                }
+                else
+                {
+                    ReturnToLogin();
+                }
             }
             catch (Exception ex)
             {
@@ -149,13 +222,7 @@ namespace ProdLogApp.Views
             }
         }
 
-
-
-        private void Disconnect_Click(object sender, RoutedEventArgs e)
-        {
-            ReturnToLogin();
-        }
-
+        // --- Implementaciones de IOperatorMenuView ---
 
         public void ShowMessage(string message)
         {
@@ -170,16 +237,14 @@ namespace ProdLogApp.Views
 
         public void AddProductionToList(Production production)
         {
-            // Recuperar la lista que se está mostrando
             var currentList = Productions_list.ItemsSource as List<Production>;
             if (currentList != null)
             {
                 currentList.Add(production);
-                Productions_list.Items.Refresh(); // Refresca la UI
+                Productions_list.Items.Refresh();
             }
             else
             {
-                // Si no hay lista, crear una nueva con ese elemento
                 UpdateProductionList(new List<Production> { production });
             }
         }
@@ -188,7 +253,7 @@ namespace ProdLogApp.Views
         {
             var form = new ProductionForm(
                 UserSession.GetInstance().ActiveUser,
-                _databaseService // reutilizar!
+                _databaseService
             );
 
             if (form.ShowDialog() == true)
@@ -197,8 +262,27 @@ namespace ProdLogApp.Views
             return null;
         }
 
+        // Doble click por item del ListView (enganchado vía ItemContainerStyle EventSetter)
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListViewItem lvi && lvi.DataContext is Production prod)
+            {
+                OnProductionDoubleClick?.Invoke(prod);  // lo toma el Presenter y abre editar
+                e.Handled = true;
+            }
+        }
 
-
-
+        private void Disconnect_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isManagerModal)
+            {
+                this.DialogResult = false;
+                this.Close();
+            }
+            else
+            {
+                ReturnToLogin();
+            }
+        }
     }
 }

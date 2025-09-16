@@ -47,7 +47,7 @@ namespace ProdLogApp.Interfaces
         Task AddUser(User user);
         Task UpdateUser(User user);
 
-        // Productions (lecturas avanzadas podrían ir acá en el futuro)
+        // Productions 
         Task<List<Production>> GetProductionsAsync(int operarioId, DateTime day);
         Task<int> EnsureParteAsync(int usuarioId, DateTime fecha);
         Task<int> InsertProduccionAsync(Production produccion);
@@ -57,7 +57,8 @@ namespace ProdLogApp.Interfaces
         Task<Position?> GetPuestoByIdAsync(int puestoId);
         Task DeleteProduccionAsync(int produccionId);
         Task<bool> SavePartProductionsAsync(List<Production> productions, int userId, DateTime fecha, CancellationToken ct = default);
-
+        Task<Page<ParteHeaderItem>> GetParteHeadersPageAsync(
+            DateTime from, DateTime to, int page, int pageSize, string operarioLike = null);
 
     }
 }

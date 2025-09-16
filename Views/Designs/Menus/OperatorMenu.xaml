@@ -69,28 +69,32 @@
                 </Grid>
 
                 <ListView x:Name="Productions_list"
-                          Height="526"
-                          VerticalAlignment="Top"
-                          SelectionMode="Single">
+          Height="526"
+          VerticalAlignment="Top"
+          SelectionMode="Single"
+          ItemsSource="{Binding}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
                     <ListView.View>
                         <GridView>
-                            <!-- Cambiado: Nombre -> ProductoNombre -->
                             <GridViewColumn Header="Producto"
-                                            DisplayMemberBinding="{Binding ProductoNombre}" />
+                            DisplayMemberBinding="{Binding ProductoNombre}" />
                             <GridViewColumn Header="Cantidad"
-                                            DisplayMemberBinding="{Binding Cantidad}" />
+                            DisplayMemberBinding="{Binding Cantidad}" />
                             <GridViewColumn Header="Puesto"
-                                            DisplayMemberBinding="{Binding PuestoDescripcion}" />
+                            DisplayMemberBinding="{Binding PuestoDescripcion}" />
                             <GridViewColumn Header="⏰ Hora Inicio"
-                                            DisplayMemberBinding="{Binding HInicio, StringFormat=hh\\:mm}" />
+                            DisplayMemberBinding="{Binding HInicio, StringFormat={}{0:hh\\:mm}}" />
                             <GridViewColumn Header="⏳ Hora Fin"
-                                            DisplayMemberBinding="{Binding HFin, StringFormat=hh\\:mm}" />
-                           
-                            
-                            
+                            DisplayMemberBinding="{Binding HFin, StringFormat={}{0:hh\\:mm}}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
+
             </DockPanel>
         </Border>
 
@@ -136,7 +140,8 @@
         </StackPanel>
 
         <!-- Disconnect Button -->
-        <Button Style="{StaticResource CancelButtonStyle}"
+        <Button x:Name="btnDisconnect"
+                Style="{StaticResource CancelButtonStyle}"
                 Content="Desconectar"
                 Height="50"
                 Width="250"

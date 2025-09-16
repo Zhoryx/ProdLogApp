@@ -291,7 +291,7 @@ namespace ProdLogApp.Services
 
         public List<Position> ObtenerPuestos()
         {
-            // Delegamos en ObtenerPuestosActivos y ordenamos por nombre
+           
             return ObtenerPuestosActivos()
                 .OrderBy(p => p.Nombre)
                 .ToList();
@@ -355,13 +355,83 @@ namespace ProdLogApp.Services
         // =========================
         // Parte & Producciones
         // =========================
+        public async Task<Page<ParteHeaderItem>> GetParteHeadersPageAsync(
+    DateTime from, DateTime to, int page, int pageSize, string operarioLike = null)
+        {
+            var result = new Page<ParteHeaderItem> { PageNumber = page, PageSize = pageSize };
+
+            using var conn = GetConnection();
+            await conn.OpenAsync();
+
+            const string countSql = @"
+            SELECT COUNT(DISTINCT pa.Parte_Id)
+            FROM Parte pa
+            JOIN Usuario u ON u.UsId = pa.Usuario_Id
+            WHERE pa.Parte_Fecha BETWEEN @from AND @to
+              AND (@operarioLike IS NULL OR u.UsNombre LIKE CONCAT('%', @operarioLike, '%'));";
+
+            using (var countCmd = new MySqlCommand(countSql, conn))
+            {
+                countCmd.Parameters.AddWithValue("@from", from);
+                countCmd.Parameters.AddWithValue("@to", to);
+                countCmd.Parameters.AddWithValue("@operarioLike", (object?)operarioLike ?? DBNull.Value);
+                result.Total = Convert.ToInt32(await countCmd.ExecuteScalarAsync());
+            }
+
+            var offset = (page - 1) * pageSize;
+
+            const string dataSql = @"
+                    SELECT
+                pa.Parte_Id AS ParteId,
+                pa.Parte_Fecha AS ParteFecha,
+                pa.Usuario_Id AS UserId,
+                u.UsNombre AS Operario,
+                COUNT(pr.Produccion_Id) AS CantProducciones,
+                COALESCE(SUM(pr.Produccion_Cantidad), 0) AS TotalCantidad
+            FROM Parte pa
+            INNER JOIN Usuario u ON u.UsId = pa.Usuario_Id
+            LEFT JOIN Producciones pr ON pr.Parte_Id = pa.Parte_Id
+            WHERE pa.Parte_Fecha BETWEEN @from AND @to
+              AND (@operarioLike IS NULL OR u.UsNombre LIKE CONCAT('%', @operarioLike, '%'))
+            GROUP BY pa.Parte_Id, pa.Parte_Fecha, pa.Usuario_Id, u.UsNombre
+            ORDER BY pa.Parte_Fecha DESC, pa.Parte_Id DESC
+            LIMIT @pageSize OFFSET @offset;";
+
+            using (var cmd = new MySqlCommand(dataSql, conn))
+            {
+                cmd.Parameters.AddWithValue("@from", from);
+                cmd.Parameters.AddWithValue("@to", to);
+                cmd.Parameters.AddWithValue("@operarioLike", (object?)operarioLike ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@pageSize", pageSize);
+                cmd.Parameters.AddWithValue("@offset", offset);
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    result.Items.Add(new ParteHeaderItem
+                    {
+                        ParteId = reader.GetInt32("ParteId"),
+                        FechaParte = reader.GetDateTime("ParteFecha"),
+                        UserId = reader.GetInt32("UserId"),
+                        Operario = reader["Operario"]?.ToString() ?? "",
+                        CantProducciones = reader.GetInt32("CantProducciones"),
+                        TotalCantidad = reader.GetDecimal("TotalCantidad")
+                    });
+                }
+            }
+
+            return result;
+        }
+
+
+
         public async Task<int> EnsureParteAsync(int usuarioId, DateTime fecha)
         {
             const string sql = @"
-        INSERT INTO Parte (Usuario_Id, Parte_Fecha)
-        VALUES (@UsuarioId, @Fecha)
-        ON DUPLICATE KEY UPDATE Parte_Id = LAST_INSERT_ID(Parte_Id);
-        SELECT LAST_INSERT_ID();";
+            INSERT INTO Parte (Usuario_Id, Parte_Fecha)
+            VALUES (@UsuarioId, @Fecha)
+            ON DUPLICATE KEY UPDATE Parte_Id = LAST_INSERT_ID(Parte_Id);
+            SELECT LAST_INSERT_ID();";
 
             await using var conn = GetConnection();
             await conn.OpenAsync();
@@ -413,9 +483,9 @@ namespace ProdLogApp.Services
                        pu.Nombre              AS PuestoDescripcion,
                        p.Parte_Id
                   FROM Producciones p
-            INNER JOIN Parte pa   ON p.Parte_Id   = pa.Parte_Id
-            INNER JOIN Producto pr ON p.Producto_Id = pr.ProductoId
-            INNER JOIN Puesto   pu ON p.Puesto_Id   = pu.PuestoId
+                INNER JOIN Parte pa   ON p.Parte_Id   = pa.Parte_Id
+                INNER JOIN Producto pr ON p.Producto_Id = pr.ProductoId
+                INNER JOIN Puesto   pu ON p.Puesto_Id   = pu.PuestoId
                  WHERE pa.Usuario_Id = @UsuarioId
                    AND pa.Parte_Fecha = @Fecha
               ORDER BY p.Produccion_HoraInicio;";

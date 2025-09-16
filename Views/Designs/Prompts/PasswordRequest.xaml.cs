@@ -36,6 +36,9 @@ namespace ProdLogApp.Views
 
         public void ShowAdminMenu(User activeUser)
         {
+
+
+
             var managerMenu = new ManagerMenu(activeUser);
             managerMenu.Show();
             this.Owner.Close();

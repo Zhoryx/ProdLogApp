@@ -3,7 +3,7 @@ using System.Windows;
 using ProdLogApp.Models;
 using ProdLogApp.Presenters;
 using ProdLogApp.Interfaces;
-using ProdLogApp.Services; // Agregamos la referencia al servicio de base de datos
+using ProdLogApp.Services;
 
 namespace ProdLogApp.Views
 {
@@ -11,7 +11,7 @@ namespace ProdLogApp.Views
     {
         private readonly ManagerMenuPresenter _presenter;
         private readonly User _activeUser;
-        private readonly IDatabaseService _databaseService; // Agregamos esta variable
+        private readonly IDatabaseService _databaseService; // ✅ ahora sí se usa
 
         public event Action OnOpenDailyReports;
         public event Action OnManageProducts;
@@ -20,16 +20,14 @@ namespace ProdLogApp.Views
         public event Action OnManageUsers;
         public event Action OnDisconnect;
 
-        // Modificamos el constructor para recibir IDatabaseService
         public ManagerMenu(User activeUser)
         {
             InitializeComponent();
 
-            IDatabaseService databaseService = new DatabaseService(); // Instancia única en el menú
-            _activeUser = activeUser;
-            _presenter = new ManagerMenuPresenter(this, _activeUser, databaseService);
+            _activeUser = activeUser ?? throw new ArgumentNullException(nameof(activeUser));
+            _databaseService = new DatabaseService();                   // ✅ inicializar el CAMPO
+            _presenter = new ManagerMenuPresenter(this, _activeUser, _databaseService);
         }
-
 
         private void OpenDailyReports(object sender, RoutedEventArgs e) => OnOpenDailyReports?.Invoke();
         private void ManageProducts(object sender, RoutedEventArgs e) => OnManageProducts?.Invoke();
@@ -38,16 +36,14 @@ namespace ProdLogApp.Views
         private void ManageUsers(object sender, RoutedEventArgs e) => OnManageUsers?.Invoke();
         private void Disconnect(object sender, RoutedEventArgs e) => OnDisconnect?.Invoke();
 
-        public void CloseWindow()
-        {
-            this.Close(); // Cerrar ManagerMenu
-        }
+        public void CloseWindow() => Close();
 
         public void NavigateToLogin()
         {
-            Login login = new Login(_databaseService);
-            login.Show(); // Mostrar la ventana de Login
-            CloseWindow(); // Cerrar ManagerMenu
+            var login = new Login(_databaseService);                    // ✅ usa la MISMA instancia
+            Application.Current.MainWindow = login;                     // (opcional) reasignar MainWindow
+            login.Show();
+            CloseWindow();
         }
     }
 }
