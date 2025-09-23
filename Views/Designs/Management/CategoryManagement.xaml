@@ -24,7 +24,9 @@
 
         <!-- Lista de Categorías -->
         <Border Background="#E6F0FA" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="CategoryList" SelectionMode="Single" SelectionChanged="CategoryList_SelectionChanged">
+            <ListView x:Name="CategoryList" SelectionMode="Single" SelectionChanged="CategoryList_SelectionChanged"
+                       MouseDoubleClick="Categories_list_MouseDoubleClick"
+                       KeyDown="Categories_list_KeyDown" FontSize="16">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="80" DisplayMemberBinding="{Binding CategoryId}">

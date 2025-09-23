@@ -37,7 +37,8 @@
 
         <!-- Lista de categorías -->
         <Border Style="{StaticResource ShadowBorderStyle}" Padding="10" Margin="303,0,0,70" HorizontalAlignment="Left" Width="530">
-            <ListView x:Name="CategoryList" Height="320" SelectionMode="Single" SelectionChanged="CategoryList_SelectionChanged" Margin="0,17,21,17">
+            <ListView x:Name="CategoryList" Height="320" SelectionMode="Single" SelectionChanged="CategoryList_SelectionChanged" MouseDoubleClick="Categories_list_MouseDoubleClick"
+                  KeyDown="Categories_list_KeyDown" Margin="0,17,21,17" FontSize="16">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="80" DisplayMemberBinding="{Binding CategoryId}">

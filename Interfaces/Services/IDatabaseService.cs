@@ -44,6 +44,7 @@ namespace ProdLogApp.Interfaces
 
         // Users
         Task<List<User>> UsersGet(bool soloActivos = false);
+        Task ToggleUserStatusAsync(int userId, bool currentActive);
         Task AddUser(User user);
         Task UpdateUser(User user);
 

@@ -316,6 +316,7 @@ namespace ProdLogApp.Services
         // =========================
         // Usuarios
         // =========================
+   
         public async Task<List<User>> UsersGet(bool soloActivas = false)
         {
             var users = new List<User>();
@@ -338,7 +339,7 @@ namespace ProdLogApp.Services
                             Id = reader.GetInt32("UsId"),
                             Name = reader.GetString("UsNombre"),
                             Dni = reader.GetString("UsDNI"),
-                            IsAdmin = reader.GetBoolean("UsGerente"),
+                            IsAdmin = reader.GetBoolean("UsGerente"),             // mapea a tu propiedad
                             Fingreso = reader.GetDateOnly("UsFechaIngreso"),
                             Active = reader.GetBoolean("UsActivo")
                         });
@@ -349,8 +350,81 @@ namespace ProdLogApp.Services
             return users;
         }
 
-        public async Task AddUser(User user) { }
-        public async Task UpdateUser(User user) { }
+        public async Task AddUser(User user)
+        {
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+
+                const string sql = @"
+            INSERT INTO Usuario (UsNombre, UsDNI, UsGerente, UsFechaIngreso, UsActivo)
+            VALUES (@Nombre, @DNI, @Gerente, @FechaIngreso, @Activo);";
+
+                using (var cmd = new MySqlCommand(sql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", user.Name);
+                    cmd.Parameters.AddWithValue("@DNI", user.Dni);
+                    cmd.Parameters.AddWithValue("@Gerente", user.IsAdmin);           // bool
+                    cmd.Parameters.AddWithValue("@FechaIngreso", user.Fingreso == default ? DateOnly.FromDateTime(DateTime.Today) : user.Fingreso);
+                    cmd.Parameters.AddWithValue("@Activo", user.Active);
+
+                    await cmd.ExecuteNonQueryAsync();
+                    user.Id = (int)cmd.LastInsertedId;
+                }
+            }
+        }
+
+        public async Task UpdateUser(User user)
+        {
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+
+                const string sql = @"
+            UPDATE Usuario
+               SET UsNombre = @Nombre,
+                   UsDNI = @DNI,
+                   UsGerente = @Gerente,
+                   UsFechaIngreso = @FechaIngreso,
+                   UsActivo = @Activo
+             WHERE UsId = @Id;";
+
+                using (var cmd = new MySqlCommand(sql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", user.Name);
+                    cmd.Parameters.AddWithValue("@DNI", user.Dni);
+                    cmd.Parameters.AddWithValue("@Gerente", user.IsAdmin);
+                    cmd.Parameters.AddWithValue("@FechaIngreso", user.Fingreso == default ? DateOnly.FromDateTime(DateTime.Today) : user.Fingreso);
+                    cmd.Parameters.AddWithValue("@Activo", user.Active);
+                    cmd.Parameters.AddWithValue("@Id", user.Id);
+
+                    var rows = await cmd.ExecuteNonQueryAsync();
+                    if (rows == 0)
+                        throw new InvalidOperationException("No se encontró el usuario a actualizar.");
+                }
+            }
+        }
+
+        public async Task ToggleUserStatusAsync(int userId, bool currentActive)
+        {
+            using (var connection = GetConnection())
+            {
+                await connection.OpenAsync();
+
+                const string sql = @"UPDATE Usuario SET UsActivo = @Nuevo WHERE UsId = @Id;";
+
+                using (var cmd = new MySqlCommand(sql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Nuevo", !currentActive);
+                    cmd.Parameters.AddWithValue("@Id", userId);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+     
+
+
 
         // =========================
         // Parte & Producciones

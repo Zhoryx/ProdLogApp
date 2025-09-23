@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 
 namespace ProdLogApp.Views
@@ -103,6 +104,27 @@ namespace ProdLogApp.Views
             dataView.SortDescriptions.Clear();
             dataView.SortDescriptions.Add(new SortDescription(sortBy, direction));
             dataView.Refresh();
+        }
+
+
+        private void Categories_list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+          
+            var clicked = e.OriginalSource as DependencyObject;
+            var container = ItemsControl.ContainerFromElement(CategoryList, clicked) as ListViewItem;
+            if (container == null) return;
+
+            if (CategoryList?.SelectedItem is Categoria)
+                OnModifyCategory?.Invoke();
+        }
+
+        private void Categories_list_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.Enter || e.Key == Key.F2) && CategoryList?.SelectedItem is Categoria)
+            {
+                OnModifyCategory?.Invoke();
+                e.Handled = true;
+            }
         }
 
         private void ToggleCategoryStatus_Click(object sender, RoutedEventArgs e) => OnToggleCategoryStatus?.Invoke();

@@ -30,18 +30,22 @@ namespace ProdLogApp.Presenters
 
         // --- Navegación ---
 
-        // Abrir Partes Diarios como MODAL (no cerramos el menú; “Volver” funciona perfecto)
+
         private void OpenDailyReports()
         {
             try
             {
-                var owner = _view as Window; // ManagerMenu implementa IManagerMenuView y es Window
+                var owner = _view as Window;
+                owner?.Hide(); // “cierra” visualmente
+
                 var win = new ManagerProduction(_activeUser, _databaseService)
                 {
                     Owner = owner,
                     WindowStartupLocation = WindowStartupLocation.CenterOwner
                 };
-                win.ShowDialog(); // modal: al cerrar, se vuelve al menú
+
+                win.ShowDialog(); // bloquea mientras está abierto
+                owner?.Show();    // al cerrar el modal, vuelve el menú
             }
             catch (Exception ex)
             {
@@ -49,13 +53,15 @@ namespace ProdLogApp.Presenters
             }
         }
 
+
+
         // Estos módulos pueden seguir reemplazando el menú (no modales)
         private void OpenProductManagement() => NavigateToAndClose(new ProductManagement(_activeUser, _databaseService));
         private void OpenCategoryManagement() => NavigateToAndClose(new CategoryManagement(_activeUser, _databaseService));
         private void OpenPositionManagement() => NavigateToAndClose(new PositionManagement(_activeUser, _databaseService));
         private void OpenUserManagement() => NavigateToAndClose(new UserManagement(_activeUser, _databaseService));
 
-        // Cerrar sesión → vuelve a Login usando el IDatabaseService ya inicializado en ManagerMenu
+        
         private void CloseMenu()
         {
             try

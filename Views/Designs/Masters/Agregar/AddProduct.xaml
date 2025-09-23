@@ -1,9 +1,9 @@
 ﻿<Window
+    x:Class="ProdLogApp.Views.AddProduct"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="ProdLogApp.Views.AddProduct"
-    Loaded="Window_Loaded"
     Title="Agregar Producto"
+    Loaded="Window_Loaded"
     Height="400"
     Width="500"
     WindowStartupLocation="CenterScreen"
@@ -18,49 +18,49 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Margin="20">
-        <!-- Definir filas -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <!-- Contenedor principal como en ProductionForm -->
+    <StackPanel Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
+        <!-- Grupo: Categoría -->
+        <GroupBox Header="Categoría" Foreground="White" Margin="0,0,0,10" BorderThickness="0.5">
+            <StackPanel>
+                <Button Content="Seleccionar Categoría"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Width="165"
+                        Margin="0,0,0,5"
+                        Click="SeleccionarProducto_Click"/>
+                <!-- Mostramos la selección en un TextBox readonly, igual que en ProductionForm -->
+                <TextBox x:Name="CategoriaTextBox"
+                         Style="{StaticResource BaseTextBoxStyle}"
+                         IsReadOnly="True"
+                         Text="Seleccionada: Ninguna"/>
+            </StackPanel>
+        </GroupBox>
 
-        <!-- Etiqueta Categoría -->
-        <Label Content="Categoría:" FontSize="16" Foreground="White" 
-               Grid.Row="0" HorizontalAlignment="Left" Margin="10,40,0,20"/>
+        <!-- Grupo: Nombre del Producto -->
+        <GroupBox Header="Nombre del Producto" Foreground="White" Margin="0,0,0,20" BorderThickness="0.5">
+            <TextBox x:Name="NombreProducto"
+                     Style="{StaticResource BaseTextBoxStyle}"
+                     Height="40"
+                     VerticalContentAlignment="Center"
+                     HorizontalAlignment="Stretch"/>
+        </GroupBox>
 
-        <!-- Mostrar selección del ComboBox -->
-        <Label x:Name="SeleccionCategoria" 
-               Content="Seleccionada: Ninguna" FontSize="14" Foreground="White"
-               Grid.Row="0" HorizontalAlignment="Left" Margin="97,42,0,37" Width="353"/>
-
-        <!-- Botón para seleccionar categoría -->
-        <Button Style="{StaticResource ModernButtonStyle}" Content="Seleccionar"
-                Grid.Row="0" Width="100" Height="30" HorizontalAlignment="Center" Margin="0,93,0,2"
-                Click="SeleccionarProducto_Click"/>
-
-        <!-- Etiqueta Nombre -->
-        <Label Content="Nombre del Producto:" FontSize="16" Foreground="White" 
-               Grid.Row="1" HorizontalAlignment="Left" Margin="138,7,0,219"/>
-
-        <!-- TextBox para ingresar el nombre -->
-        <TextBox x:Name="NombreProducto" 
-                 Style="{StaticResource BaseTextBoxStyle}" 
-                 Width="346" MinHeight="35"
-                 Grid.Row="1" HorizontalAlignment="Left" Margin="48,35,0,197"/>
-
-        <!-- Botones -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Margin="91,121,0,89">
-            <Button Style="{StaticResource ConfirmButtonStyle}" Content="Confirmar" 
-                    Width="120" Height="40" Margin="10" Click="Confirmar_Click"/>
-            <Button Style="{StaticResource CancelButtonStyle}" Content="Cancelar" 
-                    Width="120" Height="40" Click="Cancelar_Click"/>
+        <!-- Botones alineados a la derecha como en ProductionForm -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnConfirmar"
+                    Content="Confirmar"
+                    Style="{StaticResource ConfirmButtonStyle}"
+                    Width="120"
+                    Margin="10"
+                    IsDefault="True"
+                    Click="Confirmar_Click"/>
+            <Button Content="Cancelar"
+                    Style="{StaticResource CancelButtonStyle}"
+                    Width="120"
+                    Margin="10"
+                    IsCancel="True"
+                    Click="Cancelar_Click"/>
         </StackPanel>
-    </Grid>
+    </StackPanel>
 </Window>

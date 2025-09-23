@@ -8,7 +8,7 @@ namespace ProdLogApp.Interfaces
         event Action OnAddUser;
         event Action OnModifyUser;
         event Action OnToggleUserStatus;
-
+        event Action OnReturn;
         void ShowUsers(List<User> Users);
         User SelectedUser();
         bool NewUser();

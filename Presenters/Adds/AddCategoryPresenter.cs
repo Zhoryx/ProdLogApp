@@ -20,7 +20,7 @@ namespace ProdLogApp.Presenters
 
             if (_categoriaActual != null)
             {
-                _view.CargarDatosCategoria(_categoriaActual); // ✅ Carga datos si es edición
+                _view.CargarDatosCategoria(_categoriaActual); 
             }
         }
 
@@ -35,13 +35,13 @@ namespace ProdLogApp.Presenters
 
             if (_categoriaActual == null)
             {
-                // ✅ Nueva categoría
+                
                 _databaseService.AgregarCategoria(new Categoria { Nombre = nombre });
                 _view.MostrarMensaje("Categoría agregada correctamente.");
             }
             else
             {
-                // ✅ Modificación de categoría existente
+                
                 _categoriaActual.Nombre = nombre;
                 _databaseService.ActualizarCategoria(_categoriaActual);
                 _view.MostrarMensaje("Categoría modificada correctamente.");

@@ -39,7 +39,11 @@
 
         <!-- Left-side grid displaying user data -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="Users_list" SelectionMode="Single" SelectionChanged="Users_list_SelectionChanged">
+            <ListView x:Name="Users_list"
+          SelectionMode="Single"
+          SelectionChanged="Users_list_SelectionChanged"
+          MouseDoubleClick="Users_list_MouseDoubleClick"
+          KeyDown="Users_list_KeyDown" FontSize="16">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Name}">
@@ -69,6 +73,7 @@
                 </ListView.View>
             </ListView>
 
+            
         </Border>
 
         <!-- CRUD Buttons -->

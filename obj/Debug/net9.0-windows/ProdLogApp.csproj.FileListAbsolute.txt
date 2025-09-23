@@ -8,6 +8,7 @@ C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdL
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Agregar\PositionAdd.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Agregar\ProduccionAgregarGerente.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Masters\Agregar\ProductionForm.baml
+C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\ManagerProduction.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Style.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\App.g.cs
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\LogIn.g.cs
@@ -107,7 +108,6 @@ C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdL
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Management\ProductManagement.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Management\UserManagement.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\ManagerMenu.baml
-C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\ManagerProduction.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Menus\OperatorMenu.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Prompts\PasswordRequest.baml
 C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\obj\Debug\net9.0-windows\Views\Designs\Prompts\PromptCategory.baml

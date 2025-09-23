@@ -52,7 +52,9 @@
                 Margin="280,0,0,80"
                 HorizontalAlignment="Left"
                 Width="530">
-            <ListView x:Name="ProductList">
+            <ListView x:Name="ProductList"
+                       MouseDoubleClick="Product_list_MouseDoubleClick"
+                        KeyDown="Product_list_KeyDown" FontSize="16">
                 <ListView.View>
                     <GridView>
 

@@ -39,7 +39,9 @@
 
         <!-- Left-side grid displaying position data -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="Positions">
+            <ListView x:Name="Positions" FontSize="16"
+                MouseDoubleClick="Positions_list_MouseDoubleClick"
+                KeyDown="Positions_list_KeyDown">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Nombre}">

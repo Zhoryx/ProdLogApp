@@ -1,71 +1,94 @@
-﻿using ProdLogApp.Interfaces;
+﻿// Presenters/UserManagementPresenter.cs
+using ProdLogApp.Interfaces;
 using ProdLogApp.Models;
-using ProdLogApp.Services;
 using System;
-using System.Windows;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProdLogApp.Presenters
 {
     public class UserManagementPresenter
     {
+        private readonly IDatabaseService _db;
         private readonly IUserManagementView _view;
-        private readonly IDatabaseService _databaseService;
 
-        public UserManagementPresenter(IDatabaseService databaseService, IUserManagementView view)
+        public UserManagementPresenter(IDatabaseService db, IUserManagementView view)
         {
+            _db = db;
             _view = view;
-            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
 
+            _view.OnAddUser += OnAddUser;
+            _view.OnModifyUser += OnModifyUser;
+            _view.OnToggleUserStatus += OnToggleUserStatus;
+            _view.OnReturn += () => _view.NavigateToMenu();
 
-          
-            _view.OnAddUser += AddUser;
-            _view.OnToggleUserStatus += ToggleUserStatus;
-            _view.OnModifyUser += ModifyUser;
-            UsersGet();
+            _ = LoadUsersAsync();
         }
 
-        private async void UsersGet()
+        private async Task LoadUsersAsync()
         {
-            var users = await _databaseService.UsersGet(); 
-            _view.ShowUsers(users);
-        }
-
-
-        private void AddUser()
-        {
-            if (_view.NewUser()) 
-                UsersGet();
-        }
-
-
-        private void ToggleUserStatus()
-        {
-            User user_selected = _view.SelectedUser();
-
-            if (user_selected == null)
+            try
             {
-                _view.ShowMessage("Seleccione un Usuario para cambiar su estado.");
+                var users = await _db.UsersGet(soloActivos: false);
+                _view.ShowUsers(users);
+            }
+            catch (Exception ex)
+            {
+                _view.ShowMessage($"Error al cargar usuarios: {ex.Message}");
+            }
+        }
+
+        private async void OnAddUser()
+        {
+            try
+            {
+                var ok = _view.NewUser();   // abre AddUser sin objeto => alta
+                if (ok) await LoadUsersAsync();
+            }
+            catch (Exception ex)
+            {
+                _view.ShowMessage($"Error al agregar: {ex.Message}");
+            }
+        }
+
+        private async void OnModifyUser()
+        {
+            var user = _view.SelectedUser();
+            if (user == null)
+            {
+                _view.ShowMessage("Seleccioná un usuario para modificar.");
                 return;
             }
 
-            user_selected.Active = !user_selected.Active;
-            _databaseService.ToggleCategoryStatus(user_selected.Id, user_selected.Active);
-            _view.ShowMessage(user_selected.Active ? "Usuario desactivado correctamente." : "Usuario activado correctamente.");
-            UsersGet();
+            try
+            {
+                _view.ModifyUser(user);     // abre AddUser con el objeto => edición
+                await LoadUsersAsync();
+            }
+            catch (Exception ex)
+            {
+                _view.ShowMessage($"Error al modificar: {ex.Message}");
+            }
         }
 
-        private void ModifyUser()
+        private async void OnToggleUserStatus()
         {
-            User user_selected = _view.SelectedUser();
-            if (user_selected == null)
+            var user = _view.SelectedUser();
+            if (user == null)
             {
-                _view.ShowMessage("Seleccione una Usuario para modificar.");
+                _view.ShowMessage("Seleccioná un usuario.");
                 return;
             }
 
-            _view.ModifyUser(user_selected);
-            UsersGet();
+            try
+            {
+                await _db.ToggleUserStatusAsync(user.Id, user.Active);
+                await LoadUsersAsync();
+            }
+            catch (Exception ex)
+            {
+                _view.ShowMessage($"No se pudo cambiar el estado: {ex.Message}");
+            }
         }
-
     }
 }

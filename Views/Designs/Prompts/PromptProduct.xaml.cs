@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace ProdLogApp.Views.Designs.Prompts
 {
@@ -100,6 +101,24 @@ namespace ProdLogApp.Views.Designs.Prompts
             DialogResult = false;
             Close();
         }
+        private void Product_list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Evita disparar si el doble-click fue en un hueco de la lista
+            var clicked = e.OriginalSource as DependencyObject;
+            var container = ItemsControl.ContainerFromElement(ProductList, clicked) as ListViewItem;
+            if (container == null) return;
 
+            ConfirmButton_Click(sender, new RoutedEventArgs());
+        }
+
+        // Enter = confirmar
+        private void Product_list_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && ProductList?.SelectedItem is Categoria)
+            {
+                ConfirmButton_Click(sender, new RoutedEventArgs());
+                e.Handled = true;
+            }
+        }
     }
 }

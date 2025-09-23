@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ProdLogApp.Views.Designs.Prompts
 {
@@ -77,6 +78,26 @@ namespace ProdLogApp.Views.Designs.Prompts
             if (sender is GridViewColumnHeader header && header.Tag is string sortBy)
             {
                 _presenter.OrdenarPor(sortBy);
+            }
+        }
+
+        private void Position_list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Evita disparar si el doble-click fue en un hueco de la lista
+            var clicked = e.OriginalSource as DependencyObject;
+            var container = ItemsControl.ContainerFromElement(PositionList, clicked) as ListViewItem;
+            if (container == null) return;
+
+            ConfirmButton_Click(sender, new RoutedEventArgs());
+        }
+
+        // Enter = confirmar
+        private void Position_list_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && PositionList?.SelectedItem is Categoria)
+            {
+                ConfirmButton_Click(sender, new RoutedEventArgs());
+                e.Handled = true;
             }
         }
     }

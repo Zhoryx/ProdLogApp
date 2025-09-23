@@ -5,7 +5,7 @@
     public bool Activo { get; set; }
 
    
-    public string EstadoActivo => Activo ? "No" : "Sí";
+    public string EstadoActivo => Activo ? "Sí" : "No";
 }
 
 

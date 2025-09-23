@@ -21,7 +21,7 @@
     <Grid>
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Margin="10,10,342,10" Padding="10">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ListView x:Name="Producciones" Width="431" SelectionChanged="Producciones_SelectionChanged" RenderTransformOrigin="0.664,0.535" Height="398">
+                <ListView x:Name="Producciones" Width="431" SelectionChanged="Producciones_SelectionChanged" RenderTransformOrigin="0.664,0.535" Height="398" FontSize="16">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="Auto" Header="Operario" DisplayMemberBinding="{Binding Operario}"/>

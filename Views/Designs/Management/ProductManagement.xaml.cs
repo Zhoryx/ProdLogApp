@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace ProdLogApp.Views
 {
@@ -43,7 +44,43 @@ namespace ProdLogApp.Views
             Close();
         }
 
-        // Métodos para abrir ventanas (controlados por el Presenter)
+        private void Products_list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var clicked = e.OriginalSource as DependencyObject;
+            var container = ItemsControl.ContainerFromElement(Products_list, clicked) as ListViewItem;
+            if (container == null) return; // doble click en área vacía
+
+            if (Products_list?.SelectedItem is Producto)
+                OnModifyProduct?.Invoke();
+        }
+
+        private void Products_list_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.Enter || e.Key == Key.F2) && Products_list?.SelectedItem is Producto)
+            {
+                OnModifyProduct?.Invoke();
+                e.Handled = true;
+            }
+        }
+
+        // Si tenés botón Modificar, que llame al mismo evento:
+        private void ModifyProduct_Click(object sender, RoutedEventArgs e) => OnModifyProduct?.Invoke();
+
+        // Métodos de la vista (MVP)
+        public Producto SelectedProduct() => Products_list?.SelectedItem as Producto;
+        public void ShowProducts(List<Producto> items) => Products_list.ItemsSource = items ?? new List<Producto>();
+        public bool NewProduct()
+        {
+            var dlg = new AddProduct(_databaseService) { Owner = this };
+            return dlg.ShowDialog() == true;
+        }
+        public void ModifyProduct(Producto p)
+        {
+            var dlg = new AddProduct(_databaseService, p) { Owner = this };
+            dlg.ShowDialog();
+        }
+    
+
         public void Addview()
         {
             AddProduct ventanaAgregar = new AddProduct(_databaseService);
@@ -65,8 +102,7 @@ namespace ProdLogApp.Views
         }
 
 
-        // Método para modificar producto desde el botón en XAML
-        private void ModifyProduct_Click(object sender, RoutedEventArgs e) => OnModifyProduct?.Invoke();
+        
 
         // Método para volver al menú desde el botón en XAML
         private void ReturnToMenu_Click(object sender, RoutedEventArgs e) => OnReturn?.Invoke();
@@ -74,7 +110,7 @@ namespace ProdLogApp.Views
         // Método para mostrar productos en la lista
         public void MostrarProductos(List<Producto> productos)
         {
-            ProductList.ItemsSource = productos ?? new List<Producto>();
+            Products_list.ItemsSource = productos ?? new List<Producto>();
         }
 
         // Método para mostrar mensajes en la UI
@@ -86,7 +122,7 @@ namespace ProdLogApp.Views
         // Obtener el producto seleccionado en la lista
         public Producto ObtenerProductoSeleccionado()
         {
-            return ProductList.SelectedItem as Producto;
+            return Products_list.SelectedItem as Producto;
         }
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
@@ -112,7 +148,7 @@ namespace ProdLogApp.Views
         }
         private void Sort(string sortBy, ListSortDirection direction)
         {
-            ICollectionView dataView = CollectionViewSource.GetDefaultView(ProductList.ItemsSource);
+            ICollectionView dataView = CollectionViewSource.GetDefaultView(Products_list.ItemsSource);
 
             dataView.SortDescriptions.Clear();
             SortDescription sd = new SortDescription(sortBy, direction);

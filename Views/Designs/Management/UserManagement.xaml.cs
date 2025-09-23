@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace ProdLogApp.Views
 {
@@ -114,7 +115,32 @@ namespace ProdLogApp.Views
             _lastDirection = direction;
         }
 
-        
+        private void Users_list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Evitar abrir si el doble click fue en el fondo vacío del ListView
+            var clickedElement = e.OriginalSource as DependencyObject;
+            var container = ItemsControl.ContainerFromElement(Users_list, clickedElement) as ListViewItem;
+
+            if (container == null)
+                return; // doble click fuera de un item
+
+            if (Users_list?.SelectedItem is User)
+            {
+                OnModifyUser?.Invoke(); // reusar el flujo existente del Presenter
+            }
+        }
+
+        private void Users_list_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Habilitar Enter/F2 para editar
+            if ((e.Key == Key.Enter || e.Key == Key.F2) && Users_list?.SelectedItem is User)
+            {
+                OnModifyUser?.Invoke();
+                e.Handled = true;
+            }
+        }
+
+
         private void ReturnToMenu_Click(object sender, RoutedEventArgs e)
         {
             NavigateToMenu();

@@ -37,7 +37,7 @@ namespace ProdLogApp.Views
             {
                 NombreProducto.Text = _producto.Nombre;
                 _categoriaIdSeleccionada = _producto.CategoriaId;
-                SeleccionCategoria.Content = $"Seleccionado: {_producto.CategoriaNombre}";
+                CategoriaTextBox.Text = $"Seleccionado: {_producto.CategoriaNombre}";
             }
         }
 
@@ -51,7 +51,7 @@ namespace ProdLogApp.Views
             if (resultado == true)
             {
                 prompt.ObtenerSeleccion(out _categoriaIdSeleccionada, out string descripcion);
-                SeleccionCategoria.Content = $"Seleccionada: {descripcion}"; 
+                CategoriaTextBox.Text = $"Seleccionada: {descripcion}"; 
             }
         }
 

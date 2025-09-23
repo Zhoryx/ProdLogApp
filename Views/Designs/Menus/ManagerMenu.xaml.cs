@@ -40,8 +40,8 @@ namespace ProdLogApp.Views
 
         public void NavigateToLogin()
         {
-            var login = new Login(_databaseService);                    // ✅ usa la MISMA instancia
-            Application.Current.MainWindow = login;                     // (opcional) reasignar MainWindow
+            var login = new Login(_databaseService);                    
+            Application.Current.MainWindow = login;                     
             login.Show();
             CloseWindow();
         }

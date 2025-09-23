@@ -39,27 +39,32 @@
 
         <!-- Left-side grid displaying product data -->
         <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
-            <ListView x:Name="ProductList">
+            <ListView x:Name="Products_list"
+                  SelectionMode="Single"
+                  MouseDoubleClick="Products_list_MouseDoubleClick"
+                  KeyDown="Products_list_KeyDown" FontSize="16">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Nombre}">
+                        <!-- Ajustá columnas y bindings a tu modelo Producto -->
+                        <GridViewColumn Width="240" DisplayMemberBinding="{Binding Nombre}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Producto" Click="GridViewColumnHeader_Click" Tag="Nombre"/>
+                                <GridViewColumnHeader Content="Producto" Tag="ProductoNombre" Click="GridViewColumnHeader_Click"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding CategoriaNombre}">
+                        <GridViewColumn Width="180" DisplayMemberBinding="{Binding CategoriaNombre}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Categoría" Click="GridViewColumnHeader_Click" Tag="CategoriaNombre"/>
+                                <GridViewColumnHeader Content="Categoría" Tag="CategoriaNombre" Click="GridViewColumnHeader_Click"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding EstadoActivo}">
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding EstadoActivo}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Activo" Click="GridViewColumnHeader_Click" Tag="EstadoActivo"/>
+                                <GridViewColumnHeader Content="Activo" Tag="EstadoActivo" Click="GridViewColumnHeader_Click"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
+
         </Border>
 
         <!-- CRUD Buttons -->

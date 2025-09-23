@@ -43,7 +43,9 @@
 
         <!-- 📋 Lista de puestos -->
         <ListView x:Name="PositionList" SelectionMode="Single"
-                  SelectionChanged="PositionList_SelectionChanged" Margin="358,10,0,18">
+                  SelectionChanged="PositionList_SelectionChanged"
+                  MouseDoubleClick="Position_list_MouseDoubleClick"
+                  KeyDown="Position_list_KeyDown" Margin="358,10,0,18" FontSize="16">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="80" DisplayMemberBinding="{Binding PuestoId}">

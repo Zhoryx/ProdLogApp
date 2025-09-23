@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace ProdLogApp.Views
 {
@@ -32,6 +33,29 @@ namespace ProdLogApp.Views
             _presenter = new PositionManagementPresenter(this, _databaseService);
             _presenter.CargarPuestos();
         }
+
+        private void Positions_list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var clicked = e.OriginalSource as DependencyObject;
+            var container = ItemsControl.ContainerFromElement(Positions, clicked) as ListViewItem;
+            if (container == null) return; // doble-click en área vacía
+            
+            if (Positions?.SelectedItem is Position)
+                OnModifyPosition?.Invoke();
+        }
+
+        // Enter/F2 = Modificar
+        private void Positions_list_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.Enter || e.Key == Key.F2) && Positions?.SelectedItem is Position)
+            {
+                OnModifyPosition?.Invoke();
+                e.Handled = true;
+            }
+        }
+
+        // Si ya tenés botón Modificar:
+        private void ModifyPosition_Click(object sender, RoutedEventArgs e) => OnModifyPosition?.Invoke();
 
         private void AddPosition(object sender, RoutedEventArgs e) => OnAddPosition?.Invoke();
         private void DeletePosition(object sender, RoutedEventArgs e) => OnDeletePosition?.Invoke();
