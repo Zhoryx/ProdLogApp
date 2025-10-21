@@ -13,8 +13,8 @@ TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 21-975408856
 
 801856158546
-228-320498534
+228-1091702368
 Views\Designs\App.xaml;Views\Designs\LogIn.xaml;Views\Designs\Management\GestCategoria.xaml;Views\Designs\Management\GestionUsuariosWindow.xaml;Views\Designs\Management\GestProducto.xaml;Views\Designs\Management\GestPuesto.xaml;Views\Designs\Masters\Agregar\AgregarCategoria.xaml;Views\Designs\Masters\Agregar\AgregarProducto.xaml;Views\Designs\Masters\Agregar\AgregarPuesto.xaml;Views\Designs\Masters\Agregar\AgregarUsuario.xaml;Views\Designs\Masters\Agregar\FormularioProduccion.xaml;Views\Designs\Masters\Agregar\ProduccionAgregarGerente.xaml;Views\Designs\Menus\MenuGerente.xaml;Views\Designs\Menus\OperadorMenu.xaml;Views\Designs\Menus\ProduccionesGerente.xaml;Views\Designs\Prompts\PasswordRequest.xaml;Views\Designs\Prompts\PromptCategoria.xaml;Views\Designs\Prompts\PromptOperario.xaml;Views\Designs\Prompts\PromptProducto.xaml;Views\Designs\Prompts\PromptPuesto.xaml;Views\Designs\Style.xaml;
 
-False
+True
 

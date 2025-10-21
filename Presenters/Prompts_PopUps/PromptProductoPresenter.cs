@@ -8,12 +8,14 @@ using ProdLogApp.Servicios;    // IServicioProductos
 
 namespace ProdLogApp.Presenters.Prompts_PopUps
 {
+    // Presenter del prompt de selección de Producto.
+    // Carga productos activos y aplica filtros por nombre, código e identificación/nombre de categoría.
     public sealed class PromptProductPresenter
     {
         private readonly IPromptProductoVista _view;
         private readonly IServicioProductos _svc;
 
-        private List<Producto> _todos = new();
+        private List<Producto> _todos = new(); // Fuente en memoria de productos activos
 
         public PromptProductPresenter(IPromptProductoVista view, IServicioProductos servicioProductos)
         {
@@ -21,13 +23,12 @@ namespace ProdLogApp.Presenters.Prompts_PopUps
             _svc = servicioProductos ?? throw new ArgumentNullException(nameof(servicioProductos));
         }
 
+        // Carga productos desde el servicio y filtra solo los activos.
         public async Task CargarProductosAsync()
         {
             try
             {
                 var items = await _svc.ListarAsync();
-
-               
                 _todos = (items ?? Array.Empty<Producto>())
                             .Where(p => p.Activo)
                             .ToList();
@@ -40,8 +41,10 @@ namespace ProdLogApp.Presenters.Prompts_PopUps
             }
         }
 
-
-        // Filtrado en memoria: nombre, código (Id) y categoría (por Id o por nombre)
+        // Aplica filtros combinados:
+        // - nombre: contiene (case-insensitive)
+        // - código: numérico exacto o coincidencia textual en el Id
+        // - categoría: por Id numérico o por coincidencia con el nombre de categoría
         public void FiltrarProductos(string nombre, string codigoTexto, string categoriaTexto)
         {
             IEnumerable<Producto> q = _todos;
@@ -65,14 +68,12 @@ namespace ProdLogApp.Presenters.Prompts_PopUps
             {
                 var cat = categoriaTexto.Trim();
 
-                // Si es número, filtramos por CategoriaId
                 if (int.TryParse(cat, out int catId))
                 {
                     q = q.Where(p => p.CategoriaId == catId);
                 }
                 else
                 {
-                    // Si es texto, filtramos por nombre de categoría
                     var c = cat.ToLowerInvariant();
                     q = q.Where(p => (p.CategoriaNombre ?? "").ToLowerInvariant().Contains(c));
                 }

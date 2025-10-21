@@ -7,6 +7,8 @@ using ProdLogApp.Servicios;      // IServicioProducciones
 
 namespace ProdLogApp.Presenters
 {
+    // Presenter para alta de Producción.
+    // Valida entradas del formulario, normaliza horarios y coordina la persistencia con el servicio.
     public sealed class AgregarProduccionPresenter
     {
         private readonly IFormularioProduccionVista _view;
@@ -24,6 +26,9 @@ namespace ProdLogApp.Presenters
 
         // ========= Validaciones de entrada =========
 
+        // Valida y normaliza una hora ingresada en distintos formatos.
+        // Acepta: "8" -> 08:00, "830" -> 08:30, "1230" -> 12:30, "08:30" -> 08:30.
+        // Si es válida, limpia el error y reescribe el campo en formato HH:mm.
         public void ValidarHora(TextBox campo, string texto)
         {
             if (TryParseHoraFlexible(texto, out var ts)
@@ -39,6 +44,9 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Intenta interpretar una hora flexible:
+        // - Sin separador ':' con 1-4 dígitos.
+        // - Con separador ':' utilizando TimeSpan.TryParse.
         private bool TryParseHoraFlexible(string input, out TimeSpan hora)
         {
             hora = default;
@@ -60,6 +68,8 @@ namespace ProdLogApp.Presenters
             return TimeSpan.TryParse(input, out hora);
         }
 
+        // Valida cantidad como entero > 0.
+        // Si es válida, limpia error; caso contrario, marca el campo con mensaje.
         public void ValidarCantidad(TextBox campo, string texto)
         {
             if (int.TryParse(texto, out var cant) && cant > 0)
@@ -70,12 +80,17 @@ namespace ProdLogApp.Presenters
 
         // ========= Flujo principal =========
 
+        // Ejecuta la carga de Producción:
+        // 1) Obtiene el modelo desde la vista.
+        // 2) Realiza validaciones finales (rango horario y cantidad).
+        // 3) Asegura la cabecera Parte para el usuario y fecha actual.
+        // 4) Inserta la Producción y cierra el diálogo con éxito.
         public async Task CargarProduccionAsync()
         {
             var prod = _view.ObtenerDatosProduccion();
             if (prod == null) return;
 
-            // Validaciones finales (por si el form dejó pasar algo)
+            // Validaciones finales (defienden contra datos inconsistentes)
             if (prod.HoraInicio >= prod.HoraFin)
             {
                 _view.MostrarMensaje("La hora de inicio debe ser menor que la hora de fin.");
@@ -89,11 +104,11 @@ namespace ProdLogApp.Presenters
 
             try
             {
-                // 1) Asegurar cabecera de Parte (idempotente)
+                // 1) Asegurar cabecera de Parte (idempotente para Usuario+Fecha)
                 int parteId = await _svcProducciones.AsegurarParteAsync(_usuarioId, DateTime.Today);
                 prod.ParteId = parteId;
 
-                // 2) Insertar producción
+                // 2) Insertar producción y asignar Id generado
                 int nuevoId = await _svcProducciones.InsertarProduccionAsync(prod, parteId);
                 prod.ProduccionId = nuevoId;
 
@@ -102,6 +117,7 @@ namespace ProdLogApp.Presenters
             }
             catch (Exception ex)
             {
+                // Error controlado durante la persistencia
                 _view.MostrarError($"No se pudo guardar la producción: {ex.Message}");
             }
         }

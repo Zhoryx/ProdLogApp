@@ -3,20 +3,23 @@ using ProdLogApp.Interfaces;
 
 namespace ProdLogApp.Presenters
 {
+    // Presenter pasivo del menú de Gerente.
+    // La navegación se ejecuta en el .xaml.cs; aquí solo se dejan hooks opcionales.
     public sealed class MenuGerentePresenter
     {
         private readonly IMenuGerenteVista _vista;
 
         public MenuGerentePresenter(IMenuGerenteVista vista)
         {
-            _vista = vista;
+            _vista = vista ?? throw new ArgumentNullException(nameof(vista));
 
-            _vista.OnAbrirGestionCategorias += () => _vista.MostrarMensaje("Abrir Gestión de Categorías.");
-            _vista.OnAbrirGestionProductos += () => _vista.MostrarMensaje("Abrir Gestión de Productos.");
-            _vista.OnAbrirGestionPuestos += () => _vista.MostrarMensaje("Abrir Gestión de Puestos.");
-            _vista.OnAbrirGestionUsuarios += () => _vista.MostrarMensaje("Abrir Gestión de Usuarios.");
-            _vista.OnAbrirPanelProduccion += () => _vista.MostrarMensaje("Abrir panel de Producción.");
-            _vista.OnSalir += () => _vista.MostrarMensaje("Volver / Cerrar sesión.");
+            // Hooks opcionales para auditoría/telemetría/seguridad.
+            _vista.OnAbrirGestionCategorias += () => { /* hook: categorías */ };
+            _vista.OnAbrirGestionProductos += () => { /* hook: productos  */ };
+            _vista.OnAbrirGestionPuestos += () => { /* hook: puestos    */ };
+            _vista.OnAbrirGestionUsuarios += () => { /* hook: usuarios   */ };
+            _vista.OnAbrirPanelProduccion += () => { /* hook: producción */ };
+            _vista.OnSalir += () => { /* hook: logout     */ };
         }
     }
 }

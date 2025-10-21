@@ -5,6 +5,8 @@ using System;
 
 namespace ProdLogApp.Presenters
 {
+    // Presenter del flujo de login por DNI.
+    // Resuelve usuario por DNI, verifica estado y decide navegación según rol.
     public sealed class LoginPresenter
     {
         private readonly ILoginVista _vista;
@@ -15,10 +17,12 @@ namespace ProdLogApp.Presenters
             _vista = vista ?? throw new ArgumentNullException(nameof(vista));
             _svcUsuarios = svcUsuarios ?? throw new ArgumentNullException(nameof(svcUsuarios));
 
+            // Enlaza acciones de la vista con los manejadores del presenter.
             _vista.OnIntentarLogin += IntentarLogin;
             _vista.OnAbrirSolicitudPassword += AbrirSolicitudPassword;
         }
 
+        // Maneja el intento de login: busca por DNI, guarda sesión y navega según rol.
         private async void IntentarLogin()
         {
             try
@@ -30,7 +34,7 @@ namespace ProdLogApp.Presenters
                     return;
                 }
 
-                // No pedimos password acá
+                // Resolución de usuario sin contraseña en este punto.
                 var usuario = await _svcUsuarios.ObtenerPorDniAsync(dni);
                 if (usuario == null)
                 {
@@ -43,12 +47,12 @@ namespace ProdLogApp.Presenters
                     return;
                 }
 
-                // Guardamos sesión activa
+                // Establece sesión activa.
                 UserSession.GetInstance().Set(usuario);
 
-                // Flujo según rol
+                // Navegación por rol: el gerente requerirá contraseña en el paso siguiente.
                 if (usuario.EsGerente)
-                    _vista.NavegarAMenuGerente();   // abrirá el popup de contraseña
+                    _vista.NavegarAMenuGerente();
                 else
                     _vista.NavegarAMenuOperario();
 
@@ -60,9 +64,9 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Punto de extensión para abrir el diálogo de solicitud/cambio de contraseña.
         private void AbrirSolicitudPassword()
         {
-            // Si tenés un botón “Olvidé mi contraseña”, podrías usar esto
             _vista.MostrarMensaje("Abrir pantalla de solicitud/cambio de contraseña.");
         }
     }

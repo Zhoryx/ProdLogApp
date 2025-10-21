@@ -8,6 +8,8 @@ using ProdLogApp.Models;
 
 namespace ProdLogApp.Presenters
 {
+    // Presenter del menú Operario.
+    // Gestiona carga, listado y eliminación de producciones para la fecha de trabajo.
     public sealed class MenuOperarioPresenter
     {
         private readonly IMenuOperarioVista _vista;
@@ -26,11 +28,13 @@ namespace ProdLogApp.Presenters
             _usuarioIdActual = usuarioIdActual;
             _fechaFija = fechaFija;
 
+            // Enlaza eventos de la vista con operaciones del presenter
             _vista.OnCargarProduccion += async () => await CargarProduccionAsync();
             _vista.OnEliminarProduccionSeleccionada += async () => await EliminarSeleccionadaAsync();
             _vista.OnRefrescarListado += async () => await RefrescarListadoAsync();
             _vista.OnSalir += Salir;
 
+            // Carga inicial
             _ = RefrescarListadoAsync();
         }
 
@@ -43,13 +47,13 @@ namespace ProdLogApp.Presenters
 
                 if (!EsProduccionValida(prod, out _)) return;
 
-                var fechaTrabajo = (_fechaFija ?? DateTime.Now.Date); // usar fecha fija si viene de Gerente
+                var fechaTrabajo = (_fechaFija ?? DateTime.Now.Date);
                 var parteId = await _svcProd.AsegurarParteAsync(_usuarioIdActual, fechaTrabajo);
 
                 var nuevoId = await _svcProd.InsertarProduccionAsync(prod, parteId);
                 prod.ProduccionId = nuevoId;
 
-                await RefrescarListadoAsync(); // refresca desde BD para traer nombres
+                await RefrescarListadoAsync(); // recarga desde BD
             }
             catch (Exception ex)
             {
@@ -76,6 +80,7 @@ namespace ProdLogApp.Presenters
             var sel = _vista.ObtenerProduccionSeleccionada();
             if (sel == null) return;
 
+            // Confirmación directa con MessageBox en el presenter; funciona, aunque acopla a WPF.
             var ok = System.Windows.MessageBox.Show(
                 "¿Eliminar la producción seleccionada?",
                 "Confirmar",
@@ -97,9 +102,10 @@ namespace ProdLogApp.Presenters
 
         private void Salir()
         {
-            // hook por si más adelante necesitás algo al salir
+            // Punto de extensión para lógica al salir.
         }
 
+        // Validaciones básicas del modelo de producción
         private static bool EsProduccionValida(Produccion p, out string motivo)
         {
             if (p == null) { motivo = "formulario vacío."; return false; }

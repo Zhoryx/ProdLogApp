@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Linq;                   // <- Necesario para .ToList()
+using System.Linq;                   // <- necesario para .ToList()
 using ProdLogApp.Interfaces;
 using ProdLogApp.Servicios;
 
 namespace ProdLogApp.Presenters
 {
+    // Presenter de gestión de productos.
+    // Maneja ABM, alternancia de estado y refresca el listado según acciones.
     public sealed class GestProductosPresenter
     {
         private readonly IGestProductosVista _vista;
@@ -15,15 +17,18 @@ namespace ProdLogApp.Presenters
             _vista = vista ?? throw new ArgumentNullException(nameof(vista));
             _svc = svc ?? throw new ArgumentNullException(nameof(svc));
 
+            // Suscripciones a eventos
             _vista.OnAgregar += Agregar;
             _vista.OnModificar += Modificar;
             _vista.OnAlternarEstado += Alternar;
             _vista.OnEliminar += Eliminar;
-            _vista.OnVolverMenu += _vista.NavegarAMenu;   // <- ahora vuelve al menú
+            _vista.OnVolverMenu += _vista.NavegarAMenu;   // navegación directa expuesta por la vista
 
+            // Carga inicial
             Cargar();
         }
 
+        // Carga/recarga de productos
         private async void Cargar()
         {
             try
@@ -37,12 +42,14 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Alta de producto y refresco de listado
         private void Agregar()
         {
             _vista.AbrirVentanaAgregarProducto();
-            Cargar(); // <- refresca luego de cerrar el diálogo
+            Cargar(); // refresca luego de cerrar el diálogo
         }
 
+        // Edición del producto seleccionado
         private void Modificar()
         {
             var sel = _vista.ObtenerProductoSeleccionado();
@@ -53,9 +60,10 @@ namespace ProdLogApp.Presenters
             }
 
             _vista.AbrirVentanaModificarProducto(sel);
-            Cargar(); // <- refresca luego de cerrar el diálogo
+            Cargar(); // refresca luego de cerrar el diálogo
         }
 
+        // Alterna estado Activo del producto seleccionado
         private async void Alternar()
         {
             var sel = _vista.ObtenerProductoSeleccionado();
@@ -77,6 +85,7 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Eliminación del producto seleccionado
         private async void Eliminar()
         {
             var sel = _vista.ObtenerProductoSeleccionado();

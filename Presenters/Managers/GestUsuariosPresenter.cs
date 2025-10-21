@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Linq;                   // ← importante para .ToList()
+using System.Linq;                   // ← necesario para .ToList()
 using ProdLogApp.Interfaces;
 using ProdLogApp.Servicios;
 
 namespace ProdLogApp.Presenters
 {
+    // Presenter de gestión de usuarios.
+    // Vincula eventos de la vista con operaciones del servicio y controla el ciclo de carga/refresco.
     public sealed class GestUsuariosPresenter
     {
         private readonly IGestUsuariosVista _vista;
@@ -15,6 +17,7 @@ namespace ProdLogApp.Presenters
             _vista = vista ?? throw new ArgumentNullException(nameof(vista));
             _svc = svc ?? throw new ArgumentNullException(nameof(svc));
 
+            // Suscripciones a eventos de la vista
             _vista.OnAgregar += Agregar;
             _vista.OnModificar += Modificar;
             _vista.OnAlternarEstado += Alternar;
@@ -22,9 +25,11 @@ namespace ProdLogApp.Presenters
             _vista.OnEliminar += Eliminar;
             _vista.OnVolverMenu += VolverMenu;
 
+            // Carga inicial del listado
             Cargar();
         }
 
+        // Carga/recarga los usuarios y los muestra en la vista
         private async void Cargar()
         {
             try
@@ -38,12 +43,14 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Abre el diálogo de alta y al cerrar refresca el listado
         private void Agregar()
         {
             _vista.AbrirVentanaAgregarUsuario(); // modal
             Cargar(); // refresca al cerrar
         }
 
+        // Abre el diálogo de edición para el elemento seleccionado
         private void Modificar()
         {
             var sel = _vista.ObtenerUsuarioSeleccionado();
@@ -53,6 +60,7 @@ namespace ProdLogApp.Presenters
             Cargar(); // refresca al cerrar
         }
 
+        // Alterna el estado Activo del usuario seleccionado
         private async void Alternar()
         {
             var sel = _vista.ObtenerUsuarioSeleccionado();
@@ -62,7 +70,7 @@ namespace ProdLogApp.Presenters
             {
                 await _svc.AlternarEstadoAsync(sel.Id, !sel.Activo);
                 Cargar();
-                // Si no querés cartel de éxito, comentá la línea siguiente:
+                // Mensaje de éxito opcional:
                 // _vista.MostrarMensaje(sel.Activo ? "Usuario desactivado." : "Usuario activado.");
             }
             catch (Exception ex)
@@ -71,6 +79,7 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Restablece la contraseña del usuario seleccionado
         private async void ResetearPassword()
         {
             var sel = _vista.ObtenerUsuarioSeleccionado();
@@ -87,6 +96,7 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Elimina o inactiva el usuario seleccionado, según política
         private async void Eliminar()
         {
             var sel = _vista.ObtenerUsuarioSeleccionado();
@@ -94,7 +104,7 @@ namespace ProdLogApp.Presenters
 
             try
             {
-                // si no tenés delete físico, inactivar:
+                // Inactivación como alternativa a borrado físico
                 await _svc.AlternarEstadoAsync(sel.Id, false);
                 Cargar();
                 // _vista.MostrarMensaje("Usuario inactivado."); // opcional
@@ -105,9 +115,10 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Solicita a la vista la navegación correspondiente
         private void VolverMenu()
         {
-            _vista.NavegarAMenu(); // la vista decide: cerrar y volver al owner
+            _vista.NavegarAMenu(); // la vista decide la acción concreta
         }
     }
 }

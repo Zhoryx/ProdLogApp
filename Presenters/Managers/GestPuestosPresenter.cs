@@ -5,6 +5,8 @@ using ProdLogApp.Servicios;
 
 namespace ProdLogApp.Presenters
 {
+    // Presenter de gestión de puestos.
+    // Controla alta, edición, alternancia de estado y eliminación con refresco del listado.
     public sealed class GestPuestosPresenter
     {
         private readonly IGestPuestosVista _vista;
@@ -15,20 +17,23 @@ namespace ProdLogApp.Presenters
             _vista = vista ?? throw new ArgumentNullException(nameof(vista));
             _svc = svc ?? throw new ArgumentNullException(nameof(svc));
 
+            // Suscripciones a eventos de la vista
             _vista.OnAgregar += Agregar;
             _vista.OnModificar += Modificar;
             _vista.OnAlternarEstado += Alternar;
             _vista.OnEliminar += Eliminar;
             _vista.OnVolverMenu += VolverMenu;
 
+            // Carga inicial del listado
             Cargar();
         }
 
+        // Carga/recarga de puestos
         private async void Cargar()
         {
             try
             {
-                var lista = await _svc.ListarAsync();   // o ListarActivosAsync() si preferís
+                var lista = await _svc.ListarAsync();   // o ListarActivosAsync() según necesidad
                 _vista.MostrarPuestos(lista.ToList());
             }
             catch (Exception ex)
@@ -37,12 +42,14 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Abre diálogo de alta y luego refresca
         private void Agregar()
         {
             _vista.AbrirVentanaAgregarPuesto();
             Cargar(); // refrescar al cerrar el diálogo de alta
         }
 
+        // Abre diálogo de edición para el elemento seleccionado
         private void Modificar()
         {
             var sel = _vista.ObtenerPuestoSeleccionado();
@@ -52,6 +59,7 @@ namespace ProdLogApp.Presenters
             Cargar(); // refrescar al cerrar el diálogo de edición
         }
 
+        // Alterna estado Activo del puesto seleccionado
         private async void Alternar()
         {
             var sel = _vista.ObtenerPuestoSeleccionado();
@@ -69,6 +77,7 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Eliminación del puesto seleccionado
         private async void Eliminar()
         {
             var sel = _vista.ObtenerPuestoSeleccionado();
@@ -86,9 +95,10 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Solicita a la vista la navegación correspondiente
         private void VolverMenu()
         {
-            _vista.NavegarAMenu();  // la vista se encarga de reactivar Owner y Close()
+            _vista.NavegarAMenu();  // la vista se encarga del cierre y retorno
         }
     }
 }

@@ -5,6 +5,8 @@ using ProdLogApp.Servicios;
 
 namespace ProdLogApp.Presenters
 {
+    // Presenter de gestión de categorías.
+    // Coordina operaciones de ABM y mantiene actualizado el listado en pantalla.
     public sealed class GestCategoriasPresenter
     {
         private readonly IGestCategoriasVista _vista;
@@ -12,18 +14,21 @@ namespace ProdLogApp.Presenters
 
         public GestCategoriasPresenter(IGestCategoriasVista vista, IServicioCategorias svc)
         {
-            _vista = vista;
-            _svc = svc;
+            _vista = vista ?? throw new ArgumentNullException(nameof(vista));
+            _svc = svc ?? throw new ArgumentNullException(nameof(svc));
 
+            // Suscripción a eventos de la vista
             _vista.OnAgregar += Agregar;
             _vista.OnModificar += Modificar;
             _vista.OnAlternarEstado += Alternar;
             _vista.OnEliminar += Eliminar;
             _vista.OnVolverMenu += VolverMenu;
 
+            // Carga inicial
             Cargar();
         }
 
+        // Carga/recarga del listado de categorías
         private async void Cargar()
         {
             try
@@ -37,12 +42,14 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Abre diálogo de alta y refresca al cerrar
         private void Agregar()
         {
             _vista.AbrirVentanaAgregarCategoria();
             Cargar(); // refresca siempre tras cerrar el diálogo
         }
 
+        // Abre diálogo de edición para la categoría seleccionada
         private void Modificar()
         {
             var sel = _vista.ObtenerCategoriaSeleccionada();
@@ -52,6 +59,7 @@ namespace ProdLogApp.Presenters
             Cargar(); // refresca al volver del diálogo
         }
 
+        // Alterna estado Activo de la categoría seleccionada
         private async void Alternar()
         {
             var sel = _vista.ObtenerCategoriaSeleccionada();
@@ -61,7 +69,7 @@ namespace ProdLogApp.Presenters
             {
                 await _svc.AlternarEstadoAsync(sel.CategoriaId, !sel.Activo);
                 Cargar();
-                // Mensajes de éxito opcionales: comentados para no molestar
+                // Mensaje de éxito opcional:
                 // _vista.MostrarMensaje(sel.Activo ? "Categoría desactivada." : "Categoría activada.");
             }
             catch (Exception ex)
@@ -70,6 +78,7 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Eliminación de la categoría seleccionada (o inactivación según política)
         private async void Eliminar()
         {
             var sel = _vista.ObtenerCategoriaSeleccionada();
@@ -87,9 +96,9 @@ namespace ProdLogApp.Presenters
             }
         }
 
+        // Solicita a la vista la navegación correspondiente
         private void VolverMenu()
         {
-            // El presenter no cierra ventanas; delega en la vista
             _vista.NavegarAMenu();
         }
     }
