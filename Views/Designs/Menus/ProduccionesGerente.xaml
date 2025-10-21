@@ -1,0 +1,178 @@
+﻿<Window x:Class="ProdLogApp.Views.ProduccionesGerente"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        mc:Ignorable="d"
+        Title="Menu - Producciones"
+        Height="720"
+        Width="1151"
+        WindowStartupLocation="CenterScreen"
+        Background="#0864AC"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="0,0,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Filtros -->
+            <RowDefinition Height="*"/>
+            <!-- Lista de cabeceras -->
+            <RowDefinition Height="Auto"/>
+            <!-- Paginación -->
+            <RowDefinition Height="Auto"/>
+            <!-- Acciones -->
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= Filtros ================= -->
+        <Border Grid.Row="0" Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}"
+                Margin="110,10,110,10" Padding="10" Grid.ColumnSpan="2">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                    <!-- Filtro por Operario (texto libre o autocomplete si después lo cableás) -->
+                    <StackPanel Margin="10">
+                        <Label Content="Buscar Operario" FontSize="14" Foreground="#0864AC" HorizontalAlignment="Center"/>
+                        <xctk:AutoSelectTextBox x:Name="OperarioAutoComplete"
+                                                Width="200" Height="38" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Fecha Desde -->
+                    <StackPanel Margin="10">
+                        <Label Content="Fecha Desde" FontSize="14" Foreground="#0864AC" HorizontalAlignment="Center"/>
+                        <DatePicker x:Name="FechaDesdePicker" Width="200" Height="30" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Fecha Hasta -->
+                    <StackPanel Margin="10">
+                        <Label Content="Fecha Hasta" FontSize="14" Foreground="#0864AC" HorizontalAlignment="Center"/>
+                        <DatePicker x:Name="FechaHastaPicker" Width="200" Height="30" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Botón cargar -->
+                    <StackPanel Margin="10" VerticalAlignment="Bottom">
+                        <Button x:Name="btnFiltrar"
+                                Style="{StaticResource ModernButtonStyle}"
+                                Content="Cargar"
+                                Width="140"
+                                Click="btnFiltrar_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ========== Lista de CABECERAS de Parte (una fila por día+operario) ========== -->
+        <Border Grid.Row="1" Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}"
+        Margin="110,10,110,10" Padding="10" Grid.ColumnSpan="2">
+            <ListView x:Name="Producciones"
+              MouseDoubleClick="Producciones_MouseDoubleClick"
+              ScrollViewer.CanContentScroll="True"
+              VirtualizingPanel.IsVirtualizing="True"
+              VirtualizingPanel.VirtualizationMode="Recycling" FontSize="20">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.View>
+                    <!-- UNA FILA POR PARTE: fecha + operario + resúmenes -->
+                    <GridView>
+                        <GridViewColumn Width="140" Header="Fecha Parte"
+                                DisplayMemberBinding="{Binding FechaParte, StringFormat=\{0:dd/MM/yyyy\}}"/>
+                        <GridViewColumn Width="240" Header="Operario"
+                                DisplayMemberBinding="{Binding Operario}"/>
+                        <GridViewColumn Width="180" Header="Cant. Producciones"
+                                DisplayMemberBinding="{Binding CantProducciones}"/>
+                        <GridViewColumn Width="180" Header="Total Cantidad"
+                                DisplayMemberBinding="{Binding TotalCantidad}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- ================= Paginación ================= -->
+        <!-- PAGINACIÓN (Grid de 3 columnas para evitar recortes) -->
+        <Grid Grid.Row="2" Margin="110,0,110,10" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <!-- izquierda -->
+                <ColumnDefinition Width="*"/>
+                <!-- centro (se expande) -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- derecha -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Izquierda: tamaño de página + primeras/prev -->
+            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center" Margin="-48,0,48,0">
+                <Label Content="Tamaño pág.:"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                 Foreground="#0864AC"
+                Margin="0,0,6,0"
+                Padding="0" Background="#FFEDEAEA"/>
+
+                <ComboBox x:Name="cbPageSize"
+                  Style="{StaticResource PagerComboBoxStyle}"
+                  ItemContainerStyle="{StaticResource PagerComboBoxItemStyle}"
+                  SelectedIndex="1"  
+                    SelectionChanged="cbPageSize_SelectionChanged" HorizontalAlignment="Center">
+                    <ComboBoxItem Content="50"/>
+                    <ComboBoxItem Content="100"/>
+                    <ComboBoxItem Content="200"/>
+                </ComboBox>
+
+                <Button x:Name="btnFirst" Style="{StaticResource PaginationButtonStyle}" 
+                Content="⏮  Primera" Click="btnFirst_Click"/>
+                <Button x:Name="btnPrev"  Style="{StaticResource PaginationButtonStyle}" 
+                Content="◀  Anterior" Click="btnPrev_Click"/>
+            </StackPanel>
+
+            <!-- Centro: info de página -->
+            <TextBlock x:Name="txtPageInfo"
+               Grid.Column="1"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Foreground="#0864AC"
+               FontSize="13"
+               Text="Página 1 de ? — Mostrando 0 ítems"/>
+
+            <!-- Derecha: siguiente/última -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="591,0,0,0">
+                <Button x:Name="btnNext" Style="{StaticResource PaginationButtonStyle}" 
+                Content="Siguiente  ▶" Click="btnNext_Click"/>
+                <Button x:Name="btnLast" Style="{StaticResource PaginationButtonStyle}" 
+                Content="Última  ⏭" Click="btnLast_Click" RenderTransformOrigin="0.5,0.5" Width="96">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+
+        <!-- ================= Acciones ================= -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="110,0,110,10" Grid.ColumnSpan="2">
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Volver" Click="Volver" Width="140"/>
+        </StackPanel>
+    </Grid>
+</Window>

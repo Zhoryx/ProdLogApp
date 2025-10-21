@@ -1,37 +1,24 @@
 using System;
 using System.Windows;
-using ProdLogApp.Services;
-using ProdLogApp.Views;
-using ProdLogApp.Models;
-using ProdLogApp.Interfaces;
-namespace ProdLogApp
+using ProdLogApp.Servicios;
 
+using ProdLogApp.Views;
+
+namespace ProdLogApp
 {
     public class Program
     {
         [STAThread]
         public static void Main()
         {
-            IDatabaseService databaseService = new DatabaseService();
-            App app = new App();
-            app.Run(new Login(databaseService));
+            var app = new App();
+
+            // Inyección simple para Login (ajusta según tu Login)
+            var proveedor = new ProveedorConexionMySql("ProdLogDb");
+            var svcUsuarios = new ServicioUsuariosMySql(proveedor);
+
+            var login = new Login(); // o el ctor que tenga tu Login
+            app.Run(login);
         }
     }
 }
-
-
-    //public class Program
-    //{
-    //    [STAThread]
-    //    public static void Main()
-    //    {
-    //        App app = new App();
-
-    //        // Simulación de usuario activo
-    //        User activeUser = new User { Dni = "Admin", IsAdmin = true };
-
-    //        // Iniciar la aplicación con el menú del gerente
-    //        app.Run(new ManagerMenu(activeUser));
-    //    }
-    //}
-//}

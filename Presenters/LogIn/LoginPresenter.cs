@@ -1,36 +1,69 @@
-using ProdLogApp.Models;
-using ProdLogApp.Views;
 using ProdLogApp.Interfaces;
-using ProdLogApp.Presenters;
-namespace ProdLogApp.Presenters;
-public class LoginPresenter
+using ProdLogApp.Models;
+using ProdLogApp.Servicios;
+using System;
+
+namespace ProdLogApp.Presenters
 {
-    private readonly ILoginView _view;
-
-    public LoginPresenter(ILoginView view)
+    public sealed class LoginPresenter
     {
-        _view = view;
-    }
+        private readonly ILoginVista _vista;
+        private readonly IServicioUsuarios _svcUsuarios;
 
-    public void ValidateLogin()
-    {
-        User activeUser = User.GetByDni(_view.Dni);
+        public LoginPresenter(ILoginVista vista, IServicioUsuarios svcUsuarios)
+        {
+            _vista = vista ?? throw new ArgumentNullException(nameof(vista));
+            _svcUsuarios = svcUsuarios ?? throw new ArgumentNullException(nameof(svcUsuarios));
 
-        if (activeUser != null)
-        {
-            if (activeUser.IsAdmin)
-            {
-                _view.ShowAdminWindow(activeUser);
-            }
-            else
-            {
-                _view.ShowMainWindow(activeUser);
-            }
-        }
-        else
-        {
-            _view.ShowMessage("Usuario no encontrado, revise su DNI");
+            _vista.OnIntentarLogin += IntentarLogin;
+            _vista.OnAbrirSolicitudPassword += AbrirSolicitudPassword;
         }
 
+        private async void IntentarLogin()
+        {
+            try
+            {
+                var dni = (_vista.ObtenerDni() ?? string.Empty).Trim();
+                if (dni.Length == 0)
+                {
+                    _vista.MostrarMensaje("Ingresá el DNI.");
+                    return;
+                }
+
+                // No pedimos password acá
+                var usuario = await _svcUsuarios.ObtenerPorDniAsync(dni);
+                if (usuario == null)
+                {
+                    _vista.MostrarMensaje("Usuario no encontrado.");
+                    return;
+                }
+                if (!usuario.Activo)
+                {
+                    _vista.MostrarMensaje("El usuario está inactivo.");
+                    return;
+                }
+
+                // Guardamos sesión activa
+                UserSession.GetInstance().Set(usuario);
+
+                // Flujo según rol
+                if (usuario.EsGerente)
+                    _vista.NavegarAMenuGerente();   // abrirá el popup de contraseña
+                else
+                    _vista.NavegarAMenuOperario();
+
+                _vista.LimpiarCampos();
+            }
+            catch (Exception ex)
+            {
+                _vista.MostrarMensaje($"Error al iniciar sesión: {ex.Message}");
+            }
+        }
+
+        private void AbrirSolicitudPassword()
+        {
+            // Si tenés un botón “Olvidé mi contraseña”, podrías usar esto
+            _vista.MostrarMensaje("Abrir pantalla de solicitud/cambio de contraseña.");
+        }
     }
 }

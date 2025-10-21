@@ -1,25 +1,61 @@
-﻿using ProdLogApp.Models;
-using ProdLogApp.Views;
+﻿// Presenters/PasswordRequestPresenter.cs
+using System;
+using System.Threading.Tasks;
+using ProdLogApp.Interfaces;
+using ProdLogApp.Servicios;
+using ProdLogApp.Models;
 
-namespace ProdLogApp.Presenters;
-public class PasswordRequestPresenter
+namespace ProdLogApp.Presenters
 {
-    private readonly PasswordRequest _view;
-
-    public PasswordRequestPresenter(PasswordRequest view)
+    public sealed class PasswordRequestPresenter
     {
-        _view = view;
-    }
+        private readonly ISolicitudPasswordVista _vista;
+        private readonly IServicioUsuarios _svcUsuarios;
+        private readonly Usuario _usuario;
+        private readonly Action _onSuccess;
 
-    public void ValidatePassword(User activeUser, string password)
-    {
-        if (User.PasswordValidate(activeUser, password))
+        public PasswordRequestPresenter(
+            ISolicitudPasswordVista vista,
+            IServicioUsuarios svcUsuarios,
+            Usuario usuario,
+            Action onSuccess)
         {
-            _view.ShowAdminMenu(activeUser);
+            _vista = vista ?? throw new ArgumentNullException(nameof(vista));
+            _svcUsuarios = svcUsuarios ?? throw new ArgumentNullException(nameof(svcUsuarios));
+            _usuario = usuario ?? throw new ArgumentNullException(nameof(usuario));
+            _onSuccess = onSuccess ?? (() => { });
+
+            _vista.OnConfirmarSolicitud += async () => await ConfirmarAsync();
+            _vista.OnCancelar += Cancelar;
         }
-        else
+
+        private async Task ConfirmarAsync()
         {
-            _view.ShowMessage("Contraseña incorrecta, intenta de nuevo.");
+            try
+            {
+                var pass = _vista.ObtenerPasswordIngresada()?.Trim() ?? string.Empty;
+                if (string.IsNullOrEmpty(pass))
+                {
+                    _vista.MostrarMensaje("Ingresá la contraseña.");
+                    return;
+                }
+
+                var usuarioOk = await _svcUsuarios.LoginAsync(_usuario.Dni, pass);
+                if (usuarioOk == null)
+                {
+                    _vista.MostrarMensaje("Contraseña incorrecta.");
+                    return;
+                }
+
+            
+                _onSuccess.Invoke();
+            }
+            catch (Exception ex)
+            {
+                _vista.MostrarMensaje($"Error al validar: {ex.Message}");
+            }
         }
+
+        private void Cancelar() => _vista.Cerrar();
     }
 }

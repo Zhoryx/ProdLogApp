@@ -9,7 +9,6 @@
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <!-- Shadow -->
         <DropShadowEffect x:Key="DropShadow"
                           Color="Black"
                           Direction="320"
@@ -17,7 +16,6 @@
                           Opacity="0.2"
                           BlurRadius="10"/>
 
-        <!-- Rounded TextBox -->
         <Style x:Key="RoundedTextBox" TargetType="TextBox">
             <Setter Property="Background" Value="#F0F0F0"/>
             <Setter Property="Padding" Value="8"/>
@@ -36,7 +34,6 @@
             </Setter>
         </Style>
 
-        <!-- Rounded Button -->
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="Background" Value="#007ACC"/>
             <Setter Property="Foreground" Value="White"/>
@@ -61,7 +58,6 @@
     </Window.Resources>
 
     <Grid>
-        <!-- Container Card -->
         <Border Background="#E6F0FA"
                 CornerRadius="15"
                 Padding="30"
@@ -71,27 +67,17 @@
                 Effect="{StaticResource DropShadow}">
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
-
-                <!-- Logo -->
                 <Image Source="C:\Users\engle\OneDrive\DS Itec\Proyecto Programa Madersa\Desarrollo\Codes\ProdLogApp\ProdLogApp\Resources\Images\img.png"
-                       Width="100"
-                       Height="95"/>
+                       Width="100" Height="95"/>
 
-                <!-- Label -->
                 <TextBlock Text="Ingrese su DNI"
-                           FontSize="16"
-                           FontWeight="SemiBold"
-                           Foreground="#333"
-                           HorizontalAlignment="Center"/>
+                           FontSize="16" FontWeight="SemiBold"
+                           Foreground="#333" HorizontalAlignment="Center"/>
 
-                <!-- DNI Input -->
                 <TextBox x:Name="DniTextBox"
                          Style="{StaticResource RoundedTextBox}"
-                         Width="200"
-                         Height="35"
-                         MaxLength="20"/>
+                         Width="200" Height="35" MaxLength="20"/>
 
-                <!-- Submit Button -->
                 <Button x:Name="LoginButton"
                         Content="Login"
                         Style="{StaticResource RoundedButton}"

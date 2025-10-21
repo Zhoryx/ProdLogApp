@@ -1,0 +1,101 @@
+﻿<Window
+    x:Class="ProdLogApp.Views.AgregarUsuario"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Agregar Usuario"
+    Height="420"
+    Width="500"
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="NoResize"
+    Background="#0864AC">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Para mostrar/ocultar el campo contraseña según el checkbox -->
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!-- Contenedor principal como en ProductionForm -->
+    <StackPanel Margin="20,0,20,0" VerticalAlignment="Center" Height="332">
+
+        <!-- Grupo: Datos del usuario -->
+        <GroupBox Header="Datos del Usuario"
+                  Foreground="White"
+                  Margin="0,0,0,10"
+                  BorderThickness="0.5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                    <Label Content="Nombre" Foreground="White"/>
+                    <TextBox x:Name="NombreTextBox"
+                     Style="{StaticResource BaseTextBoxStyle}"
+                     Height="35"
+                     FontSize="14"
+                     VerticalContentAlignment="Center"
+                     Padding="4"/>  
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                    <Label Content="DNI" Foreground="White"/>
+                    <TextBox x:Name="DniTextBox"
+                     Style="{StaticResource BaseTextBoxStyle}"
+                     Height="35"
+                     FontSize="14"
+                     VerticalContentAlignment="Center"
+                     Padding="4"/>  
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- Grupo: Acceso gerencial -->
+        <GroupBox Header="Acceso Gerencial"
+                  Foreground="White"
+                  Margin="0,0,0,20"
+                  BorderThickness="0.5">
+            <StackPanel>
+                <CheckBox x:Name="EsGerencialCheckBox"
+                          Content="Cuenta gerencial"
+                          Margin="0,0,0,8"
+                          Foreground="White"
+                          FontSize="14"/>
+
+                <!-- Campo contraseña solo visible si EsGerencialCheckBox está tildado -->
+                <StackPanel Visibility="{Binding IsChecked, ElementName=EsGerencialCheckBox, Converter={StaticResource BoolToVis}}">
+                    <Label Content="Contraseña" Foreground="White"/>
+                    <!-- Podés usar PasswordBox para no mostrar el texto -->
+                    <PasswordBox x:Name="PasswordGerenteBox"               
+                        Height="35"
+                        FontSize="14"
+                        VerticalContentAlignment="Center"
+                        Padding="4"/>   
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="btnConfirmar"
+                    Content="Confirmar"
+                    Style="{StaticResource ConfirmButtonStyle}"
+                    Width="120"
+                    Margin="10"
+                    IsDefault="True"
+                    Click="Confirmar_Click"/>
+            <Button Content="Cancelar"
+                    Style="{StaticResource CancelButtonStyle}"
+                    Width="120"
+                    Margin="10"
+                    IsCancel="True"
+                    Click="Cancelar_Click"/>
+        </StackPanel>
+
+        <!-- Botones alineados a la derecha como en ProductionForm -->
+    </StackPanel>
+</Window>

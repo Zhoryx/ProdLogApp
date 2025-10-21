@@ -27,25 +27,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Designs\Management\ProductManagement.xaml.cs">
+    <Compile Update="Views\Designs\Management\GestProducto.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Management\UserManagement.xaml.cs">
+    <Compile Update="Views\Designs\Management\GestionUsuariosWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Management\PositionManagement.xaml.cs">
+    <Compile Update="Views\Designs\Management\GestPuesto.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Management\CategoryManagement.xaml.cs">
+    <Compile Update="Views\Designs\Management\GestCategoria.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\AddCategory.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\AgregarCategoria.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\PositionAdd.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\AgregarPuesto.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Masters\Agregar\AddUser.xaml.cs">
+    <Compile Update="Views\Designs\Masters\Agregar\AgregarUsuario.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Designs\Masters\Agregar\ProduccionAgregarGerente.xaml.cs">
@@ -54,7 +54,7 @@
     <Compile Update="Views\Designs\Prompts\PromptOperario.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Designs\Prompts\PromptCategory.xaml.cs">
+    <Compile Update="Views\Designs\Prompts\PromptCategoria.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

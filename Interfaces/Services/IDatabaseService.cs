@@ -12,15 +12,15 @@ namespace ProdLogApp.Interfaces
         bool TestConnection();
 
 
-        bool SavePartProductions(List<Production> productions, int userId);
+        bool SavePartProductions(List<Produccion> productions, int userId);
         
 
         // Lecturas
-        List<Production> GetDailyProductions();
-        Task<List<Production>> GetDailyProductionsAsync(CancellationToken ct = default);
+        List<Produccion> GetDailyProductions();
+        Task<List<Produccion>> GetDailyProductionsAsync(CancellationToken ct = default);
 
         // Alta única (lo que te falta y usa el presenter)
-        Task<int> ConfirmarProduccionAsync(Production production, int userId, CancellationToken ct = default);
+        Task<int> ConfirmarProduccionAsync(Produccion production, int userId, CancellationToken ct = default);
 
         // Product
         void AgregarProductoEnDB(Producto producto);
@@ -36,28 +36,28 @@ namespace ProdLogApp.Interfaces
 
         // Puestos
         void TogglePositionState(int puestoId, bool estado);
-        void AgregarPuesto(Position puesto);
-        void ActualizarPuesto(Position puesto);
-        List<Position> ObtenerTodosLosPuestos();
-        List<Position> ObtenerPuestosActivos();
-        List<Position> ObtenerPuestos();
+        void AgregarPuesto(Puesto puesto);
+        void ActualizarPuesto(Puesto puesto);
+        List<Puesto> ObtenerTodosLosPuestos();
+        List<Puesto> ObtenerPuestosActivos();
+        List<Puesto> ObtenerPuestos();
 
         // Users
-        Task<List<User>> UsersGet(bool soloActivos = false);
+        Task<List<Usuario>> UsersGet(bool soloActivos = false);
         Task ToggleUserStatusAsync(int userId, bool currentActive);
-        Task AddUser(User user);
-        Task UpdateUser(User user);
+        Task AddUser(Usuario user);
+        Task UpdateUser(Usuario user);
 
         // Productions 
-        Task<List<Production>> GetProductionsAsync(int operarioId, DateTime day);
+        Task<List<Produccion>> GetProductionsAsync(int operarioId, DateTime day);
         Task<int> EnsureParteAsync(int usuarioId, DateTime fecha);
-        Task<int> InsertProduccionAsync(Production produccion);
-        Task<Production?> GetProductionByIdAsync(int productionId);
-        Task UpdateProduccionAsync(Production produccion);
+        Task<int> InsertProduccionAsync(Produccion produccion);
+        Task<Produccion?> GetProductionByIdAsync(int productionId);
+        Task UpdateProduccionAsync(Produccion produccion);
         Task<Producto?> GetProductoByIdAsync(int productoId);
-        Task<Position?> GetPuestoByIdAsync(int puestoId);
+        Task<Puesto?> GetPuestoByIdAsync(int puestoId);
         Task DeleteProduccionAsync(int produccionId);
-        Task<bool> SavePartProductionsAsync(List<Production> productions, int userId, DateTime fecha, CancellationToken ct = default);
+        Task<bool> SavePartProductionsAsync(List<Produccion> productions, int userId, DateTime fecha, CancellationToken ct = default);
         Task<Page<ParteHeaderItem>> GetParteHeadersPageAsync(
             DateTime from, DateTime to, int page, int pageSize, string operarioLike = null);
 

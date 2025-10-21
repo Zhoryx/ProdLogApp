@@ -1,0 +1,153 @@
+﻿<Window x:Class="ProdLogApp.Views.GestionUsuariosWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Gestión de Usuarios"
+        Height="720"
+        Width="1080"
+        WindowStartupLocation="CenterScreen"
+        Background="#0864AC"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Ajustá la ruta si tu diccionario está en otro lugar -->
+                <ResourceDictionary Source="/Views/Designs/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Sombra suave para paneles -->
+            <Style x:Key="ShadowBorderStyle" TargetType="Border">
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid HorizontalAlignment="Left" Width="1080" Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Lista de usuarios -->
+        <Border Background="#E6F0FA"
+                Style="{StaticResource ShadowBorderStyle}"
+                Padding="30" Margin="10,0,10,0"
+                VerticalAlignment="Center" Height="586">
+            <ListView x:Name="Users_list"
+                      SelectionMode="Single"
+                      SelectionChanged="Users_list_SelectionChanged"
+                      MouseDoubleClick="Users_list_MouseDoubleClick"
+                      KeyDown="Users_list_KeyDown"
+                      FontSize="16">
+                <ListView.View>
+                    <GridView>
+
+                        <!-- Nombre -->
+                        <GridViewColumn Width="220" DisplayMemberBinding="{Binding Nombre}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Nombre"
+                                                      Click="GridViewColumnHeader_Click"
+                                                      Tag="Nombre"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
+                        <!-- DNI -->
+                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Dni}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="DNI"
+                                                      Click="GridViewColumnHeader_Click"
+                                                      Tag="Dni"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
+                        <!-- Es Gerente (checkbox deshabilitado para ver Sí/No) -->
+                        <GridViewColumn Width="130">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Es Gerente"
+                                                      Click="GridViewColumnHeader_Click"
+                                                      Tag="EsGerente"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding EsGerente}" IsEnabled="False" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <!-- Activo -->
+                        <GridViewColumn Width="110">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Activo"
+                                                      Click="GridViewColumnHeader_Click"
+                                                      Tag="Activo"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Activo}" IsEnabled="False" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <!-- Fecha de Ingreso -->
+                        <GridViewColumn Width="170">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Fecha Ingreso"
+                                                      Click="GridViewColumnHeader_Click"
+                                                      Tag="FechaIngreso"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FechaIngreso, StringFormat={}{0:dd/MM/yyyy}, TargetNullValue=-}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- Botonera -->
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="6,195,14,0" Height="405">
+            <Button x:Name="BtnAgregar"
+                    Style="{StaticResource ModernButtonStyle}"
+                    Content="Agregar"
+                    Margin="0,5,0,50" Height="50" Width="250"
+                    Click="BtnAgregar_Click"/>
+
+            <Button x:Name="BtnModificar"
+                    Style="{StaticResource ModernButtonStyle}"
+                    Content="Modificar"
+                    Margin="0,5,0,50" Height="50" Width="250"
+                    Click="BtnModificar_Click"/>
+
+            <Button x:Name="BtnAlternar"
+                    Style="{StaticResource ModernButtonStyle}"
+                    Content="Activar / Desactivar"
+                    Margin="0,5,0,50" Height="50" Width="250"
+                    Click="BtnAlternarEstado_Click"/>
+
+            <!-- Si luego querés agregar reset de password:
+            <Button x:Name="BtnResetPass"
+                    Style="{StaticResource ModernButtonStyle}"
+                    Content="Resetear Contraseña"
+                    Margin="0,5,0,50" Height="50" Width="250"
+                    Click="BtnResetearPass_Click"/>
+            -->
+
+            <Button x:Name="BtnVolver"
+                    Style="{StaticResource ModernButtonStyle}"
+                    Content="Volver"
+                    Margin="10" Height="50" Width="250"
+                    Click="BtnVolver_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,57 +1,61 @@
-﻿using System;
-using System.Windows;
-using ProdLogApp.Presenters;
+﻿using ProdLogApp.Interfaces;
 using ProdLogApp.Models;
-using ProdLogApp.Interfaces;
-using ProdLogApp.Services; 
+using ProdLogApp.Presenters;
+using ProdLogApp.Servicios;
+using System;
+using System.Windows;
 
 namespace ProdLogApp.Views
 {
-    public partial class Login : Window, ILoginView
+    public partial class Login : Window, ILoginVista
     {
         private readonly LoginPresenter _presenter;
+        private readonly IServicioUsuarios _svcUsuarios;
 
-        private readonly IDatabaseService _databaseService;
+        public event Action OnIntentarLogin;
+        public event Action OnAbrirSolicitudPassword;
 
-        public Login(IDatabaseService databaseService)
+        public Login()
         {
             InitializeComponent();
-            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
-            _presenter = new LoginPresenter(this);
+
+            var proveedor = new ProveedorConexionMySql("ProdLogDb");
+            _svcUsuarios = new ServicioUsuariosMySql(proveedor);
+
+            _presenter = new LoginPresenter(this, _svcUsuarios);
         }
 
-        public string Dni => DniTextBox.Text;
+        // === ILoginVista ===
+        public string ObtenerDni() => DniTextBox.Text?.Trim() ?? string.Empty;
+        public string ObtenerPassword() => string.Empty; // no se usa en esta pantalla
 
-        public void ShowMessage(string message)
+        public void MostrarMensaje(string mensaje) =>
+            MessageBox.Show(mensaje, "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        public void LimpiarCampos()
         {
-            MessageBox.Show(message);
+            DniTextBox.Text = string.Empty;
+            DniTextBox.Focus();
         }
 
-        public void ShowAdminWindow(User activeUser)
+        public void NavegarAMenuOperario()
         {
-          
-            UserSession.GetInstance().SetUser(activeUser);
-
-            
-            var passwordRequest = new PasswordRequest(activeUser, _databaseService);
-            passwordRequest.Owner = this;
-            passwordRequest.ShowDialog();
+            var main = new OperadorMenu();
+            main.Show();
+            Close();
         }
 
-        public void ShowMainWindow(User activeUser)
+        public void NavegarAMenuGerente()
         {
-            
-            UserSession.GetInstance().SetUser(activeUser);
-
-            
-            var mainWindow = new OperatorMenu();
-            mainWindow.Show();
-            this.Close();
+            // Tomamos el usuario activo ya seteado por el presenter
+            var usuarioActivo = UserSession.GetInstance().ActiveUser;
+            var dlg = new PasswordRequest(usuarioActivo)   // ⬅️ pasa el servicio AQUÍ
+            {
+                Owner = this
+            };
+            dlg.ShowDialog();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            _presenter.ValidateLogin();
-        }
+        private void LoginButton_Click(object sender, RoutedEventArgs e) => OnIntentarLogin?.Invoke();
     }
 }
