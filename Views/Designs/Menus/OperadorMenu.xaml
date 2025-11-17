@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:ProdLogApp.Views"
         mc:Ignorable="d"
         Title="Menu - Producciones"
-        Height="746"
-        Width="1080"
+        Height="759"
+        Width="1297"
         WindowStartupLocation="CenterScreen"
         Background="#0864AC"
         ResizeMode="NoResize">
@@ -34,7 +34,7 @@
 
     <Grid HorizontalAlignment="Center"
           Width="1080"
-          Height="712"
+          Height="726"
           VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -45,7 +45,7 @@
         <Border Background="#E6F0FA"
                 Style="{StaticResource ShadowBorderStyle}"
                 Padding="30"
-                Margin="16,10,356,0"
+                Margin="-67,22,243,0"
                 VerticalAlignment="Top"
                 Height="625" Grid.ColumnSpan="2">
             <DockPanel LastChildFill="True">
@@ -107,7 +107,7 @@
         <!-- Botones CRUD -->
         <StackPanel Grid.Column="1"
                     VerticalAlignment="Top"
-                    Margin="56,81,-36,0"
+                    Margin="171,22,-151,0"
                     Height="402">
             <Button x:Name="btnAdd"
                     Style="{StaticResource ModernButtonStyle}"
@@ -153,6 +153,6 @@
                 Width="250"
                 Click="Disconnect_Click"
                 HorizontalAlignment="Left"
-                Margin="16,652,0,10"/>
+                Margin="-67,661,0,15"/>
     </Grid>
 </Window>

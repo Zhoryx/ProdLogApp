@@ -11,7 +11,7 @@ namespace ProdLogApp.Servicios
         public ServicioProduccionesMySql(IProveedorConexion proveedorConexion) : base(proveedorConexion) { }
 
         // =====================================================
-        // ASEGURAR PARTE (crear si no existe)
+        // ASEGURAR PARTE 
         // =====================================================
         public async Task<int> AsegurarParteAsync(int usuarioId, DateTime fecha)
         {

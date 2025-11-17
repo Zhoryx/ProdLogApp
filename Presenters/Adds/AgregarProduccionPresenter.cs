@@ -44,6 +44,8 @@ namespace ProdLogApp.Presenters
             }
         }
 
+
+
         // Intenta interpretar una hora flexible:
         // - Sin separador ':' con 1-4 dígitos.
         // - Con separador ':' utilizando TimeSpan.TryParse.

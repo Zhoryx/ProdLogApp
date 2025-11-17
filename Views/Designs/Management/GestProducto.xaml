@@ -34,7 +34,7 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,10,0" VerticalAlignment="Center" Height="586">
+        <Border Background="#E6F0FA" Style="{StaticResource ShadowBorderStyle}" Padding="30" Margin="10,0,322,0" VerticalAlignment="Center" Height="586" Grid.ColumnSpan="2">
             <ListView x:Name="Products_list"
                       SelectionMode="Single"
                       MouseDoubleClick="Products_list_MouseDoubleClick"
@@ -66,7 +66,7 @@
             </ListView>
         </Border>
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,152,10,0" Height="588">
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="68,140,-48,0" Height="588">
             <Button Style="{StaticResource ModernButtonStyle}" Content="Agregar" Margin="0,5,0,50" Height="50" Width="250" Click="AddProduct_Click"/>
             <Button Style="{StaticResource ModernButtonStyle}" Content="Modificar" Margin="0,5,0,50" Height="50" Width="250" Click="ModifyProduct_Click"/>
             <Button Style="{StaticResource ModernButtonStyle}" Content="Activar/Desactivar" Margin="0,5,0,50" Height="50" Width="250" Click="ToggleProductState"/>

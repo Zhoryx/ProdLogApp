@@ -144,9 +144,8 @@ namespace ProdLogApp.Views
             _parteIdForToday = parteId;
         }
 
-       
 
-        // ===== Confirmar / Guardar =====
+
         // ===== Confirmar / Guardar =====
         private async void Confirmar_Click(object sender, RoutedEventArgs e)
         {
@@ -161,32 +160,32 @@ namespace ProdLogApp.Views
                 return;
             }
 
+            // ⏱ rango horario
+            if (!ValidarRangoHoras())
+            {
+                MostrarMensaje("Corregí el rango horario antes de confirmar.");
+                return;
+            }
+
             btnConfirmar.IsEnabled = false;
             try
             {
+                var produccion = ObtenerDatosProduccion();
+                if (produccion == null)
+                {
+                    // Ya se mostró el error adentro; no cierres el form
+                    return;
+                }
+
                 if (_isEdit)
                 {
-                    // EDITAR: acá sí actualiza en BD (como ya tenías)
-                    var produccion = ObtenerDatosProduccion();
-                    if (produccion == null) return;
-
                     produccion.ProduccionId = _editId ?? 0;
                     await _svcProducciones.ActualizarAsync(produccion);
-
-                    ProduccionCreada = produccion;
-                    DialogResult = true;
-                    Close();
                 }
-                else
-                {
-                    // ALTA: NO guardar acá. Solo devolver el modelo al menú.
-                    var produccion = ObtenerDatosProduccion();
-                    if (produccion == null) return;
 
-                    ProduccionCreada = produccion;
-                    DialogResult = true;
-                    Close();
-                }
+                ProduccionCreada = produccion;
+                DialogResult = true;
+                Close();
             }
             catch (Exception ex)
             {
@@ -197,6 +196,7 @@ namespace ProdLogApp.Views
                 btnConfirmar.IsEnabled = true;
             }
         }
+
 
         private async Task<string> ObtenerNombreProductoAsync(int productoId)
         {
@@ -282,17 +282,22 @@ namespace ProdLogApp.Views
                     throw new FormatException("Hora de inicio inválida.");
                 if (!TimeSpan.TryParse(HoraFinTextBox.Text, out var hFin))
                     throw new FormatException("Hora de fin inválida.");
+
+                // ✅ rango horario se valida con ValidarRangoHoras() antes de llegar acá
+
                 if (!int.TryParse(CantidadTextBox.Text, out var cantidad))
                     throw new FormatException("Cantidad inválida.");
 
+                // ✅ acá le pegamos al caso cantidad negativa / cero
+                if (cantidad <= 0)
+                    throw new InvalidOperationException("La cantidad debe ser mayor que 0.");
+
                 var model = new Produccion
                 {
-                    // IDs y nombres (para que la grilla muestre nombres sin reconsultar)
                     ProductoId = _productoIdSeleccionado.Value,
                     PuestoId = _puestoIdSeleccionado.Value,
                     ProductoNombre = _productoNombreSeleccionado,
                     PuestoNombre = _puestoNombreSeleccionado,
-
                     HoraInicio = hInicio,
                     HoraFin = hFin,
                     Cantidad = cantidad
@@ -309,7 +314,8 @@ namespace ProdLogApp.Views
                 return null;
             }
         }
-        
+
+
         private void SeleccionarProducto_Click(object sender, RoutedEventArgs e)
         {
             var prompt = new Views.Designs.Prompts.PromptProducto(_activeUser)
@@ -358,14 +364,14 @@ namespace ProdLogApp.Views
         // === Validaciones en foco / cambios de texto ===
         private void HoraInicioTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Normaliza HH:mm o marca error
             _presenter.ValidarHora(HoraInicioTextBox, HoraInicioTextBox.Text);
+            ValidarRangoHoras();  
         }
 
         private void HoraFinTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Normaliza HH:mm o marca error
             _presenter.ValidarHora(HoraFinTextBox, HoraFinTextBox.Text);
+            ValidarRangoHoras();   
         }
 
         private void CantidadTextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -385,6 +391,31 @@ namespace ProdLogApp.Views
         {
             Close();
         }
+
+        private bool ValidarRangoHoras()
+        {
+            // Limpio errores previos
+            LimpiarError(HoraInicioTextBox);
+            LimpiarError(HoraFinTextBox);
+
+            // Si alguna hora no se puede parsear, no valido rango acá.
+            // El mensaje de formato ya lo da el presenter.
+            if (!TimeSpan.TryParse(HoraInicioTextBox.Text, out var hInicio))
+                return false;
+
+            if (!TimeSpan.TryParse(HoraFinTextBox.Text, out var hFin))
+                return false;
+
+            if (hInicio >= hFin)
+            {
+                
+                MostrarError(HoraInicioTextBox, "La hora de inicio debe ser menor que la hora de fin.");
+                return false;
+            }
+
+            return true;
+        }
+
 
 
         public void LimpiarFormulario()

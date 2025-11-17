@@ -10,7 +10,7 @@ namespace ProdLogApp.Servicios
     {
         public ServicioPuestosMySql(IProveedorConexion proveedor) : base(proveedor) { }
 
-        // ✅ Lista todos los puestos (activos e inactivos)
+        //  Lista todos los puestos (activos e inactivos)
         public async Task<IReadOnlyList<Puesto>> ListarAsync()
         {
             var lista = new List<Puesto>();
@@ -30,7 +30,7 @@ namespace ProdLogApp.Servicios
             return lista;
         }
 
-        // ✅ Solo activos
+        //  Solo activos
         public async Task<IReadOnlyList<Puesto>> ListarActivosAsync()
         {
             var lista = new List<Puesto>();

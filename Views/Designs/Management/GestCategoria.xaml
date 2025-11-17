@@ -32,12 +32,12 @@
                       FontSize="16">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding CategoryId}">
+                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding CategoriaId}">
                             <GridViewColumn.Header>
                                 <!-- Tag ajustado a la propiedad real -->
                                 <GridViewColumnHeader Content="Código"
                                                       Click="GridViewColumnHeader_Click"
-                                                      Tag="CategoryId"/>
+                                                      Tag="CategoriaId"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
 

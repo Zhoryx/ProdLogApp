@@ -44,18 +44,34 @@
                 KeyDown="Positions_list_KeyDown">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Nombre}">
+                        <!-- 🔵 Código (PuestoId) -->
+                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding PuestoId}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Puesto" Click="GridViewColumnHeader_Click" Tag="Nombre"/>
-                            </GridViewColumn.Header>
-                        </GridViewColumn>
-                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding EstadoActivo}">
-                            <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Activo" Click="GridViewColumnHeader_Click" Tag="Activo"/>
+                                <GridViewColumnHeader Content="Código"
+                                  Click="GridViewColumnHeader_Click"
+                                  Tag="PuestoId"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
 
+                        <!-- Puesto -->
+                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Nombre}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Puesto"
+                                  Click="GridViewColumnHeader_Click"
+                                  Tag="Nombre"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
+                        <!-- Activo -->
+                        <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding EstadoActivo}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="Activo"
+                                  Click="GridViewColumnHeader_Click"
+                                  Tag="EstadoActivo"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
                     </GridView>
+
                 </ListView.View>
             </ListView>
         </Border>
